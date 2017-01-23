@@ -755,7 +755,7 @@ f = f || {}; // our members and functions in here
 		this.loserTeamLabel.visible = false;
 	};
 	f.ResultsGroup.prototype.addWinnerPanel = function (i) {
-		// TDO merge addWinnerPanel and addLoserPanel, use to Boolean to determine type of panel required
+		// TODO: merge addWinnerPanel and addLoserPanel, use to Boolean to determine type of panel required
 		var panel = new f.PlayerNumberPanel(StartPage.game, true),
 		stepAngle = 10,
 		startAngle = - (f.MAX_PLAYERS/2 - 1) * stepAngle,
