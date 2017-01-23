@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Prisma Game</title>
+	
+	<script src="../../../../moduleTest/vt-api-1.3.js"></script>
+	<script src="../phaser.min.js"></script>
+	<script src="Boot.js"></script>
+	<script src="Preloader.js"></script>
+	<script src="Game.js"></script>
+	<style type='text/css'>
+		body{
+			margin: 0;
+		}
+		html, body, #gameContainer{
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+
+<div id="gameContainer"></div>
+
+<script type="text/javascript">
+
+window.onload = function() {
+
+	Prisma.game = new Phaser.Game(f.gameWidth, f.gameHeight, Phaser.AUTO, 'gameContainer');
+
+	//	Add game States your game has.
+	Prisma.game.state.add('Boot', Prisma.Boot);
+	Prisma.game.state.add('Preloader', Prisma.Preloader);
+	Prisma.game.state.add('Game', Prisma.Game);
+	Prisma.game.state.start('Boot');
+};
+
+</script>
+
+</body>
+</html>

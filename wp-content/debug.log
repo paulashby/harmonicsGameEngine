@@ -1,0 +1,30 @@
+[23-Jan-2017 19:35:51 UTC] PHP Notice:  mysqli_real_connect(): send of 112 bytes failed with errno=32 Broken pipe in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/wp-db.php on line 1538
+[23-Jan-2017 19:35:51 UTC] PHP Warning:  mysqli_real_connect(): (HY000/2006): MySQL server has gone away in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/wp-db.php on line 1538
+[23-Jan-2017 19:35:51 UTC] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/wp-db.php on line 1568
+[23-Jan-2017 19:35:51 UTC] PHP Notice:  mysql_connect(): send of 112 bytes failed with errno=32 Broken pipe in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/wp-db.php on line 1568
+[23-Jan-2017 19:35:51 UTC] PHP Warning:  mysql_connect(): MySQL server has gone away in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/wp-db.php on line 1568
+[23-Jan-2017 19:46:03 UTC] PHP Notice:  ME HERE in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 4
+[23-Jan-2017 19:46:14 UTC] PHP Notice:  ME HERE in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 4
+[23-Jan-2017 19:47:24 UTC] PHP Notice:  get from db in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 28
+[23-Jan-2017 19:49:21 UTC] PHP Notice:  we have query results in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 42
+[23-Jan-2017 19:50:11 UTC] PHP Notice:  yup in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 54
+[23-Jan-2017 19:50:11 UTC] PHP Notice:  yup in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 54
+[23-Jan-2017 19:50:11 UTC] PHP Notice:  yup in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 54
+[23-Jan-2017 19:50:47 UTC] PHP Notice:  alomost there in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 64
+[23-Jan-2017 19:51:48 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 75
+[23-Jan-2017 19:51:48 UTC] PHP Notice:  returning Array in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 75
+[23-Jan-2017 19:52:19 UTC] PHP Notice:  Undefined offset: 0 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 75
+[23-Jan-2017 19:52:19 UTC] PHP Notice:  returning  in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 75
+[23-Jan-2017 19:53:51 UTC] PHP Notice:  gameName FruitFlux in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 53
+[23-Jan-2017 19:53:51 UTC] PHP Notice:  gameName Aura in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 53
+[23-Jan-2017 19:53:51 UTC] PHP Notice:  gameName Prisma in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 53
+[23-Jan-2017 19:54:33 UTC] PHP Notice:  use_separate_instructions 0 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 53
+[23-Jan-2017 19:54:33 UTC] PHP Notice:  use_separate_instructions 0 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 53
+[23-Jan-2017 19:54:33 UTC] PHP Notice:  use_separate_instructions 0 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 53
+[23-Jan-2017 19:55:42 UTC] PHP Notice:  Use of undefined constant gameName - assumed 'gameName' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 64
+[23-Jan-2017 19:55:42 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 64
+[23-Jan-2017 19:55:42 UTC] PHP Notice:  ArraygameName in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 64
+[23-Jan-2017 19:56:32 UTC] PHP Notice:  FruitFlux in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 64
+[23-Jan-2017 19:57:17 UTC] PHP Notice:  GameName: FruitFlux in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 64
+[23-Jan-2017 19:57:17 UTC] PHP Notice:  GameName: Aura in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 65
+[23-Jan-2017 19:57:17 UTC] PHP Notice:  GameName: Prisma in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 66
