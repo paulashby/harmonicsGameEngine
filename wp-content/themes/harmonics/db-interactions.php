@@ -47,17 +47,18 @@
 		        $use_separate_instructions = get_post_meta( get_the_ID(), "instructions-checkbox", true );
 		        $under_review = get_post_meta( get_the_ID(), "under-review-checkbox", true );
 		        $description = get_post_meta( get_the_ID(), "game-description", true );
-		        $icon_graphic = get_post_meta( get_the_ID(), "icon-graphic-name", true ); 
 		        $gameName = get_the_title();
+		        //$icon_graphic = get_post_meta( get_the_ID(), $gameName, true ); 
+		        
 
 		        if( $under_review != 1 ){
 					array_push($retrievedArray, [
 			        	"gameName"=>$gameName,
 			        	"url"=>content_url() . "/97dL81xtE49aXxa/" . $gameName, 
 			        	"id"=>get_the_ID(), "instructions"=>$use_separate_instructions, 
-			        	"description"=>$gameName . ": " . $description, 
+			        	"description"=>$description, 
 			        	"iconGraphic"=>$gameName,
-			        	"iconURL"=>content_url() . "/gameMenu/" . $gameName . ".png"]);
+			        	"iconURL"=>content_url() . "/gameMenu/" . $gameName]);
 			    }
 		    }
 		    if( count( $retrievedArray ) > 0 ){	

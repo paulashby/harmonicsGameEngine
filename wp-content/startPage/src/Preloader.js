@@ -13,7 +13,8 @@
 			len = StartPage.gameList.length;
 			for(i = 0; i < len; i++) {
 				console.log(StartPage.gameList[i].iconGraphic + ', ' + StartPage.gameList[i].iconURL);
-				StartPage.game.load.image(StartPage.gameList[i].iconGraphic, StartPage.gameList[i].iconURL);
+				StartPage.game.load.image(StartPage.gameList[i].iconGraphic, StartPage.gameList[i].iconURL + '.png');
+				StartPage.game.load.image(StartPage.gameList[i].iconGraphic + 'Title', StartPage.gameList[i].iconURL + 'Title.png');
 			}
 			StartPage.game.load.onLoadComplete.add(function () { StartPage.gameIconsLoaded = true; }, this);
 			StartPage.game.load.start();	
@@ -55,6 +56,7 @@
 
 			this.load.image('bg', '../assets/bg.jpg');
 			this.load.spritesheet('startBttns', '../assets/startButtons.png', 82, 82, 7);
+			this.load.image('titlePlaceholder', '../../gameMenu/TitlePlaceholder.png');
 			this.load.image('teamNumRing4', '../assets/trTeamNums4.png');
 			this.load.image('teamNumRing3', '../assets/trTeamNums3.png');
 			this.load.image('gamePlayRing', '../assets/trGamePlay.png');

@@ -595,8 +595,8 @@ f = f || {}; // our members and functions in here
 			gameIcon,
 			gameData = StartPage.gameList[i];
 
-		StartPage.game.load.image(iconTextureKey, gameData.iconURL);		
 		gameIcon = this.gameIcons[iconTextureKey] = new f.GameIcon(StartPage.game, f.HALF_WIDTH, f.HALF_HEIGHT, iconTextureKey);
+		gameIcon.titleKey = iconTextureKey + 'Title';
 		gameIcon.gameName = gameData.gameName;
 		gameIcon.gameURL = gameData.instructions === '0' ? gameData.url + '/game' : gameData.url + '/instructions';
 		gameIcon.description = gameData.description;
@@ -668,7 +668,7 @@ f = f || {}; // our members and functions in here
 		this.playBttn = new f.PlayButton(StartPage.game, 0, 0);
 		this.add(this.playBttn);
 
-		this.swipeInstruction = StartPage.game.add.bitmapText(0, f.gameHeight * - 0.13, 'luckiestGuy', 'SWIPE TO SELECT A GAME', f.resultSize * 0.9);
+		this.swipeInstruction = StartPage.game.add.bitmapText(0, f.gameHeight * 0.049, 'luckiestGuy', 'SWIPE FOR A DIFFERENT GAME', f.resultSize * 0.7);
 		this.swipeInstruction.align = 'center';
 		this.swipeInstruction.anchor.setTo(0.5, 0);
 		this.swipeInstruction.alpha = 0.5;
@@ -679,18 +679,23 @@ f = f || {}; // our members and functions in here
 		this.description.anchor.setTo(0.5, 0);
 		this.add(this.description);
 
+		// gameTitle sprite will updated on swipe with the texture key stored in f.activeIcon
+		this.gameTitle = StartPage.game.add.sprite(0, f.gameHeight * - 0.15, 'titlePlaceholder');
+		this.gameTitle.anchor.setTo(0.5, 0.5);
+		this.add(this.gameTitle);
+
 		// Tween has delay (last arg)
 		f.assignedTweens.push(this.fadeInTween = StartPage.game.add.tween(this).to( {alpha: 1}, f.UI_TWEEN_DUR/2, Phaser.Easing.Exponential.In, false, 100));
 		this.alpha = 0;
 
 		f.playersReady.add(function () { this.fadeInTween.start(); }, this);
-		f.gameInfoSwiped.add(function () {this.setDescription();}, this);
-							
+		f.gameInfoSwiped.add(function () {this.setDescription();}, this);							
 	};
 	f.GameInfoGroup.prototype = Object.create(Phaser.Group.prototype);
 	f.GameInfoGroup.prototype.constructor = f.GameInfoGroup;
 	f.GameInfoGroup.prototype.setDescription = function () {
 		this.description.text = f.activeIcon.description.toUpperCase().replace('\\N','\n');
+		this.gameTitle.loadTexture(f.activeIcon.titleKey);
 	};
 
 	f.ResultsGroup = function (game, zoneNum) {
