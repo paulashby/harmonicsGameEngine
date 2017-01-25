@@ -271,15 +271,10 @@
 				f.showInterface.dispatch();
 			}			
 
-			// f.playBttn = new f.PlayButton(StartPage.game, f.HALF_WIDTH, f.HALF_HEIGHT, 'ringBttns');
-			// f.playBttn.frame = 1;	
-
 			f.playersReady.add(function () {
 				// Add game selection menu
 				f.gameSelectionMenu = new this.GameSelectionMenu(StartPage.game, this.HALF_WIDTH, this.HALF_HEIGHT);
-			}, f);
-
-			// StartPage.game.add.existing(f.playBttn);				
+			}, f);			
 	    },
 	    update: function () {	    	  
 	    }

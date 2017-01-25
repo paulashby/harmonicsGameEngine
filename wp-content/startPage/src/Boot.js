@@ -549,7 +549,7 @@ f = f || {}; // our members and functions in here
 	};
 	f.GameIcon.prototype.onInputUp = function () {
 		if(! this.parent.swiping && this === f.activeIcon) {
-			console.log(this.texKey + ' clicked');	
+			// Do we want icons to react to clicks? 
 		}
 		// enable click detection after swipe
 		this.parent.swiping = false;
@@ -563,7 +563,6 @@ f = f || {}; // our members and functions in here
 		if(distFromCentre <= this.HALF_WIDTH) {		
 			if(this.parent.cycle) {
 				if(! this.next){ 
-					console.log('called 1');
 					// No icon to right of activeIcon - move one from start
 					first = this.parent.first;
 					this.parent.first = first.next;
@@ -574,7 +573,6 @@ f = f || {}; // our members and functions in here
 					first.prev = this;
 					first.x = this.x + this.width/2 + first.width/2 + f.ICON_GUTTER;
 				} else if(! this.prev) {
-					console.log('called 2');
 					// No icon to left of activeIcon - move one from end
 					last = this.parent.last;
 					this.parent.first = last;
@@ -586,12 +584,15 @@ f = f || {}; // our members and functions in here
 					last.x = this.x - this.width/2 - last.width/2 - f.ICON_GUTTER;
 				}	
 			}			
-			
-			f.activeIcon = this;
-			f.gameInfoSwiped.dispatch();
+			if(this !== f.activeIcon) {
+				f.activeIcon = this;
+				f.gameInfoSwiped.dispatch();
+			}
 			this.alpha = f.mapToRange(distFromCentre, 0, this.HALF_WIDTH, f.ICON_ALPHA, 1);
-		} else {
+		} else if(f.activeIcon && (this === f.activeIcon.prev || this === f.activeIcon.next)) {
 			this.alpha = f.ICON_ALPHA;
+		} else {
+			this.alpha = 0;
 		}
 	};
 
@@ -712,6 +713,8 @@ f = f || {}; // our members and functions in here
 		this.gameTitle.anchor.setTo(0.5, 0.5);
 		this.add(this.gameTitle);
 
+		f.assignedTweens.push(this.scaleUpTween = StartPage.game.add.tween(this.scale).to( {x: 1, y: 1}, f.UI_TWEEN_DUR, Phaser.Easing.Elastic.Out, false));
+
 		// Tween has delay (last arg)
 		f.assignedTweens.push(this.fadeInTween = StartPage.game.add.tween(this).to( {alpha: 1}, f.UI_TWEEN_DUR/2, Phaser.Easing.Exponential.In, false, 100));
 		this.alpha = 0;
@@ -724,11 +727,9 @@ f = f || {}; // our members and functions in here
 	f.GameInfoGroup.prototype.setDescription = function () {
 		this.description.text = f.activeIcon.description.toUpperCase().replace('\\N','\n');
 		this.gameTitle.loadTexture(f.activeIcon.titleKey);
-	};
-	f.GameInfoGroup.prototype.update = function () {
-		if(f.activeicon) {
-			this.alpha = f.activeIcon.alpha;	
-		}
+		this.scale.setTo(0, 0);
+
+		this.scaleUpTween.start();
 	};
 
 	f.ResultsGroup = function (game, zoneNum) {

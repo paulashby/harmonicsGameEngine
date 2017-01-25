@@ -37,9 +37,6 @@
 			this.load.bitmapFont('luckiestGuy', '../assets/LuckiestGuy/LuckiestGuy.png', '../assets/LuckiestGuy/LuckiestGuy.fnt');
 			this.load.bitmapFont('chelseaMarket', '../assets/chelseaMarket/chelseaMarket.png', '../assets/chelseaMarket/chelseaMarket.fnt');
 
-			// this.load.audio('powerDown', ['../assets/audio/powerDown.mp3', '../assets/audio/powerDown.ogg']);
-			// this.load.audio('panelUp', ['../assets/audio/panelUp.mp3', '../assets/audio/panelUp.ogg']);
-			// this.load.audio('countdown', ['../assets/audio/countdown.mp3', 'assets/audio/countdown.ogg']);
 			this.load.audio('activeLoop', ['../assets/audio/bellMastera.mp3', '../assets/audio/bellMastera.ogg']);
 			this.load.audio('ringTurn', ['../assets/audio/symphoidJanglesMinus8db.mp3', '../assets/audio/symphoidJanglesMinus8db.ogg']);
 			this.load.audio('ringTurnTeam', ['../assets/audio/symphoidJanglesNumTeams.mp3', '../assets/audio/symphoidJanglesNumTeams.ogg']);
@@ -80,6 +77,5 @@
 				this.state.start('Game');
 			}			
 		}
-
 	};
 }());
