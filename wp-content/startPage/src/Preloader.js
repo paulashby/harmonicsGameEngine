@@ -12,7 +12,6 @@
 		if(StartPage.gameList) {
 			len = StartPage.gameList.length;
 			for(i = 0; i < len; i++) {
-				console.log(StartPage.gameList[i].iconGraphic + ', ' + StartPage.gameList[i].iconURL);
 				StartPage.game.load.image(StartPage.gameList[i].iconGraphic, StartPage.gameList[i].iconURL + '.png');
 				StartPage.game.load.image(StartPage.gameList[i].iconGraphic + 'Title', StartPage.gameList[i].iconURL + 'Title.png');
 			}

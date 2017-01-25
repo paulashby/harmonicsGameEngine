@@ -84,7 +84,7 @@ f = f || {}; // our members and functions in here
 	f.gameWidth = 1920;
 	f.gameHeight = 1080;
 	f.ICON_GUTTER = 40;
-	f.ICON_ALPHA = 0.1;
+	f.ICON_ALPHA = 0.075;
 	f.INSTRUCTION_FONT_SIZE = Math.floor(f.gameWidth/25);
 	f.HALF_WIDTH = f.gameWidth/2;
 	f.HALF_HEIGHT = f.gameHeight/2;
@@ -92,6 +92,7 @@ f = f || {}; // our members and functions in here
 	f.MAX_PLAYERS = 8;
 	f.MAX_TEAMS = 4;
 	f.UI_TWEEN_DUR = 500;
+	f.MIN_GAMES_TO_CYCLE_MENU = 3;
 
 	f.activeIcon;
 	f.players = [];
@@ -554,10 +555,38 @@ f = f || {}; // our members and functions in here
 		this.parent.swiping = false;
 	};
 	f.GameIcon.prototype.update = function () {
-		var distFromCentre = Phaser.Point.distance(this.worldPosition, f.CENTRE_POINT);
+		var distFromCentre = Phaser.Point.distance(this.worldPosition, f.CENTRE_POINT),
+			first,
+			last;
 		
 		// Sprite becomes active when it's half its width away from centre point
-		if(distFromCentre <= this.HALF_WIDTH) {
+		if(distFromCentre <= this.HALF_WIDTH) {		
+			if(this.parent.cycle) {
+				if(! this.next){ 
+					console.log('called 1');
+					// No icon to right of activeIcon - move one from start
+					first = this.parent.first;
+					this.parent.first = first.next;
+					this.parent.last = first;
+					first.next.prev = undefined;
+					first.next = undefined;
+					this.next = first;
+					first.prev = this;
+					first.x = this.x + this.width/2 + first.width/2 + f.ICON_GUTTER;
+				} else if(! this.prev) {
+					console.log('called 2');
+					// No icon to left of activeIcon - move one from end
+					last = this.parent.last;
+					this.parent.first = last;
+					this.parent.last = last.prev;
+					last.prev.next = undefined;
+					last.prev = undefined;
+					this.prev = last;
+					last.next = this;
+					last.x = this.x - this.width/2 - last.width/2 - f.ICON_GUTTER;
+				}	
+			}			
+			
 			f.activeIcon = this;
 			f.gameInfoSwiped.dispatch();
 			this.alpha = f.mapToRange(distFromCentre, 0, this.HALF_WIDTH, f.ICON_ALPHA, 1);
@@ -576,6 +605,7 @@ f = f || {}; // our members and functions in here
 		this.next;
 		this.gameURL;
 		this.alpha = 0;
+		this.cycle = StartPage.gameList.length >= f.MIN_GAMES_TO_CYCLE_MENU;
 
 		// Icon image names retrieved dynamically from database, so we can't load them like regular assets
 		this.loadIcons();
@@ -606,11 +636,15 @@ f = f || {}; // our members and functions in here
 		if(i > 0) {
 			gameIcon.x += this.menuWidth + (iconWidth/2) + f.ICON_GUTTER;
 			gameIcon.swipeOffset = (iconWidth/2) + f.ICON_GUTTER;
-			this.menuWidth += iconWidth + f.ICON_GUTTER;	
+			this.menuWidth += iconWidth + f.ICON_GUTTER;
+			if(i === StartPage.gameList.length - 1) {
+				this.last = gameIcon;
+			}	
 		} else {
 			gameIcon.swipeOffset = 0;
 			this.menuWidth += (iconWidth/2);
-		}		
+			this.first = gameIcon;
+		}	
 		this.add(gameIcon);
 	};
 	f.GameSelectionMenu.prototype.loadIcons = function () {
@@ -668,12 +702,6 @@ f = f || {}; // our members and functions in here
 		this.playBttn = new f.PlayButton(StartPage.game, 0, 0);
 		this.add(this.playBttn);
 
-		this.swipeInstruction = StartPage.game.add.bitmapText(0, f.gameHeight * 0.049, 'luckiestGuy', 'SWIPE FOR A DIFFERENT GAME', f.resultSize * 0.7);
-		this.swipeInstruction.align = 'center';
-		this.swipeInstruction.anchor.setTo(0.5, 0);
-		this.swipeInstruction.alpha = 0.5;
-		this.add(this.swipeInstruction);
-
 		this.description = StartPage.game.add.bitmapText(0, f.gameHeight * - 0.1, 'luckiestGuy', '', f.resultSize);
 		this.description.align = 'center';
 		this.description.anchor.setTo(0.5, 0);
@@ -696,6 +724,11 @@ f = f || {}; // our members and functions in here
 	f.GameInfoGroup.prototype.setDescription = function () {
 		this.description.text = f.activeIcon.description.toUpperCase().replace('\\N','\n');
 		this.gameTitle.loadTexture(f.activeIcon.titleKey);
+	};
+	f.GameInfoGroup.prototype.update = function () {
+		if(f.activeicon) {
+			this.alpha = f.activeIcon.alpha;	
+		}
 	};
 
 	f.ResultsGroup = function (game, zoneNum) {
