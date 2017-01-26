@@ -10,6 +10,7 @@ wp-content/plugins/index.php
 wp-content/themes/twentyfifteen/
 wp-content/themes/twentysixteen/
 wp-content/themes/twentyseventeen/
+wp-content/debug.log
 wp-includes/
 wp-mail.php
 license.txt

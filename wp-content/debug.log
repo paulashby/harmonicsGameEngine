@@ -28,3 +28,5 @@
 [23-Jan-2017 19:57:17 UTC] PHP Notice:  GameName: FruitFlux in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 64
 [23-Jan-2017 19:57:17 UTC] PHP Notice:  GameName: Aura in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 65
 [23-Jan-2017 19:57:17 UTC] PHP Notice:  GameName: Prisma in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 66
+[26-Jan-2017 14:29:09 UTC] PHP Warning:  An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>. (WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.) in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/update.php on line 130
+[26-Jan-2017 15:32:41 UTC] PHP Parse error:  parse error, expecting `','' or `';'' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/game-engine.php on line 21

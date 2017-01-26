@@ -8,12 +8,25 @@
 		<?php wp_head(); ?>				
 	</head>	
 	<?php
-		echo "<body  data-db='" . site_url() . "/?page_id=6' data-starturl='" . content_url() . "/startPage/src/index.html' id='bodyElmt'>";
-		//$str = content_url() . '/startPage/src/index.html';
-		//echo "<iframe id='ifrm' src='" . $str .  "'</iframe>
-		echo "<iframe id='ifrm' src='about:blank'></iframe>
-		<script>					
-			document.getElementById('bodyElmt').focus();				
+		echo "<body  data-db='" . site_url() . "/?page_id=6' data-starturl='" . content_url() . "/startPage/src/index.html' id='bodyElmt'>
+		<iframe id='ifrm' class='hideMenu' src='about:blank'></iframe>
+		<div class='cornerBttn' id='bottomBttn'></div>
+		<div class='cornerBttn' id='topBttn'></div>
+		<script>
+			var ifrm = document.getElementById('ifrm'),
+				GameEngine = {
+				onMenuClick: function () {//classList is an array of class strings - so we can find what we're doing and reset the focus as necessary
+					if(ifrm.classList.contains('showMenu')) {
+						// We're hiding the menu, so focus ifrm
+						ifrm.focus();
+					}
+					ifrm.classList.toggle('hideMenu');
+					ifrm.classList.toggle('showMenu');
+				}
+			}
+			document.getElementById('topBttn').addEventListener('click', GameEngine.onMenuClick);
+			document.getElementById('bottomBttn').addEventListener('click', GameEngine.onMenuClick);					
+			document.getElementById('bodyElmt').focus();
 		</script>
 	</body>
 </html>";

@@ -549,7 +549,7 @@ f = f || {}; // our members and functions in here
 	};
 	f.GameIcon.prototype.onInputUp = function () {
 		if(! this.parent.swiping && this === f.activeIcon) {
-			// Do we want icons to react to clicks? 
+			// Do we want icons to react to clicks?
 		}
 		// enable click detection after swipe
 		this.parent.swiping = false;
