@@ -7,11 +7,19 @@
 		</style>
 		<?php wp_head(); ?>				
 	</head>	
-	<?php
-		echo "<body  data-db='" . site_url() . "/?page_id=6' data-starturl='" . content_url() . "/startPage/src/index.html' id='bodyElmt'>
+	<?php echo "<body  data-db='" . site_url() . "/?page_id=6' data-starturl='" . content_url() . "/startPage/src/index.html' id='bodyElmt'>"; ?>
 		<iframe id='ifrm' class='hideMenu' src='about:blank'></iframe>
 		<div class='cornerBttn' id='bottomBttn'></div>
 		<div class='cornerBttn' id='topBttn'></div>
+		<div class='menu'>
+			<div id='bottomMenu'>
+				<ul>
+					<?php trigger_error('curr user: ' . wp_get_current_user()->user_login); ?>
+					<!-- We need to add data-card-games, data-whiteboard , data-services and data-shopping-->
+					<li><a href=""></a></li>
+				</ul>
+			</div>
+		</div>
 		<script>
 			var ifrm = document.getElementById('ifrm'),
 				GameEngine = {
@@ -23,7 +31,7 @@
 					ifrm.classList.toggle('hideMenu');
 					ifrm.classList.toggle('showMenu');
 				}
-			}
+			};
 			document.getElementById('topBttn').addEventListener('click', GameEngine.onMenuClick);
 			document.getElementById('bottomBttn').addEventListener('click', GameEngine.onMenuClick);					
 			document.getElementById('bodyElmt').focus();
