@@ -57,6 +57,41 @@ function harmonics_meta_boxes( $meta_boxes ) {
 }
 
 
+
+// function harmonics_user_meta_boxes( $meta_boxes ) {
+
+//     $prefix = 'hm_';
+
+//     $meta_boxes[] = array(
+//         'title'      => __( 'Game engine information', 'textdomain' ),
+//         'type' => 'user',
+//         'fields'     => array(
+//             array(
+//                 'id'   => 'card-games-checkbox',
+//                 'name' => __( 'Show Card games link', 'textdomain' ),
+//                 'type' => 'checkbox',
+//             ),
+//             array(
+//                 'id'      => 'whiteboard-checkbox',
+//                 'name'    => __( 'Show Whiteboard link', 'textdomain' ),
+//                 'type'    => 'checkbox',
+//             ),
+//             array(
+//                 'id'      => 'services-checkbox',
+//                 'name'    => __( 'Show Services link', 'textdomain' ),
+//                 'type'    => 'checkbox',
+//             ),
+//             array(
+//                 'id'      => 'shopping-checkbox',
+//                 'name'    => __( 'Show Shopping link', 'textdomain' ),
+//                 'type'    => 'checkbox',
+//             ),
+//         ),
+//     );
+//     return $meta_boxes;
+// }
+
+
 /*
 function custom_meta_box_markup($object) {
 	wp_nonce_field(basename(__FILE__), "meta-box-nonce");

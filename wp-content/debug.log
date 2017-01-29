@@ -30,3 +30,568 @@
 [23-Jan-2017 19:57:17 UTC] PHP Notice:  GameName: Prisma in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/db-interactions.php on line 66
 [26-Jan-2017 14:29:09 UTC] PHP Warning:  An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>. (WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.) in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/update.php on line 130
 [26-Jan-2017 15:32:41 UTC] PHP Parse error:  parse error, expecting `','' or `';'' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/game-engine.php on line 21
+[27-Jan-2017 16:05:24 UTC] PHP Catchable fatal error:  Object of class WP_User could not be converted to string in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/game-engine.php on line 17
+[27-Jan-2017 16:07:04 UTC] PHP Catchable fatal error:  Object of class WP_User could not be converted to string in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/game-engine.php on line 17
+[27-Jan-2017 16:07:52 UTC] PHP Notice:  curr user: victor in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/game-engine.php on line 17
+[27-Jan-2017 16:20:12 UTC] PHP Warning:  An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>. (WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.) in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/update.php on line 320
+[27-Jan-2017 16:25:04 UTC] PHP Parse error:  parse error, expecting `')'' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/functions.php on line 81
+[27-Jan-2017 16:25:05 UTC] PHP Parse error:  parse error, expecting `')'' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/functions.php on line 81
+[27-Jan-2017 16:28:39 UTC] PHP Fatal error:  Cannot redeclare harmonics_user_meta_boxes() (previously declared in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/functions.php:31) in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/functions.php on line 91
+[27-Jan-2017 16:28:43 UTC] PHP Fatal error:  Cannot redeclare harmonics_user_meta_boxes() (previously declared in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/functions.php:31) in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/functions.php on line 91
+[27-Jan-2017 16:30:02 UTC] PHP Fatal error:  Cannot redeclare harmonics_user_meta_boxes() (previously declared in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/functions.php:31) in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/functions.php on line 91
+[27-Jan-2017 16:30:03 UTC] PHP Fatal error:  Cannot redeclare harmonics_user_meta_boxes() (previously declared in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/functions.php:31) in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/functions.php on line 91
+[27-Jan-2017 16:30:25 UTC] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, function 'harmonics_meta_boxes' not found or invalid function name in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/class-wp-hook.php on line 298
+[27-Jan-2017 16:30:26 UTC] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, function 'harmonics_meta_boxes' not found or invalid function name in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/class-wp-hook.php on line 298
+[27-Jan-2017 16:30:37 UTC] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, function 'harmonics_meta_boxes' not found or invalid function name in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/class-wp-hook.php on line 298
+[27-Jan-2017 16:30:37 UTC] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, function 'harmonics_meta_boxes' not found or invalid function name in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/class-wp-hook.php on line 298
+[27-Jan-2017 16:30:40 UTC] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, function 'harmonics_meta_boxes' not found or invalid function name in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/class-wp-hook.php on line 298
+[27-Jan-2017 16:30:46 UTC] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, function 'harmonics_meta_boxes' not found or invalid function name in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/class-wp-hook.php on line 298
+[27-Jan-2017 16:30:47 UTC] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, function 'harmonics_meta_boxes' not found or invalid function name in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/class-wp-hook.php on line 298
+[27-Jan-2017 16:30:48 UTC] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, function 'harmonics_meta_boxes' not found or invalid function name in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/class-wp-hook.php on line 298
+[27-Jan-2017 16:31:46 UTC] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, function 'harmonics_meta_boxes' not found or invalid function name in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/class-wp-hook.php on line 298
+[27-Jan-2017 16:31:49 UTC] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, function 'harmonics_meta_boxes' not found or invalid function name in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/class-wp-hook.php on line 298
+[27-Jan-2017 16:31:50 UTC] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, function 'harmonics_meta_boxes' not found or invalid function name in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/class-wp-hook.php on line 298
+[27-Jan-2017 16:31:51 UTC] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, function 'harmonics_meta_boxes' not found or invalid function name in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/class-wp-hook.php on line 298
+[27-Jan-2017 16:32:46 UTC] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, function 'harmonics_meta_boxes' not found or invalid function name in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/class-wp-hook.php on line 298
+[27-Jan-2017 16:32:46 UTC] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, function 'harmonics_meta_boxes' not found or invalid function name in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/class-wp-hook.php on line 298
+[27-Jan-2017 19:36:45 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:36:45 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:36:45 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:36:45 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:36:45 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:36:45 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:37:09 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:37:09 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:37:09 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:37:09 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:37:09 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:37:09 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:38:30 UTC] PHP Notice:  Undefined variable: default in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 16
+[27-Jan-2017 19:38:30 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:38:30 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:38:30 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:38:30 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:38:30 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:38:30 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 27
+[27-Jan-2017 19:39:09 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:09 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:09 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:09 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:09 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:09 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:11 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:11 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:11 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:11 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:11 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:11 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:30 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:30 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:30 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:30 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:30 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:30 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:31 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:31 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:31 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:31 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:31 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:39:31 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:12 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:12 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:12 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:12 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:12 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:12 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:13 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:13 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:13 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:13 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:13 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:13 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:43 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:43 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:43 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:43 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:43 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:40:43 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:41:40 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:41:40 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:41:40 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:41:40 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:41:40 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:41:40 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:44:48 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:44:48 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:44:49 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:44:49 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:44:49 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:44:49 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:20 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:20 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:20 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:20 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:20 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:20 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:21 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:21 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:21 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:21 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:21 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:21 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:25 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:25 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:25 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:25 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:25 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:47:25 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 28
+[27-Jan-2017 19:48:33 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 18
+[27-Jan-2017 19:48:33 UTC] PHP Notice:  game_set: Array in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 18
+[27-Jan-2017 19:48:33 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:48:33 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:48:33 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:48:33 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:48:33 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:48:33 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:49:14 UTC] PHP Notice:  Undefined offset: 0 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 18
+[27-Jan-2017 19:49:14 UTC] PHP Notice:  game_set:  in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 18
+[27-Jan-2017 19:49:14 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:49:14 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:49:14 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:49:14 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:49:14 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:49:14 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:52:18 UTC] PHP Parse error:  parse error in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 18
+[27-Jan-2017 19:52:18 UTC] PHP Parse error:  parse error in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 18
+[27-Jan-2017 19:52:36 UTC] PHP Notice:  game_set: array in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 18
+[27-Jan-2017 19:52:36 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:52:36 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:52:36 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:52:36 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:52:36 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:52:36 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:54:02 UTC] PHP Notice:  game_set length: 0 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 18
+[27-Jan-2017 19:54:02 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:54:02 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:54:02 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:54:02 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:54:02 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:54:02 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:54:45 UTC] PHP Notice:  game_set length: 0 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 18
+[27-Jan-2017 19:54:45 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:54:45 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:54:45 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:54:45 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:54:45 UTC] PHP Notice:  Use of undefined constant game - assumed 'game' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:54:45 UTC] PHP Notice:  Use of undefined constant set - assumed 'set' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 29
+[27-Jan-2017 19:55:49 UTC] PHP Notice:  game_set length: 0 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 18
+[27-Jan-2017 19:55:49 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[27-Jan-2017 19:55:49 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[27-Jan-2017 19:55:49 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[27-Jan-2017 19:56:54 UTC] PHP Notice:  game_set length: 1 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 18
+[27-Jan-2017 19:56:54 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[27-Jan-2017 19:56:54 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[27-Jan-2017 19:56:54 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[27-Jan-2017 19:57:09 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[27-Jan-2017 19:57:09 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[27-Jan-2017 19:57:09 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[27-Jan-2017 19:57:19 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[27-Jan-2017 19:57:19 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[27-Jan-2017 19:57:19 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[27-Jan-2017 20:03:22 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[27-Jan-2017 20:03:22 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[27-Jan-2017 20:03:22 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[27-Jan-2017 20:10:07 UTC] PHP Notice:  0 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 19
+[27-Jan-2017 20:10:33 UTC] PHP Notice:  prevVal =  in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 19
+[28-Jan-2017 17:27:10 UTC] PHP Notice:  called in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 50
+[28-Jan-2017 17:47:17 UTC] PHP Notice:  56 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 56
+[28-Jan-2017 17:48:27 UTC] PHP Notice:  56 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 56
+[28-Jan-2017 17:49:02 UTC] PHP Notice:  56 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 56
+[28-Jan-2017 17:49:34 UTC] PHP Notice:  56 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 56
+[28-Jan-2017 17:51:22 UTC] PHP Notice:  56 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 56
+[28-Jan-2017 17:54:54 UTC] PHP Notice:  update_usermeta is <strong>deprecated</strong> since version 3.0.0! Use update_user_meta() instead. in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/functions.php on line 3828
+[28-Jan-2017 17:54:54 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[28-Jan-2017 17:54:54 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[28-Jan-2017 17:54:54 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[28-Jan-2017 17:56:03 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[28-Jan-2017 17:56:03 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[28-Jan-2017 17:56:03 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[28-Jan-2017 17:56:53 UTC] PHP Notice:  58 in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 58
+[28-Jan-2017 17:56:53 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[28-Jan-2017 17:56:53 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[28-Jan-2017 17:56:53 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[28-Jan-2017 17:59:03 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[28-Jan-2017 17:59:03 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[28-Jan-2017 17:59:03 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[28-Jan-2017 18:03:16 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[28-Jan-2017 18:03:16 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[28-Jan-2017 18:03:16 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/general-template.php on line 3758
+[28-Jan-2017 18:13:46 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:13:46 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:13:46 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:13:58 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:13:58 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:13:58 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:14:21 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:14:21 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:14:21 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:14:25 UTC] PHP Notice:  update_usermeta is <strong>deprecated</strong> since version 3.0.0! Use update_user_meta() instead. in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/functions.php on line 3828
+[28-Jan-2017 18:14:25 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:14:25 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:14:25 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:14:46 UTC] PHP Notice:  update_usermeta is <strong>deprecated</strong> since version 3.0.0! Use update_user_meta() instead. in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/functions.php on line 3828
+[28-Jan-2017 18:14:46 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:14:46 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:14:46 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:14:50 UTC] PHP Notice:  update_usermeta is <strong>deprecated</strong> since version 3.0.0! Use update_user_meta() instead. in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/functions.php on line 3828
+[28-Jan-2017 18:14:50 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:14:50 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:14:50 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:15:05 UTC] PHP Notice:  update_usermeta is <strong>deprecated</strong> since version 3.0.0! Use update_user_meta() instead. in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/functions.php on line 3828
+[28-Jan-2017 18:15:05 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:15:05 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:15:05 UTC] PHP Notice:  Array to string conversion in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 32
+[28-Jan-2017 18:16:38 UTC] PHP Parse error:  parse error in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 6
+[28-Jan-2017 18:17:27 UTC] PHP Notice:  update_usermeta is <strong>deprecated</strong> since version 3.0.0! Use update_user_meta() instead. in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/functions.php on line 3828
+[29-Jan-2017 09:02:20 UTC] PHP Notice:  update_usermeta is <strong>deprecated</strong> since version 3.0.0! Use update_user_meta() instead. in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/functions.php on line 3828
+[29-Jan-2017 09:02:42 UTC] PHP Notice:  update_usermeta is <strong>deprecated</strong> since version 3.0.0! Use update_user_meta() instead. in /Users/Pablo/Sites/harmonicsGameEngine/wp-includes/functions.php on line 3828
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:42 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:18:48 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 25
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 30
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:03 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 35
+[29-Jan-2017 09:19:52 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 26
+[29-Jan-2017 09:19:52 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 26
+[29-Jan-2017 09:19:52 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 26
+[29-Jan-2017 09:19:52 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 26
+[29-Jan-2017 09:19:52 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 26
+[29-Jan-2017 09:19:52 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 26
+[29-Jan-2017 09:19:52 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 26
+[29-Jan-2017 09:19:52 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 26
+[29-Jan-2017 09:19:52 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 26
+[29-Jan-2017 09:19:52 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 26
+[29-Jan-2017 09:19:52 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 26
+[29-Jan-2017 09:19:52 UTC] PHP Notice:  Undefined variable: birth_date in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 26
+[29-Jan-2017 09:20:32 UTC] PHP Notice:  Undefined variable: default in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/plugins/userMetaData.php on line 14
