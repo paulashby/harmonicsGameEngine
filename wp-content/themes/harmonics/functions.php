@@ -58,92 +58,82 @@ function harmonics_meta_boxes( $meta_boxes ) {
 
 
 
-// function harmonics_user_meta_boxes( $meta_boxes ) {
 
-//     $prefix = 'hm_';
 
-//     $meta_boxes[] = array(
-//         'title'      => __( 'Game engine information', 'textdomain' ),
-//         'type' => 'user',
-//         'fields'     => array(
-//             array(
-//                 'id'   => 'card-games-checkbox',
-//                 'name' => __( 'Show Card games link', 'textdomain' ),
-//                 'type' => 'checkbox',
-//             ),
-//             array(
-//                 'id'      => 'whiteboard-checkbox',
-//                 'name'    => __( 'Show Whiteboard link', 'textdomain' ),
-//                 'type'    => 'checkbox',
-//             ),
-//             array(
-//                 'id'      => 'services-checkbox',
-//                 'name'    => __( 'Show Services link', 'textdomain' ),
-//                 'type'    => 'checkbox',
-//             ),
-//             array(
-//                 'id'      => 'shopping-checkbox',
-//                 'name'    => __( 'Show Shopping link', 'textdomain' ),
-//                 'type'    => 'checkbox',
-//             ),
-//         ),
-//     );
-//     return $meta_boxes;
-// }
-
+if( function_exists('acf_add_options_page') ) {
+    
+    acf_add_options_page(array(
+        'page_title'    => 'Game Engine Settings',
+        'menu_title'    => 'Game Engine Settings',
+        'menu_slug'     => 'game-engine-settings',
+        'capability'    => 'edit_posts',
+        'redirect'      => false
+    ));
+    
+}
 
 /*
-function custom_meta_box_markup($object) {
-	wp_nonce_field(basename(__FILE__), "meta-box-nonce");
 
-    echo "<div>";
-            
-    $checkbox_value = get_post_meta($object->ID, "instructions-checkbox", true);
+    Requirements:
 
-    if($checkbox_value == "") {
-    	echo "<input name='instructions-checkbox' type='checkbox' value='true'>";    
-    }
-    else if($checkbox_value == "true")
-    {
-    	echo "<input name='instructions-checkbox' type='checkbox' value='true' checked>";
-    }
-	echo "<label for='instructions-checkbox' id='instructions-checkbox'>Instructions are separate</label>
-    	</div>";  
-}
+    Repeater which contains checkbox of all available games
 
-function add_instructions_checkbox() {
-    add_meta_box("instructions-checkbox", "Game configuration", "custom_meta_box_markup", "post", "side", "high", null);
-}
-
-add_action("add_meta_boxes", "add_instructions_checkbox");
-
-
-function save_custom_meta_box($post_id, $post, $update)
-{
-    if (!isset($_POST["meta-box-nonce"]) || !wp_verify_nonce($_POST["meta-box-nonce"], basename(__FILE__)))
-        return $post_id;
-
-    if(!current_user_can("edit_post", $post_id))
-        return $post_id;
-
-    if(defined("DOING_AUTOSAVE") && DOING_AUTOSAVE)
-        return $post_id;
-
-    $slug = "post";
-    if($slug != $post->post_type)
-        return $post_id;
-
-    $meta_box_checkbox_value = "";
-
-        if(isset($_POST["instructions-checkbox"]))
-    {
-        $meta_box_checkbox_value = $_POST["instructions-checkbox"];
-    }   
-    update_post_meta($post_id, "instructions-checkbox", $meta_box_checkbox_value);
-}
-
-add_action("save_post", "save_custom_meta_box", 10, 3);
 */
+
+function acf_load_game_choices( $field ) {
+    
+    // reset choices
+    $field['choices'] = array();
+
+    $args = array(
+        "category_name" => "game",
+    );
+        
+    $query = new WP_Query( $args );
+
+    // Check that we have query results.
+    if ( $query->have_posts() ) {
+        // Start looping over the query results.
+        while ( $query->have_posts() ) {
+     
+            $query->the_post();
+
+            $postID = get_the_ID();
+            $use_separate_instructions = false;
+            $under_review = false;
+            $description = get_field("game-description", $postID);
+            $gameName = get_the_title();
+
+            // instantiate row
+            the_row();
+
+            $value = $postID;
+            $label = $gameName;   
+
+            // append to choices
+            $field['choices'][ $value ] = $label; 
+        }
+    }
+
+    // return the field
+    return $field;    
+}
+
+add_filter('acf/load_field/name=game-set-game-checkbox', 'acf_load_game_choices');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function registerCustomAdminCss(){
 	$src = get_template_directory_uri() . '/css/custom-admin.css';

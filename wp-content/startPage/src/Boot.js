@@ -46,10 +46,11 @@ f = f || {}; // our members and functions in here
 	    	element.destroy();
 	    },
 	    cleanUp = function (state) {
-	    	var gameURL;
-
+	    	var gameURL,
+	    		showInstructions;
 	    	if(f.activeIcon) {
 	    		gameURL = f.activeIcon.gameURL;
+	    		showInstructions = f.activeIcon.instructions;
 	    	}
 
 	    	// remove signals and handlers
@@ -77,7 +78,7 @@ f = f || {}; // our members and functions in here
 			destroyOb(f);	
 
 			// state will be falsey if not passed to cleanUp
-			top.GameManager.startSession(state, gameURL);
+			top.GameManager.startSession(state, gameURL, showInstructions);
 	};
 	f.assignedTweens = [];
 	f.buttons = [];
@@ -629,7 +630,8 @@ f = f || {}; // our members and functions in here
 		gameIcon = this.gameIcons[iconTextureKey] = new f.GameIcon(StartPage.game, f.HALF_WIDTH, f.HALF_HEIGHT, iconTextureKey);
 		gameIcon.titleKey = iconTextureKey + 'Title';
 		gameIcon.gameName = gameData.gameName;
-		gameIcon.gameURL = gameData.instructions === '0' ? gameData.url + '/game' : gameData.url + '/instructions';
+		gameIcon.gameURL = gameData.url;
+		gameIcon.instructions = gameData.instructions;
 		gameIcon.description = gameData.description;
 
 		iconWidth = StartPage.game.cache.getImage(iconTextureKey).width;

@@ -15,6 +15,7 @@ var GameManager = (function () {
 	prevGameUrl,
 	teamRankings = [],
 	currGame, // current game's index in gameList
+	currGameUrl,
 	nextGameTimeout,
 	fallbackState = [
 		{place: 1, player: 8, ranking: 0},  
@@ -261,7 +262,7 @@ var GameManager = (function () {
 		urlSuffix = currGame.instructions === '1'  ? '/instructions' : '/game';
 		document.getElementById('ifrm').src = currGame.url + urlSuffix;
 	},
-	_startSession = function (state, gameURL) {
+	_startSession = function (state, gameUrl, showInstructions) {
 		if(state) {
 			// Players have just regsitered, save this state in case they play again
 			initialState = cloneState(state);
@@ -270,22 +271,23 @@ var GameManager = (function () {
 			// Playing again with same players - revert to initial state
 			sessionState = cloneState(initialState); 
 		}	
-		if(gameURL){
+		if(gameUrl){
 			// Store URL in case we play again
-			prevGameUrl = gameURL;
+			prevGameUrl = gameUrl;
 		} else {
-			// We're playing gain - use prevURL
-			gameURL = prevGameUrl;
+			// We're playing again - use prevURL
+			gameUrl = prevGameUrl;
 		}
 		
 		// TODO: Might be an idea to include some kind of 'loading' anim
 		// http://stackoverflow.com/questions/12136788/show-a-loading-gif-while-iframe-page-content-loads
-
-		document.getElementById('ifrm').src = gameURL;
+		currGameUrl = gameUrl;
+		gameUrl = showInstructions ? gameUrl + '/instructions' : gameUrl + '/game';		
+		document.getElementById('ifrm').src = gameUrl;
 
 	},
 	_startGame = function () {
-		document.getElementById('ifrm').src = currGame.url + '/game';
+		document.getElementById('ifrm').src = currGameUrl + '/game';
 	},
 	apiCall = function (url) {
 
@@ -357,8 +359,8 @@ var GameManager = (function () {
 		insertScores: function (newState) {
 			return _insertScores(newState);
 		},
-		startSession: function (state, gameURL) {
-			return _startSession(state, gameURL);
+		startSession: function (state, gameURL, showInstructions) {
+			return _startSession(state, gameURL, showInstructions);
 		},
 		startGame: function () {
 			return _startGame();

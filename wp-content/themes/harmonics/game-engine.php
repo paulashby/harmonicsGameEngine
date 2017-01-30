@@ -4,22 +4,36 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<title>Game Engine</title>					
+		<style>
+		.menu {
+			background-color: red;
+			height: 40px;
+			width: 200px;
+			position: absolute;
+			bottom:	0;
+			left: 100px;
+		}
+			li a {
+				color: white;
+			}
 		</style>
 		<?php wp_head(); ?>				
 	</head>	
 	<?php echo "<body  data-db='" . site_url() . "/?page_id=6' data-starturl='" . content_url() . "/startPage/src/index.html' id='bodyElmt'>"; ?>
-		<iframe id='ifrm' class='hideMenu' src='about:blank'></iframe>
-		<div class='cornerBttn' id='bottomBttn'></div>
-		<div class='cornerBttn' id='topBttn'></div>
 		<div class='menu'>
 			<div id='bottomMenu'>
 				<ul>
-					<?php trigger_error('curr user: ' . wp_get_current_user()->user_login); ?>
+					<?php 
+					// trigger_error('curr user: ' . wp_get_current_user()->user_login); 
+					?>
 					<!-- We need to add data-card-games, data-whiteboard , data-services and data-shopping-->
-					<li><a href=""></a></li>
+					<li><a href="http://localhost/~Pablo/antygravity/">Anty Gravity</a></li>
 				</ul>
 			</div>
 		</div>
+		<iframe id='ifrm' class='hideMenu' src='about:blank'></iframe>
+		<div class='cornerBttn' id='bottomBttn'></div>
+		<div class='cornerBttn' id='topBttn'></div>
 		<script>
 			var ifrm = document.getElementById('ifrm'),
 				GameEngine = {

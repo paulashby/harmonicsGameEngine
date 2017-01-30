@@ -44,18 +44,35 @@
 		 
 		        $query->the_post();
 
-		        $use_separate_instructions = get_post_meta( get_the_ID(), "instructions-checkbox", true );
-		        $under_review = get_post_meta( get_the_ID(), "under-review-checkbox", true );
-		        $description = get_post_meta( get_the_ID(), "game-description", true );
+		        $postID = get_the_ID();
+		        $use_separate_instructions = false;
+		        $under_review = false;
+		        $description = get_field("game-description", $postID);
 		        $gameName = get_the_title();
-		        //$icon_graphic = get_post_meta( get_the_ID(), $gameName, true ); 
+		        
+		        $loading_options = get_field("loading-options", $postID);
+		        if(gettype($loading_options) == "array") {
+		        	foreach ($loading_options as $optn) {
+		        		// trigger_error($gameName . ' label: ' . $optn['label'] . '\n' . $gameName . ' value: ' . $optn['value']);
+		        		if($optn["value"] == "instructions") {
+		        			$use_separate_instructions = true;
+		        			// trigger_error($gameName . ' has instructions');
+		        		} else if($optn["value"] == "suspended") {
+		        			$under_review = true;
+		        			// trigger_error($gameName . ' is suspended');
+		        		}
+		        	}		        	
+		        }
+		        
+		        // trigger_error($gameName . ': ' + $loading_options['instructions']);
 		        
 
 		        if( $under_review != 1 ){
 					array_push($retrievedArray, [
 			        	"gameName"=>$gameName,
 			        	"url"=>content_url() . "/97dL81xtE49aXxa/" . $gameName, 
-			        	"id"=>get_the_ID(), "instructions"=>$use_separate_instructions, 
+			        	"id"=>get_the_ID(), 
+			        	"instructions"=>$use_separate_instructions, 
 			        	"description"=>$description, 
 			        	"iconGraphic"=>$gameName,
 			        	"iconURL"=>content_url() . "/gameMenu/" . $gameName]);
