@@ -11,6 +11,53 @@ body {
 	background-color: #000;
 }
 
+.menu {
+	margin: auto;
+	left: 518px;
+	bottom: 10px;
+	position: absolute;
+}
+#menuTop {
+	transform: rotate(180deg) translate(95%, 730%);
+	transform-origin: 100% 0;
+}
+#menuRight {
+	transform: rotate(-90deg) translate(97%, 370%);
+	transform-origin: 100% 0;
+}
+#menuLeft {
+	transform: rotate(90deg) translate(-1%, 1095%);
+	transform-origin: 100% 0;
+}
+li a {
+	line-height: 0; 
+    font-size: 0;
+    color: transparent;
+}
+.menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.menu li {
+    float: left;
+    height: 113px;
+    width: 113px;
+}
+.exitGame {
+	margin-left: 60px;
+}
+.menu li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+
 @keyframes showMenu {
 	from {
 		transform: scale(1);

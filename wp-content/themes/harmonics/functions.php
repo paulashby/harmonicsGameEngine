@@ -157,6 +157,40 @@ function acf_load_member_choices( $field ) {
 }
 add_filter('acf/load_field/name=membership-group-select', 'acf_load_member_choices');
 
+// Populate User Menu Items title select menu with Menu Item titles from Game Engine Settings page 
+function acf_load_user_menu_item_choices( $field ) {
+    
+    
+    // reset choices
+    $field['choices'] = array();
+
+    // if has rows
+    if( have_rows('menu-items', 'option') ) {
+        
+        // while has rows
+        while( have_rows('menu-items', 'option') ) {            
+
+            // instantiate row
+            the_row();
+
+            
+            // vars
+            $value = get_sub_field('title');
+            $label = get_sub_field('title');
+
+            
+            // append to choices
+            $field['choices'][ $value ] = $label;
+            
+        }
+        
+    }
+
+    // return the field
+    return $field;    
+}
+add_filter('acf/load_field/name=user-menu-items-title', 'acf_load_user_menu_item_choices');
+
 
 function registerCustomAdminCss(){
 	$src = get_template_directory_uri() . '/css/custom-admin.css';
