@@ -9,15 +9,21 @@
  * @since 1.0
  * @version 1.0
  */
+
+echo "<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta http-equiv='content-type' content='text/html; charset=utf-8' />
+		<title>Game Engine</title>
+	</head>
+	<body id='bodyElmt' data-gameurl='" . content_url( '97dL81xtE49aXxa/' ) . get_the_title() . "'>";
 ?>
-<!DOCTYPE HTML> 
-<meta charset='UTF-8'>
-<?php
-//wp_head();
-$separate_instructions = (string)get_post_meta( get_the_id(), 'instructions-checkbox', true ); 
-echo do_shortcode( '[post_view]');
-/* Redirect to instructions if separate, else straight to game */
-$url_suffix = $separate_instructions === 'true' ? 'instructions' : 'game';
-wp_safe_redirect( content_url( '97dL81xtE49aXxa/' ) . get_the_title() . '/' . $url_suffix);
-exit;
-?>
+<script>
+	// this redirect goes to the page in the game folder
+	var gameUrl = document.getElementById('bodyElmt').dataset.gameurl + top.GameManager.getGameSuffix();
+	window.location.replace(gameUrl);	
+</script>
+</php 
+echo "</body>
+</html>";
+

@@ -16,6 +16,7 @@ var GameManager = (function () {
 	teamRankings = [],
 	currGame, // current game's index in gameList
 	currGameUrl,
+	redirectSufffix,
 	nextGameTimeout,
 	fallbackState = [
 		{place: 1, player: 8, ranking: 0},  
@@ -185,24 +186,6 @@ var GameManager = (function () {
 		initialState = [];
 		teamState = [];
 	},
-	_onGameOverOld = function (e) {
-		var currGameURL,
-			urlSuffix;
-
-		if(sessionQueue.length > 0){			
-			currGame = sessionQueue.pop();
-			urlSuffix = currGame.instructions === '1' ? '/instructions' : '/game';
-			currGameURL = currGame.url + urlSuffix;
-		} else {
-			currGame = undefined;
-			showResults = true;
-			currGameURL = startPageUrl;
-		}
-		// TODO: Can we use onError to handle 404 in case an incorrect name is added in processwire
-		document.getElementById('ifrm').src = currGameURL;
-		clearTimeout(nextGameTimeout);
-		return {success: true, data: 'Loading next game'};
-	},
 	_onGameOver = function (e) {
 		// TODO: Can we use onError to handle 404 in case an incorrect name is added in processwire
 		showResults = true;
@@ -231,37 +214,6 @@ var GameManager = (function () {
 		}
 		return sessionState ? cloneState(sessionState) : [];
 	},
-	_startSessionOld = function (state) {
-		var allGames = gameList.slice(),
-		urlSuffix,
-		numGames;	
-
-		// TODO: Do we still want game sessions, or are we allowing players to choose games as they go?
-		sessionQueue = shuffle(allGames).slice(0, GAMES_PER_SESSION);
-		numGames = sessionQueue.length;	
-		teamState = [];
-		teamRankings = [];
-					
-		if(numGames < GAMES_PER_SESSION) {
-			dburl = dburl || document.body.dataset.db;
-			apiCall(dburl + '?t=' + Math.random() + '&reqType=errMssg&messageText=GameManager.startSession: unable to load full set of games');
-		}
-		currGame = sessionQueue.pop();
-		if(state) {
-			// Players have just regsitered, save this state in case they play again
-			initialState = cloneState(state);
-			sessionState = state;	
-		} else {
-			// Playing again with same players - revert to initial state
-			sessionState = cloneState(initialState); 
-		}		
-		
-		// TODO: Might be an idea to include some kind of 'loading' anim
-		// http://stackoverflow.com/questions/12136788/show-a-loading-gif-while-iframe-page-content-loads
-
-		urlSuffix = currGame.instructions === '1'  ? '/instructions' : '/game';
-		document.getElementById('ifrm').src = currGame.url + urlSuffix;
-	},
 	_startSession = function (state, gameUrl, showInstructions) {
 		if(state) {
 			// Players have just regsitered, save this state in case they play again
@@ -282,12 +234,16 @@ var GameManager = (function () {
 		// TODO: Might be an idea to include some kind of 'loading' anim
 		// http://stackoverflow.com/questions/12136788/show-a-loading-gif-while-iframe-page-content-loads
 		currGameUrl = gameUrl;
-		gameUrl = showInstructions ? gameUrl + '/instructions' : gameUrl + '/game';		
+		redirectSufffix = showInstructions ? '/instructions' : '/game';
 		document.getElementById('ifrm').src = gameUrl;
-
 	},
 	_startGame = function () {
-		document.getElementById('ifrm').src = currGameUrl + '/game';
+		// Instructions have just been shown
+		redirectSufffix = '/game';
+		document.getElementById('ifrm').src = currGameUrl;
+	},
+	_getGameSuffix = function () {
+		return redirectSufffix;
 	},
 	apiCall = function (url) {
 
@@ -364,6 +320,9 @@ var GameManager = (function () {
 		},
 		startGame: function () {
 			return _startGame();
+		},
+		getGameSuffix: function () {
+			return _getGameSuffix();
 		},
 		getResults: function () {			
 			return showResults ? _getState() : showResults;

@@ -70,8 +70,9 @@
 		        if( $under_review != 1 ){
 					array_push($retrievedArray, [
 			        	"gameName"=>$gameName,
-			        	"url"=>content_url() . "/97dL81xtE49aXxa/" . $gameName, 
-			        	"id"=>get_the_ID(), 
+			        	// "url"=>content_url() . "/97dL81xtE49aXxa/" . $gameName, 
+			        	"url"=>get_permalink($postID),
+			        	"id"=>$postID, 
 			        	"instructions"=>$use_separate_instructions, 
 			        	"description"=>$description, 
 			        	"iconGraphic"=>$gameName,

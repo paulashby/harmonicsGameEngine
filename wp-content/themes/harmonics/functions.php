@@ -21,45 +21,24 @@ function enqueue_by_template() {
     /** Call regular enqueue */
   }
 }
-
 add_action( 'wp_enqueue_scripts', 'enqueue_by_template' );
 /* Remove admin bar for all logged in users - else shows when viewing site */
 add_filter( 'show_admin_bar', '__return_false' );
 
-add_filter( 'rwmb_meta_boxes', 'harmonics_meta_boxes' );
-function harmonics_meta_boxes( $meta_boxes ) {
-
-    $prefix = 'hm_';
-
-    $meta_boxes[] = array(
-        'title'      => __( 'Game options', 'textdomain' ),
-        'post_types' => 'post',
-        'fields'     => array(
-            array(
-                'id'   => 'instructions-checkbox',
-                'name' => __( 'Instructions are separate', 'textdomain' ),
-                'type' => 'checkbox',
-            ),
-            array(
-                'id'      => 'under-review-checkbox',
-                'name'    => __( 'Under review', 'textdomain' ),
-                'type'    => 'checkbox',
-            ),
-            array(
-                'id'      => 'game-description',
-                'name'    => __( 'Game description', 'textdomain' ),
-                'desc'    => __( 'For game selection menu' ),
-                'type'    => 'text',
-            ),
-        ),
-    );
-    return $meta_boxes;
+// Allow dashboard access only for administrators
+function disable_dashboard() {
+    if (!is_user_logged_in()) {
+        return null;
+    }
+    if (!current_user_can('administrator') && is_admin()) {
+        wp_redirect(home_url());
+        exit;
+    }
 }
+add_action('admin_init', 'disable_dashboard');
 
 
-
-
-
+// Add Game Engine options page
 if( function_exists('acf_add_options_page') ) {
     
     acf_add_options_page(array(
@@ -72,14 +51,7 @@ if( function_exists('acf_add_options_page') ) {
     
 }
 
-/*
-
-    Requirements:
-
-    Repeater which contains checkbox of all available games
-
-*/
-
+// Populate Game Set checkbox menu with available games
 function acf_load_game_choices( $field ) {
     
     // reset choices
@@ -99,9 +71,6 @@ function acf_load_game_choices( $field ) {
             $query->the_post();
 
             $postID = get_the_ID();
-            $use_separate_instructions = false;
-            $under_review = false;
-            $description = get_field("game-description", $postID);
             $gameName = get_the_title();
 
             // instantiate row
@@ -118,21 +87,75 @@ function acf_load_game_choices( $field ) {
     // return the field
     return $field;    
 }
-
 add_filter('acf/load_field/name=game-set-game-checkbox', 'acf_load_game_choices');
 
+// Populate Member Group checkbox menu with Game Sets
+function acf_load_set_choices( $field ) {
+    
+    
+    // reset choices
+    $field['choices'] = array();
 
+    // if has rows
+    if( have_rows('game-sets', 'option') ) {
+        
+        // while has rows
+        while( have_rows('game-sets', 'option') ) {
 
+            // instantiate row
+            the_row();
 
+            
+            // vars
+            $value = get_sub_field('title');
+            $label = get_sub_field('title');
 
+            
+            // append to choices
+            $field['choices'][ $value ] = $label;
+            
+        }
+        
+    }
 
+    // return the field
+    return $field;    
+}
+add_filter('acf/load_field/name=member-group-set-checkbox', 'acf_load_set_choices');
 
+// Populate Membership Group select menu with Member Groups
+function acf_load_member_choices( $field ) {
+    
+    
+    // reset choices
+    $field['choices'] = array();
 
+    // if has rows
+    if( have_rows('member-groups', 'option') ) {
+        
+        // while has rows
+        while( have_rows('member-groups', 'option') ) {
 
+            // instantiate row
+            the_row();
 
+            
+            // vars
+            $value = get_sub_field('title');
+            $label = get_sub_field('title');
 
+            
+            // append to choices
+            $field['choices'][ $value ] = $label;
+            
+        }
+        
+    }
 
-
+    // return the field
+    return $field;    
+}
+add_filter('acf/load_field/name=membership-group-select', 'acf_load_member_choices');
 
 
 function registerCustomAdminCss(){
@@ -143,4 +166,3 @@ function registerCustomAdminCss(){
 	wp_enqueue_style($handle, $src, array(), false, false);
 }
 add_action('admin_head', 'registerCustomAdminCss');
-//add_action('wp_head', 'bawpvc_main');

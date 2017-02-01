@@ -199,6 +199,7 @@ var VTAPI = (function (GameManager) {
     }
   },
   _startGame = function () {
+    // Instructions have just been shown
     parent.GameManager.startGame();
   },
   _mapTeamNumbers = function (setUp) {
