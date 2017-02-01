@@ -11,7 +11,6 @@ var GameManager = (function () {
 	// this inital state is used for testing until we implement user input
 	startPageUrl,
 	gameList = [],
-	//sessionQueue = [],
 	prevGameUrl,
 	teamRankings = [],
 	currGame, // current game's index in gameList
@@ -49,13 +48,9 @@ var GameManager = (function () {
 		nextGameTimeout = setTimeout(_onGameOver, NEXT_GAME_TIMEOUT);
 	},
 	suspendGame = function (err) {
-		// Disable game in processwire API and repopulate the gameList
+		// Disable game and repopulate the gameList
 
-		/*
-			we also want to log the problem here, so let's pass in an errorString parameter which can be used by php fpr
-			'&reqType=errMssg&messageText=GameManager.getState: player data unavailable - using fallback state'
-		*/
-		// apiCall(dburl + '?t=' + Math.random() + '&reqType=suspendGame&gameID=' + currGame.id).then(function (response) {
+		// we also want to log the problem here, so let's pass in err parameter which can be logged by php
 		apiCall(dburl + '?t=' + Math.random() + '&reqType=suspendGame&gameID=' + currGame.id + '&err=' + escape(err.detail.errors)).then(function (response) {
 			if(response.indexOf('Error') == -1) {
 				gameList = JSON.parse(response);
@@ -187,7 +182,7 @@ var GameManager = (function () {
 		teamState = [];
 	},
 	_onGameOver = function (e) {
-		// TODO: Can we use onError to handle 404 in case an incorrect name is added in processwire
+		// TODO: Can we use onError to handle 404 in case an incorrect name is added on backend?
 		showResults = true;
 		document.getElementById('ifrm').src = document.body.dataset.starturl;
 		clearTimeout(nextGameTimeout);
@@ -204,7 +199,6 @@ var GameManager = (function () {
 	_getState = function () {
 		var iframeElmt = document.getElementById('ifrm'),
 		iframeEmpty = iframeElmt && iframeElmt.contentWindow === undefined,
-		// startPageLoaded = iframeElmt ? document.getElementById('ifrm').contentWindow.StartPage !== undefined : false;
 		startPageLoaded = iframeElmt ? iframeElmt.src.indexOf('startPage') !== -1 : false;
 		if(!sessionState && !startPageLoaded && !iframeEmpty) {
 			// Use fallback state and dispatch email to alert administrator to problem 
@@ -276,9 +270,6 @@ var GameManager = (function () {
 		var parsedData,
 		iframe = document.getElementById('ifrm');
 
-		// if(iframe) {
-		// 	startPageUrl = iframe.src;
-		// }
 		dburl = dburl || document.body.dataset.db;
 		apiCall(dburl + '?t=' + Math.random() + '&reqType=initGameManager').then(function (response) {
 			if(response.indexOf('Err') == -1){
