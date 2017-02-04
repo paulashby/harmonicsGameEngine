@@ -263,3 +263,10 @@
 [01-Feb-2017 16:47:56 UTC] PHP Notice:  Use of undefined constant i - assumed 'i' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/game-engine.php on line 15
 [01-Feb-2017 16:47:56 UTC] PHP Notice:  Use of undefined constant i - assumed 'i' in /Users/Pablo/Sites/harmonicsGameEngine/wp-content/themes/harmonics/game-engine.php on line 15
 [01-Feb-2017 17:12:42 UTC] [2017-02-01 17:12 UTC] VTAPI GameManager issue: GameManager.getState: player data unavailable - using fallback state
+[04-Feb-2017 12:25:56 UTC] [2017-02-04 12:25 UTC] VTAPI GameManager issue: GameManager.getState: player data unavailable - using fallback state
+[04-Feb-2017 12:34:58 UTC] [2017-02-04 12:34 UTC] VTAPI GameManager issue: GameManager.getState: player data unavailable - using fallback state
+[04-Feb-2017 12:39:32 UTC] [2017-02-04 12:39 UTC] VTAPI GameManager issue: GameManager.getState: player data unavailable - using fallback state
+[04-Feb-2017 12:40:08 UTC] [2017-02-04 12:40 UTC] VTAPI GameManager issue: GameManager.getState: player data unavailable - using fallback state
+[04-Feb-2017 12:49:14 UTC] [2017-02-04 12:49 UTC] VTAPI GameManager issue: GameManager.getState: player data unavailable - using fallback state
+[04-Feb-2017 12:49:21 UTC] [2017-02-04 12:49 UTC] VTAPI GameManager issue: GameManager.getState: player data unavailable - using fallback state
+[04-Feb-2017 12:55:17 UTC] [2017-02-04 12:55 UTC] VTAPI GameManager issue: GameManager.getState: player data unavailable - using fallback state

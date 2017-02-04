@@ -10,22 +10,29 @@ body {
 	overflow: hidden;
 	background-color: #000;
 }
-
+#menu #exitBttn,
+#menu #teamBttn{
+	opacity: 0;
+}
+#menu.showGameButtons #exitBttn,
+#menu.showGameButtons #teamBttn{
+	opacity: 1;
+}
 .menu {
 	margin: auto;
 	left: 518px;
 	bottom: 10px;
 	position: absolute;
 }
-#menuTop {
+.menuTop {
 	transform: rotate(180deg) translate(95%, 730%);
 	transform-origin: 100% 0;
 }
-#menuRight {
+.menuRight {
 	transform: rotate(-90deg) translate(97%, 370%);
 	transform-origin: 100% 0;
 }
-#menuLeft {
+.menuLeft {
 	transform: rotate(90deg) translate(-1%, 1095%);
 	transform-origin: 100% 0;
 }

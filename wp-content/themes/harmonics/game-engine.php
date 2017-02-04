@@ -7,29 +7,29 @@
 		<?php wp_head(); ?>				
 	</head>	
 	<?php echo "<body  data-db='" . site_url() . "/?page_id=6' data-starturl='" . content_url() . "/startPage/src/index.html' id='bodyElmt'>"; ?>
-
+			<div id='menu'>
 		
 			<?php	
 				for($i = 0; $i < 4; $i++) {
-					$idString = '';
+					$classString = '';
 					switch ($i) {
 						case 0:
-						$idString = "menuTop";
+						$classString = "menuTop";
 						break;
 
 						case 1:
-						$idString = "menuRight";
+						$classString = "menuRight";
 						break;
 
 						case 2:
-						$idString = "menuBottom";
+						$classString = "menuBottom";
 						break;
 
 						default:
-						$idString = "menuLeft";
+						$classString = "menuLeft";
 						break;
 					}
-					echo "<div id=" . $idString . " class='menu'>";		
+					echo "<div class='menu " . $classString . "'>";		
 				    if( have_rows("menu-items", "option") ) {
 
 				    	echo "<ul>";
@@ -62,36 +62,21 @@
 				        		if($title == "games" && ! $linkURL) {			        			
 				        			$linkURL = get_home_url();
 				        		}
-				        		echo "<li class='" . $title . "'><a href='" . $linkURL . "'><img src='" . get_template_directory_uri() . "/css/img/menu_" . $title . ".png' alt='" . $title . "'></a></li>";	
+				        		echo "<li class='" . $title . "'><a href='" . $linkURL . "'><img src='" . get_template_directory_uri() . "/css/img/menu_" . $title . ".png' alt='" . $title . "' data-category='" . $title . "'></a></li>";	
 				        	}			        				        	
 				        }
-				        echo "<li class='exitGame'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_exitgame.png' alt='exit game'></a></li>
-				        	<li class='changeTeams'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_changeteams.png' alt='change teams'></a></li>
+				        echo "<li id='exitBttn' class='exitGame'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_exitgame.png' alt='exit game' data-category='exit'></a></li>
+				        	<li id='teamBttn' class='changeTeams'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_changeteams.png' alt='change teams' data-category='teamchange'></a></li>
 				        </ul>
 				        </div>";
 				    }
 				}
 			?>
+			</div>
 		
 		<iframe id='ifrm' class='hideMenu' src='about:blank'></iframe>
-		<div class='cornerBttn' id='bottomBttn'></div>
-		<div class='cornerBttn' id='topBttn'></div>
-		<script>
-			var ifrm = document.getElementById('ifrm'),
-				GameEngine = {
-				onMenuClick: function () {//classList is an array of class strings - so we can find what we're doing and reset the focus as necessary
-					if(ifrm.classList.contains('showMenu')) {
-						// We're hiding the menu, so focus ifrm
-						ifrm.focus();
-					}
-					ifrm.classList.toggle('hideMenu');
-					ifrm.classList.toggle('showMenu');
-				}
-			};
-			document.getElementById('topBttn').addEventListener('click', GameEngine.onMenuClick);
-			document.getElementById('bottomBttn').addEventListener('click', GameEngine.onMenuClick);					
-			document.getElementById('bodyElmt').focus();
-		</script>
+		<div class='cornerBttn' id='bottomBttn' data-category='toggleMenu'></div>
+		<div class='cornerBttn' id='topBttn' data-category='toggleMenu'></div>		
 	</body>
 </html>";
 ?>	
