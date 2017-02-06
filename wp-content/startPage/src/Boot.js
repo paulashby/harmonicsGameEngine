@@ -47,9 +47,11 @@ f = f || {}; // our members and functions in here
 	    },
 	    cleanUp = function (state) {
 	    	var gameURL,
+		    	gameID,
 	    		showInstructions;
 	    	if(f.activeIcon) {
 	    		gameURL = f.activeIcon.gameURL;
+	    		gameID = f.activeIcon.gameID;
 	    		showInstructions = f.activeIcon.instructions;
 	    	}
 
@@ -78,7 +80,7 @@ f = f || {}; // our members and functions in here
 			destroyOb(f);	
 
 			// state will be falsey if not passed to cleanUp
-			top.GameManager.startSession(state, gameURL, showInstructions);
+			top.GameManager.startSession(state, gameURL, gameID, showInstructions);
 	};
 	f.assignedTweens = [];
 	f.buttons = [];
@@ -464,8 +466,7 @@ f = f || {}; // our members and functions in here
 	f.PlayButton.prototype = Object.create(f.StartButton.prototype);
 	f.PlayButton.prototype.constructor = f.PlayButton;
 	f.PlayButton.prototype.onInputDown = function () {
-		var state;
-		state = VTAPI.cloneState(f.state);
+		var state = VTAPI.cloneState(f.state);
 		cleanUp(state);	
 	};
 
@@ -633,6 +634,7 @@ f = f || {}; // our members and functions in here
 		gameIcon.gameURL = gameData.url;
 		gameIcon.instructions = gameData.instructions;
 		gameIcon.description = gameData.description;
+		gameIcon.gameID = gameData.id;
 
 		iconWidth = StartPage.game.cache.getImage(iconTextureKey).width;
 

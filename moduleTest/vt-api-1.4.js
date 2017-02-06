@@ -3,7 +3,9 @@ var VTAPI = (function (GameManager) {
 
 	'use strict';
 
-  var testing = window.frameElement === null,
+  var
+  pauseEvent = new Event('pause'),
+  testing = window.frameElement === null,
   dispatchInputError = function (errDetails) {
     var inputErrorEvent = new CustomEvent("VTAPIinputError", {
       detail: {
@@ -195,7 +197,12 @@ var VTAPI = (function (GameManager) {
         currRanking = insertedPlayer.ranking;                 
         currPlayer.ranking = currRanking + prevRanking;                                
       }
-      return testing ? {success: true} : GameManager.insertScores(rankingArray);
+      if(testing) {
+        // dispatch pauseEvent for Construct 2 developers running VTAPIpluginDemo
+        window.dispatchEvent(pauseEvent);
+        return {success: true};
+      }
+      return GameManager.insertScores(rankingArray);
     }
   },
   _startGame = function () {
@@ -227,8 +234,7 @@ var VTAPI = (function (GameManager) {
       state[i].team = teamNumsArr[i];
     }
     return state;
-  };  
-
+  }; 
 	
 	return {
     registerGame: function (game) {
@@ -250,6 +256,7 @@ var VTAPI = (function (GameManager) {
       return _getNumTeams(state);
     },
     insertScores: function (rankingArray) {
+
       return _insertScores(rankingArray);
     },
     startGame: function () {
