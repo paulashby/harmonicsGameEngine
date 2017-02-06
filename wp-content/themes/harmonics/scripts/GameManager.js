@@ -3,7 +3,8 @@ var GameManager = (function () {
 
 	'use strict';
 	console.log('GameManager');
-	var 
+	var
+	pauseEvent = new Event('pause'),
 	dburl,
 	NEXT_GAME_TIMEOUT = 15000,
 	GAMES_PER_SESSION = 3,	
@@ -211,7 +212,7 @@ var GameManager = (function () {
 		}
 		return sessionState ? cloneState(sessionState) : [];
 	},
-	_startSession = function (state, gameUrl, showInstructions) {
+	_startSession = function (state, gameUrl, gameID, showInstructions) {
 		if(state) {
 			// Players have just regsitered, save this state in case they play again
 			initialState = cloneState(state);
@@ -231,6 +232,7 @@ var GameManager = (function () {
 		// TODO: Might be an idea to include some kind of 'loading' anim
 		// http://stackoverflow.com/questions/12136788/show-a-loading-gif-while-iframe-page-content-loads
 		currGameUrl = gameUrl;
+		currGame = gameID;
 		redirectSufffix = showInstructions ? '/instructions' : '/game';
 		
 		// Remove game related buttons from menu
@@ -242,7 +244,6 @@ var GameManager = (function () {
 		// Instructions have just been shown
 		redirectSufffix = '/game';
 		document.getElementById('ifrm').src = currGameUrl;
-
 
 		if( ! menu.classList.contains('showGameButtons')) {
 			menu.classList.toggle('showGameButtons');	
@@ -345,8 +346,8 @@ var GameManager = (function () {
 		insertScores: function (newState) {
 			return _insertScores(newState);
 		},
-		startSession: function (state, gameURL, showInstructions) {
-			return _startSession(state, gameURL, showInstructions);
+		startSession: function (state, gameURL, gameID, showInstructions) {
+			return _startSession(state, gameURL, gameID, showInstructions);
 		},
 		startGame: function () {
 			return _startGame();
