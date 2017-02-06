@@ -10,6 +10,7 @@
 	f.reassignmentRunning = false;
 	f.endLevelPending = false;
 	f.fruitByZone = [];
+	top.window.addEventListener('pause', function (e) { FruitFlux.game.paused = ! FruitFlux.game.paused; }, false);
 	
 	var 
 	// fruitByZone is an array containing the background fruit,
@@ -336,6 +337,7 @@
 						delete f[currElmt];
 					}
 				}
+				top.window.removeEventListener('pause', function (e) { FruitFlux.game.paused = ! FruitFlux.game.paused; }, false);
 				VTAPI.startGame();
 		    },
 			addCountdownTweens = function (currFruit) {

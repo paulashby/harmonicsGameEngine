@@ -272,6 +272,7 @@ var GameManager = (function () {
 			}
 			ifrm.classList.toggle('hideMenu');
 			ifrm.classList.toggle('showMenu');
+			window.dispatchEvent(pauseEvent);
 		}
 	},
 	apiCall = function (url) {
