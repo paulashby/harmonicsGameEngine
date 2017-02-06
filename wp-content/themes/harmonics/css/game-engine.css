@@ -2,7 +2,7 @@ html,
 body,
 iframe {
 	height: 100%;
-	width: 100%;	
+	width: 100%;
 }
 
 body {
@@ -20,19 +20,33 @@ body {
 }
 .menu {
 	margin: auto;
-	left: 518px;
+	left: 662px;
 	bottom: 10px;
 	position: absolute;
 }
+.showGameButtons .menu {
+	left: 518px;
+}
 .menuTop {
-	transform: rotate(180deg) translate(95%, 730%);
+	transform: rotate(180deg) translate(130%, 730%);
 	transform-origin: 100% 0;
 }
+.showGameButtons .menuTop {
+	transform: rotate(180deg) translate(95%, 730%);
+}
 .menuRight {
+	transform: rotate(-90deg) translate(114%, 255%);
+	transform-origin: 100% 0;
+}
+.showGameButtons .menuRight {
 	transform: rotate(-90deg) translate(97%, 370%);
 	transform-origin: 100% 0;
 }
 .menuLeft {
+	transform: rotate(90deg) translate(16%, 1222%);
+	transform-origin: 100% 0;
+}
+.showGameButtons .menuLeft {
 	transform: rotate(90deg) translate(-1%, 1095%);
 	transform-origin: 100% 0;
 }
@@ -50,7 +64,8 @@ li a {
 
 .menu li {
     float: left;
-    height: 113px;
+    margin-top: -6px;
+    height: 119px;
     width: 113px;
 }
 .exitGame {
