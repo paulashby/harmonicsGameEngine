@@ -9,6 +9,8 @@
 	f.gameStarted = false;
 	f.reassignmentRunning = false;
 	f.endLevelPending = false;
+
+	top.window.addEventListener('pause', function (e) { FruitFlux.game.paused = ! FruitFlux.game.paused; }, false);
 	
 	var FruitGroup = function (game, descending) {
 
@@ -465,6 +467,7 @@
 						delete f[currElmt];
 					}
 				}
+				top.window.removeEventListener('pause', function (e) { FruitFlux.game.paused = ! FruitFlux.game.paused; }, false);
 				VTAPI.onGameOver();									
 		    },
 			startCountdown = function () {

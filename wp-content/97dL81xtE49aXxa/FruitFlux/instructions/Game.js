@@ -10,6 +10,7 @@
 	f.reassignmentRunning = false;
 	f.endLevelPending = false;
 	f.fruitByZone = [];
+	
 	top.window.addEventListener('pause', function (e) { FruitFlux.game.paused = ! FruitFlux.game.paused; }, false);
 	
 	var 

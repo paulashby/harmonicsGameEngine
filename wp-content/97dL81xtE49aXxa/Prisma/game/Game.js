@@ -2,8 +2,10 @@
 
 (function () {
 
-	"use strict";
-	
+	"use strict";	
+
+	top.window.addEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
+
 	f.fabIndices = [];
 	f.demo = false;
 	f.getHypotenuse = function (width, height) {
@@ -1251,6 +1253,7 @@
 					}
 				}
 				Prisma.game.paused = true;
+				top.window.removeEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
 				if(gameTimeout) {
 					VTAPI.onGameTimeout();
 				} else {

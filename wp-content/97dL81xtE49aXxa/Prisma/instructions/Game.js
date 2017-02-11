@@ -3,6 +3,8 @@
 (function () {
 	
 	"use strict";
+
+	top.window.addEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
 	
 	f.boundsLines = [
 		// clockwise from TL
@@ -1065,6 +1067,7 @@
 						delete f[currElmt];
 					}
 				}
+				top.window.removeEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
 				VTAPI.startGame();
 		    },
 			addCountdownTweens = function (currElmt) {

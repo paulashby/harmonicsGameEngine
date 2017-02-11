@@ -244,6 +244,7 @@
 					}
 				}
 				Aura.game.paused = true;
+				top.window.removeEventListener('pause', function (e) { Aura.game.paused = ! Aura.game.paused; }, false);
 				VTAPI.onGameOver();
 		    },
 		    returnScores = function () {
@@ -915,4 +916,7 @@
 		render: function () {
 	    }
 	};
+
+	top.window.addEventListener('pause', function (e) { Aura.game.paused = ! Aura.game.paused; }, false);
+
 }());

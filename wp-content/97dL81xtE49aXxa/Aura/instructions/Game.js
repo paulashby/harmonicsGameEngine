@@ -3,6 +3,8 @@
 (function () {
 	
 	"use strict";
+
+	top.window.addEventListener('pause', function (e) { Aura.game.paused = ! Aura.game.paused; }, false);
 	
 	f.level = 0;
 	f.levelOver = true;
@@ -65,6 +67,7 @@
 			}
 		}
 		Aura.game.paused = true;
+		top.window.removeEventListener('pause', function (e) { Aura.game.paused = ! Aura.game.paused; }, false);
 		VTAPI.startGame();
     };
     f.startDemo = (function () {
