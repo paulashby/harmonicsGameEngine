@@ -84,20 +84,24 @@ li a {
 	from {
 		transform: scale(1);
         transform-origin: 0.5 0.5;
+        opacity: 1;
 	}
     to {
     	transform: scale(0.87, 0.78);
         transform-origin: 0.5 0.5;
+        opacity: 0.3;
     }
 }
 @keyframes hideMenu {	
 	from {
 		transform: scale(0.87, 0.78);
         transform-origin: 0.5 0.5;
+        opacity: 0.3;
 	}
     to {
     	transform: scale(1);
         transform-origin: 0.5 0.5;
+        opacity: 1;
     }
 }
 
@@ -112,7 +116,8 @@ iframe.showMenu {
     transform: scale(0.87, 0.78);
     transform-origin: 0.5 0.5;
     animation-name: showMenu;
-	animation-duration: 0.2s;	
+	animation-duration: 0.2s;
+	opacity: 0.3;	
 }
 
 iframe.hideMenu {	
@@ -120,6 +125,7 @@ iframe.hideMenu {
     transform-origin: 0.5 0.5;
     animation-name: hideMenu;
 	animation-duration: 0.2s;	
+	opacity: 1;
 }
 
 .cornerBttn {
