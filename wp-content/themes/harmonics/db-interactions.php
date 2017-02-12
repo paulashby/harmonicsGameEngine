@@ -7,7 +7,6 @@
 	// TODO: Need 'from' address for error emails
 	$emailHeaders = 'From: VTAPI <info@primitive.co>' . "\r\n";
 
-
 	function logError( $err ) {
 		$errStr = "unknown error type";
 		if($err) {
@@ -24,25 +23,91 @@
 		return ["E_"=>"no games found"];
 	};
 
-	function getFromDB( $gameSet ) {
-		// TODO: $gameSet should be queried from the user's tag - haven't set this up on the backend yet
-		$gameSet = "set-1";
+	function getGameSets($membershipGroup) {
+
+		$gameSets = [];
+
+		if( have_rows('member-groups', 'option') ) {
+	        
+	        while( have_rows('member-groups', 'option') ) {
+
+	            the_row();
+
+	            $group = get_sub_field('title');
+
+				if( $membershipGroup == $group ) {
+
+	            	// Get array of selected checkbox choices(Set 1 etc)
+	            	$valueArray = get_sub_field('member-group-set-checkbox'); 	
+	            	
+	            	// Get array of possible sets to check against
+	            	$possibleSets = [];
+
+	            	if( have_rows('game-sets', 'option') ) {
+				        
+				        while( have_rows('game-sets', 'option') ) {
+
+				            // instantiate row
+				            the_row();
+
+				            array_push( $possibleSets,  get_sub_field('title') );			            
+				        }			        
+				    }
+				    // Add required game sets to $gameSets array
+				    foreach ($possibleSets as &$possSet) {
+				    	if ( in_array( $possSet, $valueArray ) ) {
+
+				    		array_push($gameSets, $possSet);
+				    	}
+					}	           	
+	            }
+	        }        
+	    }
+	    return $gameSets;
+	};
+
+	function getPossibleGames() {
+
+		$possibleGames = [];
 
 		$args = array(
-			"category_name" => "game",
-			"tag" => $gameSet
+	        "category_name" => "game",
+	    );
+
+	    // Get all games
+	    $query = new WP_Query( $args );
+
+	    if ( $query->have_posts() ) {
+	        
+	        while ( $query->have_posts() ) {
+	     
+	            $query->the_post();
+
+	            $postID = get_the_ID();
+	            $gameName = get_the_title();
+	            array_push($possibleGames, $gameName);
+	        }
+	    }
+	    return $possibleGames;
+	};
+
+	function getGameData($gamesToLoad) {
+
+		$args = array(
+		   "post__in" => $gamesToLoad,
 		);
-		
+
+		// Get game data from database
 		$query = new WP_Query( $args );
+    
 		$retrievedArray = [];
-	    $returnData;
+		$returnData;
 		 
-		// Check that we have query results.
 		if ( $query->have_posts() ) {
-			// Start looping over the query results.
-		    while ( $query->have_posts() ) {
-		 
-		        $query->the_post();
+			
+			while ( $query->have_posts() ) {
+
+		    	$query->the_post();
 
 		        $postID = get_the_ID();
 		        $use_separate_instructions = false;
@@ -53,24 +118,17 @@
 		        $loading_options = get_field("loading-options", $postID);
 		        if(gettype($loading_options) == "array") {
 		        	foreach ($loading_options as $optn) {
-		        		// trigger_error($gameName . ' label: ' . $optn['label'] . '\n' . $gameName . ' value: ' . $optn['value']);
+		        		
 		        		if($optn["value"] == "instructions") {
 		        			$use_separate_instructions = true;
-		        			// trigger_error($gameName . ' has instructions');
 		        		} else if($optn["value"] == "suspended") {
 		        			$under_review = true;
-		        			// trigger_error($gameName . ' is suspended');
 		        		}
 		        	}		        	
 		        }
-		        
-		        // trigger_error($gameName . ': ' + $loading_options['instructions']);
-		        
-
 		        if( $under_review != 1 ){
 					array_push($retrievedArray, [
 			        	"gameName"=>$gameName,
-			        	// "url"=>content_url() . "/97dL81xtE49aXxa/" . $gameName, 
 			        	"url"=>get_permalink($postID),
 			        	"id"=>$postID, 
 			        	"instructions"=>$use_separate_instructions, 
@@ -88,17 +146,70 @@
 		} else {
 			$returnData = noGamesError();
 		}
-		// Restore original post data.
+		// Restore original post data
 		wp_reset_postdata();
 
 		return $returnData;
+	}
+
+	function getFromDB() {
+
+		$currUsrID = get_current_user_id();
+
+		// Membership Group for current user
+		$membershipGroup = get_field_object('membership-group-select', 'user_' . $currUsrID)['value'];
+		
+		// Game Sets from current user's Membership Group
+		$gameSets = getGameSets($membershipGroup);
+
+		// Array of possible games
+		$possibleGames = getPossibleGames();
+
+		// Array of game post ids to load
+		$gamesToLoad = []; 
+
+		if( have_rows('game-sets', 'option') ) {
+		        
+	        while( have_rows('game-sets', 'option') ) {
+
+        		// Array of required games to check against
+				$requiredGames = [];
+
+				// Array of Game/id name value pairs
+				$gameIDs = []; 
+
+	        	the_row();
+
+	            // 'Set 1', 'Set 2' etc
+	            $gameSet = get_sub_field('title');            
+
+	            // Check game set should be loaded
+				if( in_array($gameSet, $gameSets) ) {
+
+	            	// Get array of selected checkbox choices(FruitFlux etc)
+	            	$valueArray = get_sub_field('game-set-game-checkbox'); 	
+	            	
+	            	// Populate $gameIDs array
+	            	foreach ($valueArray as $va => $value) {
+	            		// array_push($requiredGames, $value['label']);
+	            		$gameIDs[$value['label']] = $value['value'];
+	            	}
+
+	            	// Add required games to $gamesToLoad
+				    foreach ($possibleGames as &$possGame) {				    	
+				    	if(array_key_exists($possGame, $gameIDs)) {
+				    		array_push($gamesToLoad, $gameIDs[$possGame]);	
+				    	}
+					}	           	
+	            }
+	        }        
+	    }
+	   	return getGameData($gamesToLoad);
 	};
 
 	switch ($reqType) {
 		case "initGameManager":	
-		// TODO: Retreive the user tag to use as arg in getFromDB()
-		// TODO: Setup user tags in Wordpress dashboard	
-		$dbFiles = getFromDB( "set-1" );
+		$dbFiles = getFromDB();
 		if( ! is_array($dbFiles) || array_key_exists ( "E_" , $dbFiles )){
 			$data["E_"] = $dbFiles["E_"];
 		} else {
@@ -121,7 +232,6 @@
 		$games = getFromDB("set-1");
 		echo json_encode( $games );
 		break;
-
 
 		case "errMssg":	
 
