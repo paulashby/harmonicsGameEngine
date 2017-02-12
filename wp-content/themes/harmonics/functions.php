@@ -63,9 +63,8 @@ function acf_load_game_choices( $field ) {
         
     $query = new WP_Query( $args );
 
-    // Check that we have query results.
     if ( $query->have_posts() ) {
-        // Start looping over the query results.
+       
         while ( $query->have_posts() ) {
      
             $query->the_post();
@@ -73,18 +72,14 @@ function acf_load_game_choices( $field ) {
             $postID = get_the_ID();
             $gameName = get_the_title();
 
-            // instantiate row
             the_row();
 
             $value = $postID;
             $label = $gameName;   
 
-            // append to choices
             $field['choices'][ $value ] = $label; 
         }
     }
-
-    // return the field
     return $field;    
 }
 add_filter('acf/load_field/name=game-set-game-checkbox', 'acf_load_game_choices');
@@ -96,29 +91,18 @@ function acf_load_set_choices( $field ) {
     // reset choices
     $field['choices'] = array();
 
-    // if has rows
     if( have_rows('game-sets', 'option') ) {
         
-        // while has rows
         while( have_rows('game-sets', 'option') ) {
 
-            // instantiate row
             the_row();
 
-            
-            // vars
             $value = get_sub_field('title');
             $label = get_sub_field('title');
-
             
-            // append to choices
-            $field['choices'][ $value ] = $label;
-            
-        }
-        
+            $field['choices'][ $label ] = $label;            
+        }        
     }
-
-    // return the field
     return $field;    
 }
 add_filter('acf/load_field/name=member-group-set-checkbox', 'acf_load_set_choices');
@@ -133,26 +117,16 @@ function acf_load_member_choices( $field ) {
     // if has rows
     if( have_rows('member-groups', 'option') ) {
         
-        // while has rows
         while( have_rows('member-groups', 'option') ) {
 
-            // instantiate row
             the_row();
 
-            
-            // vars
             $value = get_sub_field('title');
             $label = get_sub_field('title');
 
-            
-            // append to choices
-            $field['choices'][ $value ] = $label;
-            
-        }
-        
+            $field['choices'][ $value ] = $label;            
+        }        
     }
-
-    // return the field
     return $field;    
 }
 add_filter('acf/load_field/name=membership-group-select', 'acf_load_member_choices');
@@ -164,29 +138,18 @@ function acf_load_user_menu_item_choices( $field ) {
     // reset choices
     $field['choices'] = array();
 
-    // if has rows
     if( have_rows('menu-items', 'option') ) {
         
-        // while has rows
-        while( have_rows('menu-items', 'option') ) {            
+         while( have_rows('menu-items', 'option') ) {            
 
-            // instantiate row
             the_row();
 
-            
-            // vars
             $value = get_sub_field('title');
             $label = get_sub_field('title');
 
-            
-            // append to choices
-            $field['choices'][ $value ] = $label;
-            
-        }
-        
+            $field['choices'][ $value ] = $label;            
+        }        
     }
-
-    // return the field
     return $field;    
 }
 add_filter('acf/load_field/name=user-menu-items-title', 'acf_load_user_menu_item_choices');
