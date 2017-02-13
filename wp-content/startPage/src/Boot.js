@@ -553,10 +553,14 @@ f = f || {}; // our members and functions in here
 	};
 	f.GameIcon.prototype.onInputUp = function () {
 		if(! this.parent.swiping && this === f.activeIcon) {
-			// Do we want icons to react to clicks?
+			// Games can be started by tapping icon, or play button
+			var state = VTAPI.cloneState(f.state);
+			cleanUp(state);	
 		}
 		// enable click detection after swipe
-		this.parent.swiping = false;
+		if(this.parent) {
+			this.parent.swiping = false;
+		}
 	};
 	f.GameIcon.prototype.update = function () {
 		var distFromCentre = Phaser.Point.distance(this.worldPosition, f.CENTRE_POINT),
