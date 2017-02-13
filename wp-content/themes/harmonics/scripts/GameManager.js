@@ -4,7 +4,8 @@ var GameManager = (function () {
 	'use strict';
 	console.log('GameManager');
 	var
-	pauseEvent = new Event('pause'),
+	pauseEvent = new Event('pause'),	
+	exitEvent = new Event('exit'),
 	dburl,
 	NEXT_GAME_TIMEOUT = 15000,
 	GAMES_PER_SESSION = 3,	
@@ -32,6 +33,7 @@ var GameManager = (function () {
 	sessionState,
 	initialState,
 	showResults = false,
+	showDraw = false,
 	getRandomInt = function (min, max) {
 	    return Math.floor(Math.random() * (max - min + 1)) + min;
 	},
@@ -182,10 +184,11 @@ var GameManager = (function () {
 		initialState = [];
 		teamState = [];
 	},
-	_onGameOver = function (e) {
+	_onGameOver = function (exit) {
 		// TODO: Can we use onError to handle 404 in case an incorrect name is added on backend?
 		var menu = document.getElementById('menu');
 		showResults = true;
+		showDraw = !exit;
 		document.getElementById('ifrm').src = document.body.dataset.starturl;
 		clearTimeout(nextGameTimeout);
 		// Remove game related buttons from menu
@@ -232,6 +235,7 @@ var GameManager = (function () {
 		
 		// TODO: Might be an idea to include some kind of 'loading' anim
 		// http://stackoverflow.com/questions/12136788/show-a-loading-gif-while-iframe-page-content-loads
+		showDraw = false;
 		currGameUrl = gameUrl;
 		currGame = gameID;
 		redirectSufffix = showInstructions ? '/instructions' : '/game';
@@ -254,12 +258,21 @@ var GameManager = (function () {
 		return redirectSufffix;
 	},
 	_onMenuClick = function (e) {
-		var ifrm = document.getElementById('ifrm');
+		var ifrm = document.getElementById('ifrm'),
+		hideMenu = function () {
+			if(ifrm.classList.contains('showMenu')) {
+				// We're hiding the menu, so focus ifrm
+				ifrm.focus();
+			}
+			ifrm.classList.toggle('hideMenu');
+			ifrm.classList.toggle('showMenu');
+		};
 		document.getElementById('bodyElmt').focus();
 		if(e.target.dataset.category === 'exit') {
 			e.preventDefault();
 			if(document.getElementById('menu').classList.contains('showGameButtons')){
-				alert('GameManager exit');
+				window.dispatchEvent(exitEvent);
+				hideMenu();
 			}			
 		} else if(e.target.dataset.category === 'teamchange') {
 			e.preventDefault();			
@@ -267,12 +280,7 @@ var GameManager = (function () {
 				alert('GameManager teamchange');
 			}			
 		} else if(e.target.dataset.category === 'toggleMenu') {
-			if(ifrm.classList.contains('showMenu')) {
-				// We're hiding the menu, so focus ifrm
-				ifrm.focus();
-			}
-			ifrm.classList.toggle('hideMenu');
-			ifrm.classList.toggle('showMenu');
+			hideMenu();
 			window.dispatchEvent(pauseEvent);
 		}
 	},
@@ -360,14 +368,17 @@ var GameManager = (function () {
 		getResults: function () {			
 			return showResults ? _getState() : showResults;
 		},
+		getDrawVisibility: function () {
+			return showDraw;
+		},
 		setResultsMode: function (mode) {
 			return showResults = mode;
 		},
 		changePlayers: function () {
 			return _changePlayers();
 		},
-		onGameOver: function () {
-			return _onGameOver();
+		onGameOver: function (exit) {
+			return _onGameOver(exit);
 		},
 		onGameTimeout: function () {
 			return _onGameTimeout();
