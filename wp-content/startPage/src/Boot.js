@@ -62,6 +62,7 @@ f = f || {}; // our members and functions in here
 			f.playersReady.dispose();
 			f.gameInfoSwiped.dispose();
 			f.playAgain.dispose();
+			f.newGame.dispose();
 			f.changePlayers.dispose();
 			f.gamePlaySelected.dispose();
 			f.teamWheelActivated.dispose();
@@ -110,6 +111,7 @@ f = f || {}; // our members and functions in here
 	f.playersReady = new Phaser.Signal();
 	f.gameInfoSwiped = new Phaser.Signal();
 	f.playAgain = new Phaser.Signal();
+	f.newGame = new Phaser.Signal();
 	f.changePlayers = new Phaser.Signal();
 	f.gamePlaySelected = new Phaser.Signal();
 	f.teamWheelActivated = new Phaser.Signal();
@@ -744,22 +746,26 @@ f = f || {}; // our members and functions in here
 		this.addLabels();		
 
 		this.playAgainBttn = new f.ResultsButton(StartPage.game, - f.gameWidth * 0.11, - f.gameHeight * 0.133, 'resultsBttns', function () { f.playAgain.dispatch(); });
+		this.newGameBttn = new f.ResultsButton(StartPage.game, 0, - f.gameHeight * 0.133, 'resultsBttns', function () { f.newGame.dispatch(); }); 
 		this.changePlayersBttn = new f.ResultsButton(StartPage.game, f.gameWidth * 0.11, - f.gameHeight * 0.133, 'resultsBttns', function () { f.changePlayers.dispatch(); });
 		
 		this.changePlayersBttn.frame = 2;
 		this.add(this.playAgainBttn);	
+		this.newGameBttn.frame = 1;
+		this.add(this.newGameBttn);
 		this.add(this.changePlayersBttn);
 
 		this.playAgainBttn.scale.x = 1;
 		this.playAgainBttn.scale.y = 1;
+		this.newGameBttn.scale.x = 1;
+		this.newGameBttn.scale.y = 1;
 		this.changePlayersBttn.scale.x = 1;
 		this.changePlayersBttn.scale.y = 1;
 
-		this.drawTxt = StartPage.game.add.bitmapText(0, - f.gameHeight * 0.145, 'luckiestGuy', 'IT\'S A DRAW!', f.resultSize * 1.2);
-		this.drawTxt.align = 'center';
-		this.drawTxt.anchor.setTo(0.5, 0);
-		this.drawTxt.visible = false;
-		this.add(this.drawTxt);
+		this.drawLabel = StartPage.game.add.sprite(0, - f.gameHeight * 0.242, 'drawLabel', 0, this);
+		this.drawLabel.anchor.setTo(0.5, 0);
+		this.drawLabel.visible = false;
+		this.add(this.drawLabel);
 
 		f.addUItweens(this);
 		f.showResults.add(this.onShowResults, this);
@@ -772,7 +778,10 @@ f = f || {}; // our members and functions in here
 		}, this);
 		f.assignedTweens.push(this.changePlayersTween = StartPage.game.add.tween(this.scale).to( {x: 0, y: 0}, f.UI_TWEEN_DUR/2, Phaser.Easing.Back.In, false));
 		this.changePlayersTween.onComplete.add(function () { if(!f.playersChanging){f.playersChanging = true; top.GameManager.changePlayers();}}, this);
+		f.assignedTweens.push(this.newGameTween = StartPage.game.add.tween(this.scale).to( {x: 0, y: 0}, f.UI_TWEEN_DUR/2, Phaser.Easing.Back.In, false));
+		this.newGameTween.onComplete.add(function () { if(!f.gameChanging){f.gameChanging = true; f.playersReady.dispatch();}}, this);
 		f.playAgain.add(this.onPlayAgain, this);
+		f.newGame.add(this.onNewGame, this);
 		f.changePlayers.add(this.onChangePlayers, this);
 	};
 	f.ResultsGroup.prototype = Object.create(Phaser.Group.prototype);
@@ -835,6 +844,9 @@ f = f || {}; // our members and functions in here
 	};	
 	f.ResultsGroup.prototype.onPlayAgain = function () {
 		this.scaleDownTween.start();
+	};
+	f.ResultsGroup.prototype.onNewGame = function () {
+		this.newGameTween.start();
 	};
 	f.ResultsGroup.prototype.getWinningTeams = function () {		
 
@@ -972,7 +984,7 @@ f = f || {}; // our members and functions in here
 		if((teamPlay && winners.length === parent.GameManager.getTeamRankings().length) ||
 			(!teamPlay && winners.length === f.results.length) ) {
 			// Everybody won - must be draw
-			this.drawTxt.visible = true;
+			this.drawLabel.visible = true;
 			this.hidePlayerPanels();
 		} else {
 			this.showMembers(winners, teamPlay, losers.length);

@@ -273,7 +273,12 @@
 
 			f.playersReady.add(function () {
 				// Add game selection menu
-				f.gameSelectionMenu = new this.GameSelectionMenu(StartPage.game, this.HALF_WIDTH, this.HALF_HEIGHT);
+				if(! f.gameSelectionMenu) {
+					f.gameSelectionMenu = new this.GameSelectionMenu(StartPage.game, this.HALF_WIDTH, this.HALF_HEIGHT);	
+				} else {
+					f.gameSelectionMenu.fadeInTween.start();
+				}				
+				f.gameChanging = false;
 			}, f);			
 	    },
 	    update: function () {	    	  

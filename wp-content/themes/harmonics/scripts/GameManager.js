@@ -212,8 +212,9 @@ var GameManager = (function () {
 		}
 		return sessionState ? cloneState(sessionState) : [];
 	},
-	_startSession = function (state, gameUrl, gameID, showInstructions) {
-		if(state) {
+	_startSession = function (state, gameUrl, gameID, showInstructions) {	 
+
+		if((! sessionState || sessionState.length === 0) && state) {
 			// Players have just regsitered, save this state in case they play again
 			initialState = cloneState(state);
 			sessionState = state;	
@@ -363,7 +364,7 @@ var GameManager = (function () {
 			return showResults = mode;
 		},
 		changePlayers: function () {
-			return _changePlayers()
+			return _changePlayers();
 		},
 		onGameOver: function () {
 			return _onGameOver();

@@ -57,6 +57,7 @@
 			this.load.image('teamNumRing3', '../assets/trTeamNums3.png');
 			this.load.image('gamePlayRing', '../assets/trGamePlay.png');
 			this.load.image('playBttn', '../assets/playBttn.png');
+			this.load.image('drawLabel', '../assets/drawLabel.png');
 			this.load.spritesheet('pointers', '../assets/ringPointers.png', 152, 70, 2);
 			this.load.spritesheet('winnerLoserLabels', '../assets/winnerLoserLabels.png', 227, 33, 2);
 			this.load.spritesheet('winnerLoserTeamLabels', '../assets/winnerLoserTeamLabels.png', 224, 33, 2);
