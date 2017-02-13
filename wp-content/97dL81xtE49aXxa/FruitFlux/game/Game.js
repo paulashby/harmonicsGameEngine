@@ -9,8 +9,6 @@
 	f.gameStarted = false;
 	f.reassignmentRunning = false;
 	f.endLevelPending = false;
-
-	top.window.addEventListener('pause', function (e) { FruitFlux.game.paused = ! FruitFlux.game.paused; }, false);
 	
 	var FruitGroup = function (game, descending) {
 
@@ -365,7 +363,7 @@
 				f.sound[12].play();
 				f.countdownTimer = FruitFlux.game.time.events.add(f.PANEL_DELAY, countdownPulse, this, 0);
 			},
-			gameOver = function () {
+			gameOver = function (exit) {
 				var removeSound = function(_sound) {
 						_sound.stop();
 						_sound = null;		
@@ -468,7 +466,12 @@
 					}
 				}
 				top.window.removeEventListener('pause', function (e) { FruitFlux.game.paused = ! FruitFlux.game.paused; }, false);
-				VTAPI.onGameOver();									
+				top.window.removeEventListener('exit', function (e) { gameOver(true); }, false);
+				if(exit) {
+					VTAPI.onGameOver(true);
+				} else {
+					VTAPI.onGameOver();	
+				}								
 		    },
 			startCountdown = function () {
 				var 
@@ -997,7 +1000,9 @@
 			f.allFruit.timer.add(1000, f.allFruit.fluxAll, this);
 			f.allFruit.timer.start();			
 			setLevelTimers();
-			
+
+			top.window.addEventListener('pause', function (e) { FruitFlux.game.paused = ! FruitFlux.game.paused; }, false);
+			top.window.addEventListener('exit', function (e) { gameOver(true); }, false);			
 			// window.setTimeout(gameOver, 3000);			
 	    },
 
