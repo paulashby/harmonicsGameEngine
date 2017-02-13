@@ -988,7 +988,9 @@ f = f || {}; // our members and functions in here
 		if((teamPlay && winners.length === parent.GameManager.getTeamRankings().length) ||
 			(!teamPlay && winners.length === f.results.length) ) {
 			// Everybody won - must be draw
-			this.drawLabel.visible = true;
+			if(top.GameManager.getDrawVisibility()){
+				this.drawLabel.visible = true;
+			}
 			this.hidePlayerPanels();
 		} else {
 			this.showMembers(winners, teamPlay, losers.length);
