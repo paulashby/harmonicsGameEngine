@@ -262,7 +262,10 @@ var VTAPI = (function (GameManager) {
     startGame: function () {
       _startGame();
     },
-    onGameOver: function () {  
+    onGameOver: function (exit) { 
+      if(exit){
+        return GameManager.onGameOver(true);
+      } 
       return testing ? {success: true, data: 'Loading next game'} : GameManager.onGameOver();      
     },
     onGameTimeout: function () {
