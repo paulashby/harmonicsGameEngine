@@ -10,9 +10,7 @@
 	f.reassignmentRunning = false;
 	f.endLevelPending = false;
 	f.fruitByZone = [];
-	
-	top.window.addEventListener('pause', function (e) { FruitFlux.game.paused = ! FruitFlux.game.paused; }, false);
-	
+
 	var 
 	// fruitByZone is an array containing the background fruit,
 	// ordered by zone. For eg, fruitByZone[0] is fruit for zone 0
@@ -228,7 +226,7 @@
 				}
 				f.endLevel();			
 			},
-			gameOver = function () {
+			gameOver = function (exit) {
 				var 
 				removeSound = function(_sound) {
 					_sound.stop();
@@ -313,10 +311,13 @@
 					}		
 				}
 				// Countdown fruit - remove tweens
-				len = f.countdownGroup.length;
-				for(i = 0; i < len; i++){
-					removeTweens(f.countdownGroup.getAt(i), ['scaleTween', 'scaleUpTween']);
-				}
+				if(f.countdownGroup) {
+					len = f.countdownGroup.length;
+					for(i = 0; i < len; i++){
+						removeTweens(f.countdownGroup.getAt(i), ['scaleTween', 'scaleUpTween']);
+					}
+					f.countdownGroup.destroy();
+				}				
 				len = f.sound.length;
 				for(i = 0; i < len; i++){
 					removeSound(f.sound[i]);
@@ -329,7 +330,6 @@
 				
 				// destroy groups
 				f.allFruit.destroy();
-				f.countdownGroup.destroy();
 				f.homeZones.destroy();
 				
 				// delete properties of f
@@ -339,7 +339,12 @@
 					}
 				}
 				top.window.removeEventListener('pause', function (e) { FruitFlux.game.paused = ! FruitFlux.game.paused; }, false);
-				VTAPI.startGame();
+				top.window.addEventListener('exit', function (e) { f.gameOver(true); }, false);
+				if(exit) {
+					VTAPI.onGameOver(true);
+				} else {
+					VTAPI.startGame();	
+				}
 		    },
 			addCountdownTweens = function (currFruit) {
 				currFruit.scaleTweenCallback = function () {
@@ -807,6 +812,9 @@
 			f.instructionTimers.push(FruitFlux.game.time.events.add(5000, showScoreTap, this));	
 			f.instructionTimers.push(FruitFlux.game.time.events.add(5500, showTap, this));
 			f.instructionTimers.push(FruitFlux.game.time.events.add(8000, hideTap, this));
+
+			top.window.addEventListener('pause', function (e) { FruitFlux.game.paused = ! FruitFlux.game.paused; }, false);
+			top.window.addEventListener('exit', function (e) { gameOver(true); }, false);
 		}
 	};
 }());

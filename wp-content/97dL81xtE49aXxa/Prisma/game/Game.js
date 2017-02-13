@@ -4,8 +4,6 @@
 
 	"use strict";	
 
-	top.window.addEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
-
 	f.fabIndices = [];
 	f.demo = false;
 	f.getHypotenuse = function (width, height) {
@@ -1143,7 +1141,7 @@
 			countdown = function () {
 				f.countdownTimer = Prisma.game.time.events.add(f.PANEL_DELAY, countdownPulse, this, 0);
 			},
-			gameOver = function (gameTimeout) {
+			gameOver = function (gameTimeout, exit) {
 				var
 				removeSound = function(sound) {
 					sound.stop();
@@ -1254,8 +1252,11 @@
 				}
 				Prisma.game.paused = true;
 				top.window.removeEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
+				top.window.removeEventListener('exit', function (e) { gameOver(false, true); }, false);
 				if(gameTimeout) {
 					VTAPI.onGameTimeout();
+				} else if (exit) {
+					VTAPI.onGameOver(true);
 				} else {
 					VTAPI.onGameOver();
 				}				
@@ -1902,6 +1903,9 @@
 				gameOver(true);
 			}
 			f.inactivityTimer = f.getTimer(f, 'inactivityHandler', f.MAX_INACTIVITY);
+
+		    top.window.addEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
+		    top.window.addEventListener('exit', function (e) { gameOver(false, true); }, false);
 	    },
 	    update: function () {
 	    	if(f.draggedPrisms > 0) {

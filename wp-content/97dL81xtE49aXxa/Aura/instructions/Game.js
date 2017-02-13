@@ -5,6 +5,7 @@
 	"use strict";
 
 	top.window.addEventListener('pause', function (e) { Aura.game.paused = ! Aura.game.paused; }, false);
+	top.window.addEventListener('exit', function (e) { f.gameOver(true); }, false);
 	
 	f.level = 0;
 	f.levelOver = true;
@@ -13,7 +14,7 @@
 	f.removeInstructionTweens = function (instruction) {
 		f.removeTweens(instruction, ['scaleTween', 'pauseTween', 'scaleDownTween']);
 	};	
-	f.gameOver = function () {
+	f.gameOver = function (exit) {
 		var 
 		removeSound = function(_sound) {
 			_sound.stop();
@@ -46,8 +47,10 @@
 				Aura.game.time.events.remove(f.instructionTimers[i]);
 			}		
 		}
-		f.removeTween(f.countdownSprite.alphaInTween);
-		f.countdownSprite.destroy();
+		if(f.countdownSprite) {
+			f.removeTween(f.countdownSprite.alphaInTween);
+			f.countdownSprite.destroy();
+		}		
 		len = f.sound.length;
 		for(i = 0; i < len; i++){
 			removeSound(f.sound[i]);
@@ -68,7 +71,12 @@
 		}
 		Aura.game.paused = true;
 		top.window.removeEventListener('pause', function (e) { Aura.game.paused = ! Aura.game.paused; }, false);
-		VTAPI.startGame();
+		top.window.addEventListener('exit', function (e) { f.gameOver(true); }, false);
+		if(exit) {
+			VTAPI.onGameOver(true);
+		} else {
+			VTAPI.startGame();	
+		}		
     };
     f.startDemo = (function () {
 		var addTap = function (currZone, demoDiscNum) {

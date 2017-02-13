@@ -3,8 +3,6 @@
 (function () {
 	
 	"use strict";
-
-	top.window.addEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
 	
 	f.boundsLines = [
 		// clockwise from TL
@@ -973,7 +971,7 @@
 				f.gameOver = true;
 				f.endLevel();			
 			},
-			gameOver = function () {
+			gameOver = function (exit) {
 				var 
 				removeSound = function(_sound) {
 					_sound.stop();
@@ -1043,10 +1041,13 @@
 					}		
 				}
 				// Countdown Elements - remove tweens
-				len = f.countdownGroup.length;
-				for(i = 0; i < len; i++){
-					removeTweens(f.countdownGroup.getAt(i), ['scaleTween', 'scaleUpTween']);
-				}
+				if(f.countdownGroup) {
+					len = f.countdownGroup.length;
+					for(i = 0; i < len; i++){
+						removeTweens(f.countdownGroup.getAt(i), ['scaleTween', 'scaleUpTween']);
+					}	
+					f.countdownGroup.destroy();				
+				}				
 				len = f.sound.length;
 				for(i = 0; i < len; i++){
 					removeSound(f.sound[i]);
@@ -1057,8 +1058,6 @@
 				Prisma.game.time.events.remove(f.levelRestartTimer);
 				Prisma.game.time.events.remove(f.endTimer);
 				
-				// destroy groups
-				f.countdownGroup.destroy();
 				f.bg.destroy();
 				
 				// delete properties of f
@@ -1068,7 +1067,12 @@
 					}
 				}
 				top.window.removeEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
-				VTAPI.startGame();
+				top.window.addEventListener('exit', function (e) { f.gameOver(true); }, false);
+				if(exit) {
+					VTAPI.onGameOver(true);
+				} else {
+					VTAPI.startGame();	
+				}				
 		    },
 			addCountdownTweens = function (currElmt) {
 				currElmt.scaleTweenCallback = function () {
@@ -1532,7 +1536,10 @@
 			f.instructionTimers.push(Prisma.game.time.events.add(6000, showTap, this));
 			f.instructionTimers.push(Prisma.game.time.events.add(5000, f.showPrisms, this));
 			f.instructionTimers.push(Prisma.game.time.events.add(5500 + instructionDelay, showInstruction, this, 'instruction3'));	
-			f.instructionTimers.push(Prisma.game.time.events.add(5500 + (instructionDelay * 2), showInstruction, this, 'instruction4'));			
+			f.instructionTimers.push(Prisma.game.time.events.add(5500 + (instructionDelay * 2), showInstruction, this, 'instruction4'));
+
+			top.window.addEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
+			top.window.addEventListener('exit', function (e) { gameOver(true); }, false);			
 		},
 	    update: function () {
 	    	var 

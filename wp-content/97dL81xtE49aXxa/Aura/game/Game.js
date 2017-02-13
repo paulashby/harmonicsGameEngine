@@ -138,7 +138,7 @@
 					f.countdownSprite.alphaInTween.start();
 				}
 			},
-			gameOver = function () {
+			gameOver = function (exit) {
 				var
 				removeSound = function(sound) {
 					sound.stop();
@@ -245,7 +245,12 @@
 				}
 				Aura.game.paused = true;
 				top.window.removeEventListener('pause', function (e) { Aura.game.paused = ! Aura.game.paused; }, false);
-				VTAPI.onGameOver();
+				top.window.removeEventListener('exit', function (e) { gameOver(true); }, false);				
+				if(exit) {
+					VTAPI.onGameOver(true);
+				} else {
+					VTAPI.onGameOver();	
+				}
 		    },
 		    returnScores = function () {
 				var rankElements = function (arr, rankingAttr) {
@@ -840,7 +845,8 @@
 			}			
 
 			f.gameStarted = true;
-
+			top.window.addEventListener('pause', function (e) { Aura.game.paused = ! Aura.game.paused; }, false);
+			top.window.addEventListener('exit', function (e) { gameOver(true); }, false);
 			// window.setTimeout(gameOver, 1000);
 	    },
 	    update: function () {
@@ -916,7 +922,4 @@
 		render: function () {
 	    }
 	};
-
-	top.window.addEventListener('pause', function (e) { Aura.game.paused = ! Aura.game.paused; }, false);
-
 }());
