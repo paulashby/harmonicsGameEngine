@@ -1084,7 +1084,6 @@ f = {
 	// Let's assume for now it's organised as an array with null entries for empty zones
 	//f.players = [null, 'Graham', 'John', 'TerryG', null, 'TerryJ', 'Eric', 'Michael'];
 	f.teams = [];
-	f.numPlayers = 0;
 
 	// Populate team and player arrays with data from API
 
