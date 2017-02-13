@@ -997,6 +997,7 @@
 			f.allFruit.timer.add(1000, f.allFruit.fluxAll, this);
 			f.allFruit.timer.start();			
 			setLevelTimers();
+			
 			// window.setTimeout(gameOver, 3000);			
 	    },
 
