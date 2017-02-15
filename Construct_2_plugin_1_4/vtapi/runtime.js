@@ -44,9 +44,8 @@ cr.plugins_.VTapi = function(runtime)
 		// note the object is sealed after this call; ensure any properties you'll ever need are set on the object
 		// e.g...
 		// this.myValue = 0;
-		// Add listeners to both window and window.top for testing and live environments respectively
-		window.addEventListener('pause', function (e) { c2_callFunction('pauseGame'); }, false);
 		window.top.addEventListener('pause', function (e) { c2_callFunction('pauseGame'); }, false);
+		window.top.addEventListener('exit', function (e) { c2_callFunction('exitGame'); }, false);
 	};
 	
 	// called whenever an instance is destroyed
@@ -54,9 +53,8 @@ cr.plugins_.VTapi = function(runtime)
 	// to release/recycle/reset any references to other objects in this function.
 	instanceProto.onDestroy = function ()
 	{
-		// Add listeners to both window and window.top for testing and live environments respectively
-		window.removeEventListener('pause', function (e) { c2_callFunction('pauseGame'); }, false);
 		window.top.removeEventListener('pause', function (e) { c2_callFunction('pauseGame'); }, false);
+		window.top.removeEventListener('exit', function (e) { c2_callFunction('exitGame'); }, false);
 	};
 	
 	// called when saving the full state of the game
@@ -145,6 +143,14 @@ cr.plugins_.VTapi = function(runtime)
 	// Actions
 	function Acts() {};
 	pluginProto.acts = new Acts();
+	Acts.prototype.TriggerExitEvent = function ()
+	{
+		VTAPI.dispatchExitEvent();
+	};
+	Acts.prototype.TriggerPauseEvent = function ()
+	{
+		VTAPI.dispatchPauseEvent();
+	};
 	
 	//////////////////////////////////////
 	// Expressions

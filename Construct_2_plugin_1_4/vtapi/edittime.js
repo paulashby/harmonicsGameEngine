@@ -17,7 +17,8 @@
 
 ////////////////////////////////////////
 // Actions
-
+AddAction(0, 0, "Trigger Exit Event For Testing", "Misc", "Trigger Exit Event", "Trigger an Exit Event to test that your game is detecting it", "TriggerExitEvent");
+AddAction(1, 0, "Trigger Pause Event For Testing", "Misc", "Trigger Pause Event", "Trigger a Pause Event to test that your game is detecting it", "TriggerPauseEvent");
 ////////////////////////////////////////
 // Expressions
 AddExpression(0, ef_return_string, "Leet expression", "API", "GetPlayersInformation", "Get players information");
@@ -27,7 +28,6 @@ AddExpression(3, ef_return_string, "Leet expression", "API", "insertScores", "Re
 
 AddExpression(7, ef_return_string, "Leet expression", "API", "onGameOver", "Notify GameManager that game has freed all memory and is ready to shutdown");
 
-////////////////////////////////////////
 ACESDone();
 
 var property_list = [
