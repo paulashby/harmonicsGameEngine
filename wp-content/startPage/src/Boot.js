@@ -459,7 +459,7 @@ f = f || {}; // our members and functions in here
 	f.StartButton.prototype.constructor = f.StartButton;
 	f.StartButton.prototype.onInputDown = function () {
 		f.teamWheel.scaleDownTween.start();
-		// f.startSound.play();
+		f.startSound.play();
 	};
 
 	f.PlayButton = function (game, x, y) {		
@@ -467,9 +467,12 @@ f = f || {}; // our members and functions in here
 	};
 	f.PlayButton.prototype = Object.create(f.StartButton.prototype);
 	f.PlayButton.prototype.constructor = f.PlayButton;
-	f.PlayButton.prototype.onInputDown = function () {
-		var state = VTAPI.cloneState(f.state);
-		cleanUp(state);	
+	f.PlayButton.prototype.onInputDown = function () {	
+		// Check parent alpha to avoid unintentional triggering 
+		if(this.parent.alpha === 1) {					
+			var state = VTAPI.cloneState(f.state);
+			cleanUp(state);
+		}	
 	};
 
 	f.ResultsButton = function (game, x, y, imgName, inputDownHandler) {
