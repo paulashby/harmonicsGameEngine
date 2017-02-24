@@ -6,6 +6,7 @@ var GameManager = (function () {
 	var
 	pauseEvent = new Event('pause'),	
 	exitEvent = new Event('exit'),
+	reteam = false,
 	dburl,
 	NEXT_GAME_TIMEOUT = 15000,
 	GAMES_PER_SESSION = 3,	
@@ -187,7 +188,12 @@ var GameManager = (function () {
 	_onGameOver = function (exit) {
 		// TODO: Can we use onError to handle 404 in case an incorrect name is added on backend?
 		var menu = document.getElementById('menu');
-		showResults = true;
+		if(reteam) {
+			_changePlayers();
+			reteam = false;
+		} else {
+			showResults = true;	
+		}
 		showDraw = !exit;
 		document.getElementById('ifrm').src = document.body.dataset.starturl;
 		clearTimeout(nextGameTimeout);
@@ -277,7 +283,9 @@ var GameManager = (function () {
 		} else if(e.target.dataset.category === 'teamchange') {
 			e.preventDefault();			
 			if(document.getElementById('menu').classList.contains('showGameButtons')){
-				alert('GameManager teamchange');
+				reteam = true;
+				window.dispatchEvent(exitEvent);
+				hideMenu();
 			}			
 		} else if(e.target.dataset.category === 'toggleMenu') {
 			hideMenu();
