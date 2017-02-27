@@ -33,13 +33,14 @@
 				    if( have_rows("menu-items", "option") ) {
 
 				    	echo "<ul>";
+
+				    	$currUser ="user_" . get_current_user_id();
 	        
 				        while( have_rows("menu-items", "option") ) {
 				        	
 				        	the_row();
 				        	$title = get_sub_field("title");
 				        	$linkURL = get_sub_field("link-url");
-				        	$currUser ="user_" . get_current_user_id();
 
 				        	// Check for URL overrides entered on user page
 				        	if( have_rows("user-menu-items", $currUser)){
@@ -65,8 +66,14 @@
 				        		echo "<li class='" . $title . "'><a href='" . $linkURL . "'><img src='" . get_template_directory_uri() . "/css/img/menu_" . $title . ".png' alt='" . $title . "' data-category='" . $title . "'></a></li>";	
 				        	}			        				        	
 				        }
-				        echo "<li id='exitBttn' class='exitGame'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_exitgame.png' alt='exit game' data-category='exit'></a></li>
-				        	<li id='teamBttn' class='changeTeams'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_changeteams.png' alt='change teams' data-category='teamchange'></a></li>
+				        echo "
+					        <li class='logoutBttn'>";				        	
+				        	$ServicesPageName = get_field('services-page-name', $currUser);
+							$redirectURL = esc_url( content_url(). '/servicespages/' . $ServicesPageName );
+							$redirectString = '[logout redirect="' . $redirectURL . '"]';
+				        	echo do_shortcode( $redirectString ) . "</li>
+			        		<li class='exitBttn exitGame'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_exitgame.png' alt='exit game' data-category='exit'></a></li>
+				        	<li class='teamBttn changeTeams'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_changeteams.png' alt='change teams' data-category='teamchange'></a></li>				        	
 				        </ul>
 				        </div>";
 				    }
@@ -78,6 +85,5 @@
 		<div class='cornerBttn' id='bottomBttn' data-category='toggleMenu'></div>
 		<div class='cornerBttn' id='topBttn' data-category='toggleMenu'></div>		
 	</body>
-</html>";
-?>	
+</html>
 		

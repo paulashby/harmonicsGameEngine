@@ -1,0 +1,38 @@
+body.login 
+{
+	background-image: url('../../../startPage/assets/bg.jpg');
+    background-color: #cccccc;
+}
+body.login div#login h1 
+{
+	position: relative;
+	left: -3px;
+}
+body.login div#login h1 a 
+{
+	background-image: url('img/3rdHarmonicsLogo-login.png');
+	background-size: 326px;
+	width: 326px;
+}
+body.login div#login p#backtoblog,
+body.login div#login p#nav a 
+{
+	display: none;
+}
+body.login div#login p.message
+{
+	border: none;
+	background-color: transparent;
+	color: #fff;
+	padding: 0;
+	font-size: 1.15em;
+	position: relative;
+    top: 320px;
+}
+body.login div#login form#loginform input#wp-submit 
+{
+    background-color: #532fac;
+    border: medium none;
+    box-shadow: none;
+    text-shadow: none;
+}

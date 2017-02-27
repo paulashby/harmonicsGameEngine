@@ -18,3 +18,9 @@ wp-mail.php
 license.txt
 wp-content/plugins/advanced-custom-fields-pro/
 wp-content/plugins/easy-repeater/
+Windows_10_tests/
+wp-content/plugins/log-out-shortcode/readme.txt
+
+wp-content/plugins/log-out-shortcode/log-out-shortcode.php
+
+wp-content/plugins/.DS_Store

@@ -22,6 +22,14 @@ function enqueue_by_template() {
   }
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_by_template' );
+
+
+function custom_login_stylesheet() {
+
+    wp_enqueue_style( 'custom-login', get_template_directory_uri() . '/css/login.css' );
+}
+add_action( 'login_enqueue_scripts', 'custom_login_stylesheet' );
+
 /* Remove admin bar for all logged in users - else shows when viewing site */
 add_filter( 'show_admin_bar', '__return_false' );
 

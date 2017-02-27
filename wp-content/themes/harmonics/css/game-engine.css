@@ -10,44 +10,83 @@ body {
 	overflow: hidden;
 	background-color: #000;
 }
-#menu #exitBttn,
-#menu #teamBttn{
+#menu .exitBttn,
+#menu .teamBttn
+{
 	opacity: 0;
+	position: relative;
+	left: 102px;
 }
-#menu.showGameButtons #exitBttn,
-#menu.showGameButtons #teamBttn{
-	opacity: 1;
+#menu .teamBttn img
+{
+	margin-left: -10px;
 }
-.menu {
-	margin: auto;
-	left: 662px;
-	bottom: 10px;
+#menu.showGameButtons .exitBttn,
+#menu.showGameButtons .teamBttn
+{
+	opacity: 1;	
+}
+#menu .logoutBttn
+{
+	display: block;
+	background-image: url('img/menu_logout.png');
+	background-repeat: no-repeat;
+	left: 561px;
+	top: 15px;
+	position:absolute;
+	width: 113px;
+	height: 113px;
+}
+#menu .showGameButtons .logoutBttn
+{
+	left: 106px;
+}
+#menu{
 	position: absolute;
 }
+.menu 
+{
+	margin: auto;
+	left: 614px;
+	bottom: 10px;
+	position: absolute;
+	width: 870px;
+}
 .showGameButtons .menu {
-	left: 518px;
+	left: 0;
 }
 .menuTop {
-	transform: rotate(180deg) translate(130%, 730%);
+	transform: rotate(180deg) translate(120%, 739%);
 	transform-origin: 100% 0;
+	top: 122px;
+	left: 610px;
 }
 .showGameButtons .menuTop {
-	transform: rotate(180deg) translate(95%, 730%);
+	transform: rotate(180deg) translate(38%, 730%);
+}
+.menuBottom
+{
+	left: 613px;
+	top: 959px;	
+}
+.showGameButtons .menuBottom
+{
+	left: 513px;
 }
 .menuRight {
-	transform: rotate(-90deg) translate(114%, 255%);
+	transform: rotate(-90deg) translate(-16%, 278%);
 	transform-origin: 100% 0;
 }
 .showGameButtons .menuRight {
-	transform: rotate(-90deg) translate(97%, 370%);
+	transform: rotate(-90deg) translate(-27.5%, 820%);
 	transform-origin: 100% 0;
 }
 .menuLeft {
-	transform: rotate(90deg) translate(16%, 1222%);
+	transform: rotate(90deg) translate(136.5%, 1205%);
 	transform-origin: 100% 0;
 }
 .showGameButtons .menuLeft {
-	transform: rotate(90deg) translate(-1%, 1095%);
+	transform: rotate(90deg) translate(125%, 661%);
 	transform-origin: 100% 0;
 }
 li a {
@@ -61,16 +100,16 @@ li a {
     padding: 0;
     overflow: hidden;
 }
-
 .menu li {
     float: left;
     margin-top: -6px;
     height: 119px;
     width: 113px;
 }
-.exitGame {
-	margin-left: 60px;
+.menu li.games {
+    width: 93px;
 }
+
 .menu li a {
     display: block;
     color: white;
