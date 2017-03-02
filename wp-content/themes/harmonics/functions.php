@@ -11,14 +11,25 @@
 
 function enqueue_by_template() {
 
-	if ( is_page_template( 'game-engine.php' ) ) {
-  	/** Call game-engine enqueue */
-  	wp_enqueue_style( 'game-engine.css', get_template_directory_uri() . '/css/game-engine.css' );
-    wp_register_script('GameManager', get_template_directory_uri() . '/scripts/GameManager.js' );
-    wp_enqueue_script( 'GameManager');
-    
-  } else {
-    /** Call regular enqueue */
+    if ( is_page_template( 'game-engine.php' ) ) {
+
+        wp_enqueue_style( 'game-engine.css', get_template_directory_uri() . '/css/game-engine.css' );
+        wp_register_script('GameManager', get_template_directory_uri() . '/scripts/GameManager.js' );
+        wp_enqueue_script( 'GameManager');
+
+    } else if ( is_page_template( 'apps-category.php' ) ) {
+
+        wp_register_script('Phaser', content_url() . '/appsCategory/src/phaser.js' );
+        wp_enqueue_script( 'Phaser');
+        wp_register_script('Boot', content_url() . '/appsCategory/src/Boot.js' );
+        wp_enqueue_script( 'Boot');
+        wp_register_script('Preloader', content_url() . '/appsCategory/src/Preloader.js' );
+        wp_enqueue_script( 'Preloader');
+        wp_register_script('Game', content_url() . '/appsCategory/src/Game.js' );
+        wp_enqueue_script( 'Game');
+
+    } else {
+        /** Call regular enqueue */
   }
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_by_template' );

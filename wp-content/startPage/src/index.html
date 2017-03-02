@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8" />
-	<title>Fruit Flux Game</title>
+	<title>Start Page</title>
 	<script src="phaser.js"></script>
 	<script src="swipe.js"></script>
 	<script src="../../../moduleTest/vt-api-1.4.js"></script>
@@ -26,14 +26,15 @@
 
 <script type="text/javascript">
 
-window.onload = function() {
-	StartPage.game = new Phaser.Game(f.gameWidth, f.gameHeight, Phaser.AUTO, 'gameContainer');
+	window.onload = function() {
+		
+		StartPage.game = new Phaser.Game(f.gameWidth, f.gameHeight, Phaser.AUTO, 'gameContainer');
 
-	StartPage.game.state.add('Boot', StartPage.Boot);
-	StartPage.game.state.add('Preloader', StartPage.Preloader);
-	StartPage.game.state.add('Game', StartPage.Game);
-	StartPage.game.state.start('Boot');
-};
+		StartPage.game.state.add('Boot', StartPage.Boot);
+		StartPage.game.state.add('Preloader', StartPage.Preloader);
+		StartPage.game.state.add('Game', StartPage.Game);
+		StartPage.game.state.start('Boot');
+	};
 
 </script>
 
