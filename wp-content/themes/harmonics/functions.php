@@ -27,6 +27,8 @@ function enqueue_by_template() {
         wp_enqueue_script( 'Preloader');
         wp_register_script('Game', content_url() . '/appsCategory/src/Game.js' );
         wp_enqueue_script( 'Game');
+        wp_register_script('GameOver', content_url() . '/appsCategory/src/GameOver.js' );
+        wp_enqueue_script( 'GameOver');
 
     } else {
         /** Call regular enqueue */
