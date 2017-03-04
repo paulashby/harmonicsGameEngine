@@ -88,7 +88,7 @@
 
 window.onload = function() {
 	
-	AppsCategory.game = new Phaser.Game(f.gameWidth, f.gameHeight, Phaser.AUTO, 'gameContainer', null, true);
+	AppsCategory.game = new Phaser.Game(f.GAME_WIDTH, f.GAME_HEIGHT, Phaser.AUTO, 'gameContainer', null, true);
 
 	AppsCategory.game.state.add('Boot', AppsCategory.Boot);
 	AppsCategory.game.state.add('Preloader', AppsCategory.Preloader);

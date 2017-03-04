@@ -8,24 +8,19 @@ f = f || {}; // our members and functions in here
 	
 	"use strict";
 	
-
-	f.HALF_WIDTH = 1920/2;
-	f.HALF_HEIGHT = 1080/2;
+	f.GAME_WIDTH = 1920; 
+	f.GAME_HEIGHT = 1080;
+	f.HALF_WIDTH = f.GAME_WIDTH/2;
+	f.HALF_HEIGHT = f.GAME_HEIGHT/2;
 	f.PULSE_DUR = 600;
 	f.PULSE_INTERVAL = 200;
 	f.GEAR_SPEED = 0.1;
-	f.gameWidth = 1920;
-	f.gameHeight = 1080;
+
 	f.assignedTweens = [];
 	f.servicesURL = false;
 	f.numSecondaryCategories = 0;
 	f.pulseSignal = new Phaser.Signal();	
 		
-	f.mapToRange = function (currVal, minIn, maxIn, minOut, maxOut) { 
-		// map currVal in range minIn - maxIn to range minOut - maxOut
-		var clamped = currVal === 0 ? maxOut : currVal / maxIn / maxOut;
-		return clamped + ((1 - clamped) * minOut); 
-	};
 	f.normaliseAngle = function (ang) {
 		return ang + 360;
 	};
