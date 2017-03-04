@@ -18,12 +18,12 @@
 				// (the top and bottom of the table only has panels in centre zone)
 				return zoneNum > 0 && zoneNum % 2 !== 0;				
 			},	
-			posInset = f.inset = Math.floor(f.gameWidth/20),
+			posInset = f.inset = Math.floor(f.GAME_WIDTH/20),
 			sideInset = Math.floor(posInset * 2.4),
 			innerSideL = sideInset,
-			innerSideR = f.gameWidth - sideInset,
-			rightPos = f.gameWidth - posInset,
-			bottomPos = f.gameHeight - posInset,
+			innerSideR = f.GAME_WIDTH - sideInset,
+			rightPos = f.GAME_WIDTH - posInset,
+			bottomPos = f.GAME_HEIGHT - posInset,
 			homeSettings = [
 				// Clockwise from TL
 				{x: innerSideL, y: posInset , angle: 180},
@@ -114,7 +114,7 @@
 						f.changePlayers.add(homeZoneGroup.joinBttn.onChangePlayers, homeZoneGroup.joinBttn);
 						f.showInterface.add(scaleUp, homeZoneGroup.joinBttn);
 
-						homeZoneGroup.playerLabel = StartPage.game.add.bitmapText(0, f.gameHeight/15, 'luckiestGuy', '', f.playerLabelSize);
+						homeZoneGroup.playerLabel = StartPage.game.add.bitmapText(0, f.GAME_HEIGHT/15, 'luckiestGuy', '', f.playerLabelSize);
 						homeZoneGroup.playerLabel.align = 'center';
 						homeZoneGroup.playerLabel.anchor.setTo(0.5, 0.5);	
 						// homeZoneGroup.playerLabel.onUserInput = initPlayerLabel;
@@ -160,8 +160,8 @@
 				group.y = f.HALF_HEIGHT;
 			},
 			addWheelPointers = function (group, i) {
-				var gamePlayPointer = StartPage.game.add.sprite(f.HALF_WIDTH, f.gameHeight * 0.715, 'pointers'),
-				teamNumPointer = StartPage.game.add.sprite(f.HALF_WIDTH, f.gameHeight * 0.83, 'pointers');
+				var gamePlayPointer = StartPage.game.add.sprite(f.HALF_WIDTH, f.GAME_HEIGHT * 0.715, 'pointers'),
+				teamNumPointer = StartPage.game.add.sprite(f.HALF_WIDTH, f.GAME_HEIGHT * 0.83, 'pointers');
 				teamNumPointer.frame = 1;
 
 				gamePlayPointer.anchor.setTo(0.5, 0.5);
@@ -232,9 +232,9 @@
 					
 				}, this);				 
 			};			
-			f.bg = new Phaser.TileSprite(StartPage.game, 0, 0, f.gameWidth, f.gameHeight, 'bg');
+			f.bg = new Phaser.TileSprite(StartPage.game, 0, 0, f.GAME_WIDTH, f.GAME_HEIGHT, 'bg');
 			f.bg.autoScroll(80, 20);
-			f.bg1 = new Phaser.TileSprite(StartPage.game, f.HALF_WIDTH, f.HALF_HEIGHT, f.gameWidth, f.gameHeight, 'bg');
+			f.bg1 = new Phaser.TileSprite(StartPage.game, f.HALF_WIDTH, f.HALF_HEIGHT, f.GAME_WIDTH, f.GAME_HEIGHT, 'bg');
 			f.bg1.angle = 180;
 			f.bg1.autoScroll(200, 50);
 			f.bg1.anchor.setTo(0.5, 0.5);

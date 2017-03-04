@@ -83,26 +83,27 @@ f = f || {}; // our members and functions in here
 			// state will be falsey if not passed to cleanUp
 			top.GameManager.startSession(state, gameURL, gameID, showInstructions);
 	};
-	f.assignedTweens = [];
-	f.buttons = [];
-	f.gameWidth = 1920;
-	f.gameHeight = 1080;
+
+	f.GAME_WIDTH = 1920;
+	f.GAME_HEIGHT = 1080;
 	f.ICON_GUTTER = 40;
 	f.ICON_ALPHA = 0.075;
-	f.INSTRUCTION_FONT_SIZE = Math.floor(f.gameWidth/25);
-	f.HALF_WIDTH = f.gameWidth/2;
-	f.HALF_HEIGHT = f.gameHeight/2;
+	f.INSTRUCTION_FONT_SIZE = Math.floor(f.GAME_WIDTH/25);
+	f.HALF_WIDTH = f.GAME_WIDTH/2;
+	f.HALF_HEIGHT = f.GAME_HEIGHT/2;
 	f.CENTRE_POINT = new Phaser.Point(f.HALF_WIDTH, f.HALF_HEIGHT);
 	f.MAX_PLAYERS = 8;
 	f.MAX_TEAMS = 4;
 	f.UI_TWEEN_DUR = 500;
 	f.MIN_GAMES_TO_CYCLE_MENU = 3;
 
+	f.assignedTweens = [];
+	f.buttons = [];
 	f.activeIcon;
 	f.players = [];
 	f.uiBttnSize = 65;
-	f.playerLabelSize = f.gameHeight * 0.03;
-	f.resultSize = f.gameHeight * 0.025;
+	f.playerLabelSize = f.GAME_HEIGHT * 0.03;
+	f.resultSize = f.GAME_HEIGHT * 0.025;
 	f.teamPlay = false;
 	f.state = [];
 	f.showInterface = new Phaser.Signal();
@@ -118,8 +119,7 @@ f = f || {}; // our members and functions in here
 	f.teamWheelDeactivated = new Phaser.Signal();
 	f.emitterOffsetX = 0;
 	f.emitterOffsetY = 80;
-	f.emitters = [];
-	
+	f.emitters = [];	
 		
 	f.mapToRange = function (currVal, minIn, maxIn, minOut, maxOut) { 
 		// map currVal in range minIn - maxIn to range minOut - maxOut
@@ -491,7 +491,7 @@ f = f || {}; // our members and functions in here
 
 		Phaser.Group.call(this, game);
 
-		this.blankPanel = StartPage.game.add.sprite(0, f.gameHeight * 0.07, 'resultPlayerPanels', 0 , this);
+		this.blankPanel = StartPage.game.add.sprite(0, f.GAME_HEIGHT * 0.07, 'resultPlayerPanels', 0 , this);
 		this.blankPanel.frame = winner ? 1 : 3;
 		this.blankPanel.anchor.setTo(0.5, 0.5);				
 
@@ -499,10 +499,10 @@ f = f || {}; // our members and functions in here
 		this.add(this.emitter);
 		f.emitters.push(this.emitter);
 
-		this.playerPanel = StartPage.game.add.sprite(0, f.gameHeight * 0.07, 'resultPlayerPanels', 0, this);
+		this.playerPanel = StartPage.game.add.sprite(0, f.GAME_HEIGHT * 0.07, 'resultPlayerPanels', 0, this);
 		this.playerPanel.frame = winner ? 0 : 2; 
 		this.playerPanel.anchor.setTo(0.5, 0.5);
-		this.playerNumTxt = StartPage.game.add.bitmapText(0, f.gameHeight * 0.05, 'luckiestGuy', '1', f.resultSize * 1.8);
+		this.playerNumTxt = StartPage.game.add.bitmapText(0, f.GAME_HEIGHT * 0.05, 'luckiestGuy', '1', f.resultSize * 1.8);
 		this.playerNumTxt.align = 'center';
 		this.playerNumTxt.anchor.setTo(0.5, 0);
 		this.add(this.playerNumTxt);		
@@ -716,13 +716,13 @@ f = f || {}; // our members and functions in here
 		this.playBttn = new f.PlayButton(StartPage.game, 0, 0);
 		this.add(this.playBttn);
 
-		this.description = StartPage.game.add.bitmapText(0, f.gameHeight * - 0.1, 'luckiestGuy', '', f.resultSize);
+		this.description = StartPage.game.add.bitmapText(0, f.GAME_HEIGHT * - 0.1, 'luckiestGuy', '', f.resultSize);
 		this.description.align = 'center';
 		this.description.anchor.setTo(0.5, 0);
 		this.add(this.description);
 
 		// gameTitle sprite will updated on swipe with the texture key stored in f.activeIcon
-		this.gameTitle = StartPage.game.add.sprite(0, f.gameHeight * - 0.15, 'titlePlaceholder');
+		this.gameTitle = StartPage.game.add.sprite(0, f.GAME_HEIGHT * - 0.15, 'titlePlaceholder');
 		this.gameTitle.anchor.setTo(0.5, 0.5);
 		this.add(this.gameTitle);
 
@@ -747,14 +747,14 @@ f = f || {}; // our members and functions in here
 
 	f.ResultsGroup = function (game, zoneNum) {
 		Phaser.Group.call(this, game);
-		this.bgPanel = StartPage.game.add.sprite(0, - f.gameHeight * 0.135, 'resultsPanel', 0, this);
+		this.bgPanel = StartPage.game.add.sprite(0, - f.GAME_HEIGHT * 0.135, 'resultsPanel', 0, this);
 		this.bgPanel.anchor.setTo(0.5, 0.5);
 		this.addPlayerPanels();
 		this.addLabels();		
 
-		this.playAgainBttn = new f.ResultsButton(StartPage.game, - f.gameWidth * 0.11, - f.gameHeight * 0.133, 'resultsBttns', function () { f.playAgain.dispatch(); });
-		this.newGameBttn = new f.ResultsButton(StartPage.game, 0, - f.gameHeight * 0.133, 'resultsBttns', function () { f.newGame.dispatch(); }); 
-		this.changePlayersBttn = new f.ResultsButton(StartPage.game, f.gameWidth * 0.11, - f.gameHeight * 0.133, 'resultsBttns', function () { f.changePlayers.dispatch(); });
+		this.playAgainBttn = new f.ResultsButton(StartPage.game, - f.GAME_WIDTH * 0.11, - f.GAME_HEIGHT * 0.133, 'resultsBttns', function () { f.playAgain.dispatch(); });
+		this.newGameBttn = new f.ResultsButton(StartPage.game, 0, - f.GAME_HEIGHT * 0.133, 'resultsBttns', function () { f.newGame.dispatch(); }); 
+		this.changePlayersBttn = new f.ResultsButton(StartPage.game, f.GAME_WIDTH * 0.11, - f.GAME_HEIGHT * 0.133, 'resultsBttns', function () { f.changePlayers.dispatch(); });
 		
 		this.changePlayersBttn.frame = 2;
 		this.add(this.playAgainBttn);	
@@ -769,7 +769,7 @@ f = f || {}; // our members and functions in here
 		this.changePlayersBttn.scale.x = 1;
 		this.changePlayersBttn.scale.y = 1;
 
-		this.drawLabel = StartPage.game.add.sprite(0, - f.gameHeight * 0.242, 'drawLabel', 0, this);
+		this.drawLabel = StartPage.game.add.sprite(0, - f.GAME_HEIGHT * 0.242, 'drawLabel', 0, this);
 		this.drawLabel.anchor.setTo(0.5, 0);
 		this.drawLabel.visible = false;
 		this.add(this.drawLabel);
@@ -794,17 +794,17 @@ f = f || {}; // our members and functions in here
 	f.ResultsGroup.prototype = Object.create(Phaser.Group.prototype);
 	f.ResultsGroup.prototype.constructor = f.ResultsGroup;
 	f.ResultsGroup.prototype.addLabels = function () {
-		this.winnerLabel = StartPage.game.add.sprite(0, - f.gameHeight * 0.31, 'winnerLoserLabels', 0, this);
+		this.winnerLabel = StartPage.game.add.sprite(0, - f.GAME_HEIGHT * 0.31, 'winnerLoserLabels', 0, this);
 		this.winnerLabel.anchor.setTo(0.5, 0.5);
 		this.winnerLabel.angle = 0.8;
-		this.loserLabel = StartPage.game.add.sprite(0, f.gameHeight * 0.04, 'winnerLoserLabels', 0, this);
+		this.loserLabel = StartPage.game.add.sprite(0, f.GAME_HEIGHT * 0.04, 'winnerLoserLabels', 0, this);
 		this.loserLabel.anchor.setTo(0.5, 0.5);
 		this.loserLabel.frame = 1;
 		this.loserLabel.angle = 0.8;
 
-		this.winnerTeamLabel = StartPage.game.add.sprite(0, - f.gameHeight * 0.31, 'winnerLoserTeamLabels', 0, this);
+		this.winnerTeamLabel = StartPage.game.add.sprite(0, - f.GAME_HEIGHT * 0.31, 'winnerLoserTeamLabels', 0, this);
 		this.winnerTeamLabel.anchor.setTo(0.5, 0.5);
-		this.loserTeamLabel = StartPage.game.add.sprite(0, f.gameHeight * 0.04, 'winnerLoserTeamLabels', 0, this);
+		this.loserTeamLabel = StartPage.game.add.sprite(0, f.GAME_HEIGHT * 0.04, 'winnerLoserTeamLabels', 0, this);
 		this.loserTeamLabel.anchor.setTo(0.5, 0.5);
 		this.loserTeamLabel.frame = 1;
 

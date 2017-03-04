@@ -28,7 +28,7 @@
 
 	window.onload = function() {
 		
-		StartPage.game = new Phaser.Game(f.gameWidth, f.gameHeight, Phaser.AUTO, 'gameContainer');
+		StartPage.game = new Phaser.Game(f.GAME_WIDTH, f.GAME_HEIGHT, Phaser.AUTO, 'gameContainer');
 
 		StartPage.game.state.add('Boot', StartPage.Boot);
 		StartPage.game.state.add('Preloader', StartPage.Preloader);
