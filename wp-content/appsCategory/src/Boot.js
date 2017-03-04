@@ -9,18 +9,15 @@ f = f || {}; // our members and functions in here
 	"use strict";
 	
 	f.assignedTweens = [];
-	// f.buttons = [];
 	f.gameWidth = 1920;
 	f.gameHeight = 1080;
 	f.HALF_WIDTH = f.gameWidth/2;
 	f.HALF_HEIGHT = f.gameHeight/2;
-
 	f.PULSE_DUR = 600;
 	f.PULSE_INTERVAL = 200;
 	f.GEAR_SPEED = 0.1;
 	f.servicesURL = false;
 	f.numSecondaryCategories = 0;
-
 	f.pulseSignal = new Phaser.Signal();
 	
 		
@@ -171,7 +168,7 @@ f = f || {}; // our members and functions in here
 	    this.anchor.setTo(0.5, 0.5);
 	    this.label = this.addChild(new Phaser.Sprite(game, 0, 0, labelName));
 	    this.label.anchor.setTo(0.5, 0.5);
-	    f.assignedTweens.push(this.pulseTween = AppsCategory.game.add.tween(this.scale).to( {x: 0.85, y: 0.85}, f.PULSE_DUR, Phaser.Easing.Elastic.In, false));
+	    f.assignedTweens.push(this.pulseTween = AppsCategory.game.add.tween(this.scale).to( {x: 0.90, y: 0.90}, f.PULSE_DUR, Phaser.Easing.Elastic.In, false));
 	    f.assignedTweens.push(this.unPulseTween = AppsCategory.game.add.tween(this.scale).to( {x: 1, y: 1}, f.PULSE_DUR, Phaser.Easing.Elastic.Out, false));
 	    this.pulseTween.chain(this.unPulseTween);
 	    f.pulseSignal.add(function () { this.pulseTween.start();}, this);
@@ -259,8 +256,8 @@ f = f || {}; // our members and functions in here
 		}
 	};
 	f.GearGroup.prototype = Object.create(Phaser.Group.prototype);
-    f.GearGroup.prototype.constructor = f.GearGroup;
-    f.GearGroup.prototype.updatePulseClock = function () {
+	f.GearGroup.prototype.constructor = f.GearGroup;
+	f.GearGroup.prototype.updatePulseClock = function () {
     	if(this.pulseClock === f.PULSE_INTERVAL) {
     		this.pulseClock = 0;
     		f.pulseSignal.dispatch();
