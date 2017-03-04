@@ -14,8 +14,6 @@ f = f || {}; // our members and functions in here
 	f.gameHeight = 1080;
 	f.HALF_WIDTH = f.gameWidth/2;
 	f.HALF_HEIGHT = f.gameHeight/2;
-	// f.CENTRE_POINT = new Phaser.Point(f.HALF_WIDTH, f.HALF_HEIGHT);
-	// f.UI_TWEEN_DUR = 500;
 
 	f.PULSE_DUR = 600;
 	f.PULSE_INTERVAL = 200;
@@ -223,8 +221,6 @@ f = f || {}; // our members and functions in here
 		}
 	};
 	f.Gear.prototype.onInputDown = function (url) {
-		// AppsCategory.game.state.states['GameOver'].url = url;
-		// this.state.start('GameOver');
 		f.url = this.url;
 		f.gameOver = true;
 	};
@@ -240,29 +236,28 @@ f = f || {}; // our members and functions in here
 		gearSettings = {};		
 
 		// Extend Phaser.Group
-        Phaser.Group.call(this, game);
+		Phaser.Group.call(this, game);
 
-        this.gearRotation = 0;        
-	    this.pulseClock = 0;
+		this.gearRotation = 0;        
+		this.pulseClock = 0;
 
-        // traverse the layout array creating the three levels of gears (primary, secondary, tertiary)
-        for (i = 0; i < 3; i++) {
-        	currGearSet = layout[i];
-        	currGearSet.group = this;
-        	currGearSet.forEach(function (gear) {
-        		gearSettings.x = gear.x;
-        		gearSettings.y = gear.y;
-        		gearSettings.dir = gear.dir;
-        		gearSettings.labelName = gear.labelName;
-        		gearSettings.url = gear.url;        		
-        		gearSettings.frame = i;
+		// traverse the layout array creating the three levels of gears (primary, secondary, tertiary)
+		for (i = 0; i < 3; i++) {
+			currGearSet = layout[i];
+			currGearSet.group = this;
+			currGearSet.forEach(function (gear) {
+				gearSettings.x = gear.x;
+				gearSettings.y = gear.y;
+				gearSettings.dir = gear.dir;
+				gearSettings.labelName = gear.labelName;
+				gearSettings.url = gear.url;        		
+				gearSettings.frame = i;
 
-        		currGear = new f.Gear(AppsCategory.game, gearSettings);
-        		currGearSet.group.add(currGear);
-        		
-        	});
-        }
-    };
+				currGear = new f.Gear(AppsCategory.game, gearSettings);
+				currGearSet.group.add(currGear);				
+			});
+		}
+	};
 	f.GearGroup.prototype = Object.create(Phaser.Group.prototype);
     f.GearGroup.prototype.constructor = f.GearGroup;
     f.GearGroup.prototype.updatePulseClock = function () {
@@ -280,20 +275,20 @@ f = f || {}; // our members and functions in here
     };
 
 	AppsCategory.Boot = function () {
-		
+
 	};
 
 	AppsCategory.Boot.prototype = {
 
-	    init: function () {
-		
+		init: function () {
+
 			this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
-	    },
+		},
 
-	    create: function () {
+		create: function () {
 
-	        this.state.start('Preloader');
-	    }
+			this.state.start('Preloader');
+		}
 
 	};
 }());
