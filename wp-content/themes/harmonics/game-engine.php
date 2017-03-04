@@ -62,6 +62,9 @@
 				        		// Game Engine address not expected from Game Engine Settings page
 				        		if($title == "games" && ! $linkURL) {			        			
 				        			$linkURL = get_home_url();
+				        		} else if($title == "services") {
+				        			$ServicesPageName = get_field('services-page-name', $currUser);
+            						$linkURL = esc_url( content_url(). '/servicespages/' . $ServicesPageName );
 				        		}
 				        		echo "<li class='" . $title . "'><a href='" . $linkURL . "'><img src='" . get_template_directory_uri() . "/css/img/menu_" . $title . ".png' alt='" . $title . "' data-category='" . $title . "'></a></li>";	
 				        	}			        				        	
