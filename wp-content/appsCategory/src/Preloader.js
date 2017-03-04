@@ -19,7 +19,11 @@
 
 			// this.load.audio('showResults', ['../assets/audio/showResults.mp3', '../assets/audio/showResults.ogg']);	
 			
-			// this.load.image('corona', '../assets/particlePink.png');
+			this.load.image('buttonBG', 'wp-content/appsCategory/assets/buttonBG.png');
+			this.load.image('services', 'wp-content/appsCategory/assets/services.png');
+			this.load.image('games', 'wp-content/appsCategory/assets/games.png');
+			this.load.image('cardgames', 'wp-content/appsCategory/assets/cardgames.png');
+			this.load.image('whiteboard', 'wp-content/appsCategory/assets/whiteboard.png');
 
 			this.load.spritesheet('gears', 'wp-content/appsCategory/assets/gears.png', 460, 460, 3);
 

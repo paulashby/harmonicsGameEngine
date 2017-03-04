@@ -93,6 +93,7 @@ window.onload = function() {
 	AppsCategory.game.state.add('Boot', AppsCategory.Boot);
 	AppsCategory.game.state.add('Preloader', AppsCategory.Preloader);
 	AppsCategory.game.state.add('Game', AppsCategory.Game);
+	AppsCategory.game.state.add('GameOver', AppsCategory.GameOver);
 	AppsCategory.game.state.start('Boot');
 };
 

@@ -12,7 +12,8 @@
 
 	    create: function () {
 			
-			var 			
+			var 
+			testBttn,			
 			addSound = function (soundName, loopSound, playNow) {
 				// store sounds in array for easy destruction			
 				var newSound = AppsCategory.game.add.audio(soundName);
@@ -41,6 +42,9 @@
 			// f.loser.volume = 0.4;	
 	    },
 	    update: function () {
+	    	if(f.gameOver) {
+	    		this.state.start('GameOver');
+	    	}
 	    }
 	};
 }());

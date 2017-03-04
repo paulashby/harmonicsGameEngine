@@ -7,38 +7,7 @@ f = f || {}; // our members and functions in here
 (function () {
 	
 	"use strict";
-	var removeTween = function(tween) {
-			if (tween) {
-				tween.onComplete.removeAll();
-				tween.stop();
-				tween = null;
-			}
-	    },
-	   removeEvt = function (elmt) {
-	    	elmt.events.hideButton.dispose();
-	    },	    
-	    destroyOb = function (ob) {
-	    	var currElmt;
-			for(currElmt in ob){
-				if(ob.hasOwnProperty(currElmt)){
-					delete ob[currElmt];
-				}
-			}
-	    },
-	    destroyElement = function (element) {
-	    	element.destroy();
-	    },
-	    cleanUp = function () {
-	    	
-
-	    	// remove signals and handlers
-			// f.showInterface.dispose();
-
-			// f.assignedTweens.forEach(removeTween);
-			// f.buttons.forEach(removeEvt);
-			// f.homeZones.destroy(true, true);			
-			// destroyOb(f);
-	};
+	
 	f.assignedTweens = [];
 	// f.buttons = [];
 	f.gameWidth = 1920;
@@ -48,11 +17,13 @@ f = f || {}; // our members and functions in here
 	// f.CENTRE_POINT = new Phaser.Point(f.HALF_WIDTH, f.HALF_HEIGHT);
 	// f.UI_TWEEN_DUR = 500;
 
+	f.PULSE_DUR = 600;
+	f.PULSE_INTERVAL = 200;
 	f.GEAR_SPEED = 0.1;
 	f.servicesURL = false;
 	f.numSecondaryCategories = 0;
 
-	// f.showInterface = new Phaser.Signal();
+	f.pulseSignal = new Phaser.Signal();
 	
 		
 	f.mapToRange = function (currVal, minIn, maxIn, minOut, maxOut) { 
@@ -194,53 +165,41 @@ f = f || {}; // our members and functions in here
 		// This should have been picked up by apps-category.php
 		console.error('AppsCategory Error: all categories disabled in Game Engine settings');
 	};
-	f.GearGroup = function (game) {
 
-		var categories = JSON.parse(document.getElementById('body').dataset.categories),
-		layout = f.getLayout(categories),
-		i,
-		currGearSet,
-		currGear;		
+	f.GearButton = function (game, x, y, labelName) {
 
-		// Extend Phaser.Group
-        Phaser.Group.call(this, game);
+	    Phaser.Sprite.call(this, game, x, y, 'buttonBG');
 
-        this.gearRotation = 0;
+	    this.anchor.setTo(0.5, 0.5);
+	    this.label = this.addChild(new Phaser.Sprite(game, 0, 0, labelName));
+	    this.label.anchor.setTo(0.5, 0.5);
+	    f.assignedTweens.push(this.pulseTween = AppsCategory.game.add.tween(this.scale).to( {x: 0.85, y: 0.85}, f.PULSE_DUR, Phaser.Easing.Elastic.In, false));
+	    f.assignedTweens.push(this.unPulseTween = AppsCategory.game.add.tween(this.scale).to( {x: 1, y: 1}, f.PULSE_DUR, Phaser.Easing.Elastic.Out, false));
+	    this.pulseTween.chain(this.unPulseTween);
+	    f.pulseSignal.add(function () { this.pulseTween.start();}, this);
+	}
+	f.GearButton.prototype = Object.create(Phaser.Sprite.prototype);
+	f.GearButton.prototype.constructor = f.GearButton;
 
-        // traverse the layout array creating the three levels of gears (primary, secondary, tertiary)
-        for (i = 0; i < 3; i++) {
-        	currGearSet = layout[i];
-        	currGearSet.group = this;
-        	currGearSet.forEach(function (gear) {
-        		currGear = new f.Gear(AppsCategory.game, f.HALF_WIDTH, f.HALF_HEIGHT, i);
-        		currGear.x = gear.x;
-        		currGear.y = gear.y;
-        		currGear.dir = gear.dir;
-        		currGear.labelName = gear.labelName;
-        		currGear.url = gear.url;
-        		currGearSet.group.add(currGear);
-        	});
-        }
-    };
-	f.GearGroup.prototype = Object.create(Phaser.Group.prototype);
-    f.GearGroup.prototype.constructor = f.GearGroup;
-    f.GearGroup.prototype.update = function () {
-    	Phaser.Group.prototype.update.call(this);
-    	this.gearRotation += f.GEAR_SPEED;
-    };
-
-
-	f.Gear = function (game, x, y, frame) {
+	f.Gear = function (game, gearSettings) {
 		
-		Phaser.Sprite.call(this, game, x, y, 'gears');			
+		Phaser.Sprite.call(this, game, gearSettings.x, gearSettings.y, 'gears');
 
-		this.frame = frame;
-		this.dir = 1;
+		this.frame = gearSettings.frame;
+		this.dir = gearSettings.dir;
 		this.anchor.setTo(0.5, 0.5);
-		this.inputEnabled = true;
-		this.events.onInputDown.add(this.onInputDown, this);
+		this.inputEnabled = true;		
+		this.input.pixelPerfectClick = true;
+		this.events.onInputDown.add(this.onInputDown, this, gearSettings.url);
+		if(gearSettings.labelName) {
+			this.url = gearSettings.url;
+			this.button = new f.GearButton(AppsCategory.game, 0, 0, gearSettings.labelName);
+			this.addChild(this.button);
+			this.button.x = 0;
+			this.button.y = 0;
+		}		
 
-		switch (frame) {
+		switch (this.frame) {
 			case 0:
 			this.speed = 1;
 			this.angOffset = 10;
@@ -258,18 +217,67 @@ f = f || {}; // our members and functions in here
 	};
 	f.Gear.prototype = Object.create(Phaser.Sprite.prototype);
 	f.Gear.prototype.constructor = f.Gear;
-	f.Gear.prototype.update = function () {
-		
+	f.Gear.prototype.update = function () {		
 		if(this.parent) {
 			this.angle = this.parent.gearRotation * this.speed * this.dir + this.angOffset;
 		}
 	};
-	f.Gear.prototype.onInputDown = function () {
-		alert('gear clicked');
-
+	f.Gear.prototype.onInputDown = function (url) {
+		// AppsCategory.game.state.states['GameOver'].url = url;
+		// this.state.start('GameOver');
+		f.url = this.url;
+		f.gameOver = true;
 	};
 
 
+	f.GearGroup = function (game) {
+
+		var categories = JSON.parse(document.getElementById('body').dataset.categories),
+		layout = f.getLayout(categories),
+		i,
+		currGearSet,
+		currGear,
+		gearSettings = {};		
+
+		// Extend Phaser.Group
+        Phaser.Group.call(this, game);
+
+        this.gearRotation = 0;        
+	    this.pulseClock = 0;
+
+        // traverse the layout array creating the three levels of gears (primary, secondary, tertiary)
+        for (i = 0; i < 3; i++) {
+        	currGearSet = layout[i];
+        	currGearSet.group = this;
+        	currGearSet.forEach(function (gear) {
+        		gearSettings.x = gear.x;
+        		gearSettings.y = gear.y;
+        		gearSettings.dir = gear.dir;
+        		gearSettings.labelName = gear.labelName;
+        		gearSettings.url = gear.url;        		
+        		gearSettings.frame = i;
+
+        		currGear = new f.Gear(AppsCategory.game, gearSettings);
+        		currGearSet.group.add(currGear);
+        		
+        	});
+        }
+    };
+	f.GearGroup.prototype = Object.create(Phaser.Group.prototype);
+    f.GearGroup.prototype.constructor = f.GearGroup;
+    f.GearGroup.prototype.updatePulseClock = function () {
+    	if(this.pulseClock === f.PULSE_INTERVAL) {
+    		this.pulseClock = 0;
+    		f.pulseSignal.dispatch();
+    	} else {
+    		this.pulseClock++;	
+    	}	    
+    }
+    f.GearGroup.prototype.update = function () {
+    	Phaser.Group.prototype.update.call(this);
+    	this.gearRotation += f.GEAR_SPEED;
+    	this.updatePulseClock();
+    };
 
 	AppsCategory.Boot = function () {
 		
