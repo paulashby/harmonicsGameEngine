@@ -8,18 +8,18 @@ f = f || {}; // our members and functions in here
 	
 	"use strict";
 	
-	f.assignedTweens = [];
-	f.gameWidth = 1920;
-	f.gameHeight = 1080;
-	f.HALF_WIDTH = f.gameWidth/2;
-	f.HALF_HEIGHT = f.gameHeight/2;
+
+	f.HALF_WIDTH = 1920/2;
+	f.HALF_HEIGHT = 1080/2;
 	f.PULSE_DUR = 600;
 	f.PULSE_INTERVAL = 200;
 	f.GEAR_SPEED = 0.1;
+	f.gameWidth = 1920;
+	f.gameHeight = 1080;
+	f.assignedTweens = [];
 	f.servicesURL = false;
 	f.numSecondaryCategories = 0;
-	f.pulseSignal = new Phaser.Signal();
-	
+	f.pulseSignal = new Phaser.Signal();	
 		
 	f.mapToRange = function (currVal, minIn, maxIn, minOut, maxOut) { 
 		// map currVal in range minIn - maxIn to range minOut - maxOut
@@ -45,7 +45,7 @@ f = f || {}; // our members and functions in here
 	f.StartButton = function (game, x, y, imgName) {
 		
 		Phaser.Sprite.call(this, game, x, y, imgName);
-	    this.anchor.setTo(0.5, 0.5);
+		this.anchor.setTo(0.5, 0.5);
 		this.inputEnabled = true;
 		this.events.onInputDown.add(this.onInputDown, this);
 	};	
@@ -152,7 +152,6 @@ f = f || {}; // our members and functions in here
 
 		f.servicesURL = categories.services;
 
-		
 		layout = f.servicesURL ? layouts.servicesEnabled[f.numSecondaryCategories] : layouts.servicesDisabled[f.numSecondaryCategories];
 		if(layout) {			
 			return layout;
@@ -221,7 +220,6 @@ f = f || {}; // our members and functions in here
 		f.url = this.url;
 		f.gameOver = true;
 	};
-
 
 	f.GearGroup = function (game) {
 
