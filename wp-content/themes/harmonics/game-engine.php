@@ -6,8 +6,8 @@
 		<title>Game Engine</title>					
 		<?php wp_head(); ?>				
 	</head>	
-	<?php echo "<body  data-db='" . site_url() . "/?page_id=6' data-starturl='" . content_url() . "/startPage/src/index.html' id='bodyElmt'>"; ?>
-			<div id='menu'>
+	<?php echo "<body  data-db='" . site_url() . "/?page_id=6' data-starturl='" . content_url() . "/startPage/src/index.html' data-templateurl='" . get_template_directory_uri(). "' id='bodyElmt'>"; ?>
+			<div id='menuContainer' class='hideMenu'>
 		
 			<?php	
 				for($i = 0; $i < 4; $i++) {
@@ -32,7 +32,14 @@
 					echo "<div class='menu " . $classString . "'>";		
 				    if( have_rows("menu-items", "option") ) {
 
-				    	echo "<ul>";
+				    	echo "<ul>
+					        <li class='logoutBttn'>";				        	
+				        	$ServicesPageName = get_field('services-page-name', $currUser);
+							$redirectURL = esc_url( content_url(). '/servicespages/' . $ServicesPageName );
+							$redirectString = '[logout redirect="' . $redirectURL . '"]';
+				        	echo do_shortcode( $redirectString ) . "</li>
+			        		<li class='exitBttn exitGame'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_exitgame.png' alt='exit game' data-category='exit'></a></li>
+				        	<li class='teamBttn changeTeams'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_changeteams.png' alt='change teams' data-category='teamchange'></a></li>";
 
 				    	$currUser ="user_" . get_current_user_id();
 	        
@@ -69,15 +76,7 @@
 				        		echo "<li class='" . $title . "'><a href='" . $linkURL . "'><img src='" . get_template_directory_uri() . "/css/img/menu_" . $title . ".png' alt='" . $title . "' data-category='" . $title . "'></a></li>";	
 				        	}			        				        	
 				        }
-				        echo "
-					        <li class='logoutBttn'>";				        	
-				        	$ServicesPageName = get_field('services-page-name', $currUser);
-							$redirectURL = esc_url( content_url(). '/servicespages/' . $ServicesPageName );
-							$redirectString = '[logout redirect="' . $redirectURL . '"]';
-				        	echo do_shortcode( $redirectString ) . "</li>
-			        		<li class='exitBttn exitGame'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_exitgame.png' alt='exit game' data-category='exit'></a></li>
-				        	<li class='teamBttn changeTeams'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_changeteams.png' alt='change teams' data-category='teamchange'></a></li>				        	
-				        </ul>
+				        echo "</ul>
 				        </div>";
 				    }
 				}
@@ -86,7 +85,7 @@
 		
 		<iframe id='ifrm' class='hideMenu' src='about:blank'></iframe>
 		<div class='cornerBttn' id='bottomBttn' data-category='toggleMenu'></div>
-		<div class='cornerBttn' id='topBttn' data-category='toggleMenu'></div>		
+		<div class='cornerBttn' id='topBttn' data-category='toggleMenu'></div>
 	</body>
 </html>
 		

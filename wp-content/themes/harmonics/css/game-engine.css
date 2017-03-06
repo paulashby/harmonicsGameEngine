@@ -6,117 +6,118 @@ iframe {
 }
 
 body {
+	background-color: #000;
 	margin: auto;
 	overflow: hidden;
-	background-color: #000;
 }
-#menu .exitBttn,
-#menu .teamBttn
-{
-	opacity: 0;
-	position: relative;
-	left: 102px;
-}
-#menu .teamBttn img
+
+#menuContainer .teamBttn img
 {
 	margin-left: -10px;
 }
-#menu.showGameButtons .exitBttn,
-#menu.showGameButtons .teamBttn
+
+#menuContainer .exitBttn,
+#menuContainer .teamBttn
 {
-	opacity: 1;	
+	display: none;	
 }
-#menu .logoutBttn
+
+#menuContainer.showGameButtons .exitBttn,
+#menuContainer.showGameButtons .teamBttn
 {
-	display: block;
-	background-image: url('img/menu_logout.png');
-	background-repeat: no-repeat;
-	left: 561px;
-	top: 15px;
-	position:absolute;
-	width: 113px;
+	display: inline-block;	
+}
+
+#menuContainer .logoutBttn
+{
+	margin-right: -20px;
+}
+
+.menu
+{
 	height: 113px;
+	position: absolute;	
+	text-align: center;
 }
-#menu .showGameButtons .logoutBttn
-{
-	left: 106px;
-}
-#menu{
-	position: absolute;
-}
-.menu 
-{
-	margin: auto;
-	left: 614px;
-	bottom: 10px;
-	position: absolute;
-	width: 870px;
-}
-.showGameButtons .menu {
-	left: 0;
-}
-.menuTop {
-	transform: rotate(180deg) translate(120%, 739%);
-	transform-origin: 100% 0;
-	top: 122px;
-	left: 610px;
-}
-.showGameButtons .menuTop {
-	transform: rotate(180deg) translate(38%, 730%);
-}
-.menuBottom
-{
-	left: 613px;
-	top: 959px;	
-}
-.showGameButtons .menuBottom
-{
-	left: 513px;
-}
-.menuRight {
-	transform: rotate(-90deg) translate(-16%, 278%);
-	transform-origin: 100% 0;
-}
-.showGameButtons .menuRight {
-	transform: rotate(-90deg) translate(-27.5%, 820%);
-	transform-origin: 100% 0;
-}
-.menuLeft {
-	transform: rotate(90deg) translate(136.5%, 1205%);
-	transform-origin: 100% 0;
-}
-.showGameButtons .menuLeft {
-	transform: rotate(90deg) translate(125%, 661%);
-	transform-origin: 100% 0;
-}
-li a {
-	line-height: 0; 
-    font-size: 0;
-    color: transparent;
-}
+
 .menu ul {
+    height:	113px;
     list-style-type: none;
     margin: 0;
-    padding: 0;
     overflow: hidden;
+    padding: 0;
 }
+
 .menu li {
-    float: left;
-    margin-top: -6px;
-    height: 119px;
-    width: 113px;
-}
-.menu li.games {
-    width: 93px;
+    display: inline-block;
 }
 
 .menu li a {
-    display: block;
     color: white;
+    display: inline-block;
     text-align: center;
-    padding: 14px 16px;
     text-decoration: none;
 }
+
+li.changeTeams
+{
+	margin-right: 20px;
+}
+
+li.games
+{
+	margin-right: -15px;
+}
+
+#menuContainer{
+	height: 100%;
+	position: absolute;
+	width: 100%;
+}
+
+#menuContainer.hideMenu
+{	
+	display: none;
+}
+
+.menuTop,
+.menuBottom
+{
+	width: 1920px;
+}
+
+.menuLeft,
+.menuRight
+{
+	width: 1080px;
+}
+
+.menuTop {
+	transform: rotate(180deg) translate(0%, 0%);
+	transform-origin: 50% 50%;
+}
+
+.menuBottom
+{
+	bottom: 0px;	
+}
+
+.menuRight {
+	transform: rotate(-90deg) translate(0%, 644%);
+	transform-origin: 100% 0;
+}
+
+.menuLeft {
+	transform: rotate(90deg) translate(0%, 1%);
+	transform-origin: 5.3% 50%;
+}
+
+li a { 
+    color: transparent;
+    font-size: 0;
+	line-height: 0;
+}
+
 
 
 @keyframes showMenu {

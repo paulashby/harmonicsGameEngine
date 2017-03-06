@@ -187,7 +187,7 @@ var GameManager = (function () {
 	},
 	_onGameOver = function (exit) {
 		// TODO: Can we use onError to handle 404 in case an incorrect name is added on backend?
-		var menu = document.getElementById('menu');
+		var menu = document.getElementById('menuContainer');
 		if(reteam) {
 			_changePlayers();
 			reteam = false;
@@ -198,8 +198,7 @@ var GameManager = (function () {
 		document.getElementById('ifrm').src = document.body.dataset.starturl;
 		clearTimeout(nextGameTimeout);
 		// Remove game related buttons from menu
-		menu.classList.toggle('showGameButtons');
-		return {success: true, data: 'Loading next game'};
+		menu.classList.toggle('showGameButtons'); return {success: true, data: 'Loading next game'};
 	},
 	_onGameTimeout = function () {
 		currGame = undefined;
@@ -247,11 +246,11 @@ var GameManager = (function () {
 		redirectSufffix = showInstructions ? '/instructions' : '/game';
 		
 		// Remove game related buttons from menu
-		document.getElementById('menu').classList.toggle('showGameButtons');
+		document.getElementById('menuContainer').classList.toggle('showGameButtons');
 		document.getElementById('ifrm').src = gameUrl;
 	},
 	_startGame = function () {
-		var menu = document.getElementById('menu');
+		var menu = document.getElementById('menuContainer');
 		// Instructions have just been shown
 		redirectSufffix = '/game';
 		document.getElementById('ifrm').src = currGameUrl;
@@ -265,6 +264,7 @@ var GameManager = (function () {
 	},
 	_onMenuClick = function (e) {
 		var ifrm = document.getElementById('ifrm'),
+		menu = document.getElementById('menuContainer'),
 		hideMenu = function () {
 			if(ifrm.classList.contains('showMenu')) {
 				// We're hiding the menu, so focus ifrm
@@ -272,17 +272,19 @@ var GameManager = (function () {
 			}
 			ifrm.classList.toggle('hideMenu');
 			ifrm.classList.toggle('showMenu');
+
+			menu.classList.toggle('hideMenu');
 		};
 		document.getElementById('bodyElmt').focus();
 		if(e.target.dataset.category === 'exit') {
 			e.preventDefault();
-			if(document.getElementById('menu').classList.contains('showGameButtons')){
+			if(document.getElementById('menuContainer').classList.contains('showGameButtons')){
 				window.dispatchEvent(exitEvent);
 				hideMenu();
 			}			
 		} else if(e.target.dataset.category === 'teamchange') {
 			e.preventDefault();			
-			if(document.getElementById('menu').classList.contains('showGameButtons')){
+			if(document.getElementById('menuContainer').classList.contains('showGameButtons')){
 				reteam = true;
 				window.dispatchEvent(exitEvent);
 				hideMenu();
@@ -321,13 +323,20 @@ var GameManager = (function () {
 	},
 	init = function () {
 		var parsedData,
-		iframe = document.getElementById('ifrm');
+		iframe = document.getElementById('ifrm'),
+		logoutLinks = document.getElementsByClassName('logout'),
+		templateDirURL = document.body.dataset.templateurl,
+		i, len = logoutLinks.length;
+
+		for(i = 0; i < len; i++) {
+			logoutLinks[i].innerHTML = "<img src='" + templateDirURL + "/css/img/menu_logout.png' alt='logout' data-category='logout'>";
+		}
 
 		dburl = dburl || document.body.dataset.db;
 		apiCall(dburl + '?t=' + Math.random() + '&reqType=initGameManager').then(function (response) {
 			if(response.indexOf('Err') == -1){
 				parsedData = JSON.parse(response);
-				gameList = parsedData.games;
+				gameList = parsedData.games;				
 
 				// The gameList is ready, safe to load the start page
 				document.getElementById('ifrm').src = document.body.dataset.starturl;
@@ -335,7 +344,7 @@ var GameManager = (function () {
 				// Add menu event listeners
 				document.getElementById('topBttn').addEventListener('click', GameManager.onMenuClick);
 				document.getElementById('bottomBttn').addEventListener('click', GameManager.onMenuClick);
-				document.getElementById('menu').addEventListener('click', GameManager.onMenuClick);
+				document.getElementById('menuContainer').addEventListener('click', GameManager.onMenuClick);
 						
 				// If response includes an error message, an email notification will have been dispatched
 				// so the problem can be investigated by the administrator.
