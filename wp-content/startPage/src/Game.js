@@ -222,16 +222,36 @@
 				
 				f.assignedTweens.push(f.teamWheel.scaleDownTween = StartPage.game.add.tween(f.teamWheel.scale).to( {x: 0, y: 0}, f.UI_TWEEN_DUR/2, Phaser.Easing.Back.In, false));
 				f.assignedTweens.push(f.teamWheel.scaleUpTween = StartPage.game.add.tween(f.teamWheel.scale).to( {x: 1, y: 1}, f.UI_TWEEN_DUR, Phaser.Easing.Elastic.Out, false));	
+				f.teamWheel.scaleUpTween.onStart.add(function () { f.hideTeamNumRing.dispatch(); });
 	    		f.playersReady.add(function () {f.teamWheel.scaleDownTween.start();}, f.teamWheel);
 
 				f.teamWheel.scaleDownTween.onComplete.add(function () { 
 					if(!f.playersReadyDispatched){
 						f.playersReady.dispatch();
 						f.playersReadyDispatched = true;
-					}
-					
+					}					
 				}, this);				 
-			};			
+			},
+			addHarmonicsLogo = function () {
+				var i,
+					logo,
+					angle = 90,
+					xOffset = f.LOGO_OFFSET,
+					xPos, 
+					sign;
+
+					f.logos = StartPage.game.add.group();
+
+				for(i = 0; i < 2; i++) {
+					sign = i === 1 ? 1 : - 1;
+					xPos = f.HALF_WIDTH + (xOffset * sign);
+					logo = StartPage.game.add.sprite(xPos, f.HALF_HEIGHT, 'harmonicsLogo');
+					logo.anchor.setTo(0.5, 0.5);
+					logo.angle = angle + (180 * i);
+					f.logos.add(logo);
+				}
+			};
+
 			f.bg = new Phaser.TileSprite(StartPage.game, 0, 0, f.GAME_WIDTH, f.GAME_HEIGHT, 'bg');
 			f.bg.autoScroll(80, 20);
 			f.bg1 = new Phaser.TileSprite(StartPage.game, f.HALF_WIDTH, f.HALF_HEIGHT, f.GAME_WIDTH, f.GAME_HEIGHT, 'bg');
@@ -242,9 +262,12 @@
 			f.bg1.alpha = 0.5;
 			StartPage.game.add.existing(f.bg);
 			StartPage.game.add.existing(f.bg1);
+			f.turnRingInstruction = new f.TurnRingInstruction(StartPage.game, f.HALF_WIDTH, f.HALF_HEIGHT);
+			StartPage.game.add.existing(f.turnRingInstruction);
 			f.homeZones = new f.HomeZoneGroup(StartPage.game);
 			addTeamWheel();
 			addHomeZones();
+			addHarmonicsLogo();
 
 			f.results = parent.GameManager.getResults();			
 			

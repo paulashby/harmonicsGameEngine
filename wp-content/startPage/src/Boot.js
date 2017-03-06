@@ -67,6 +67,8 @@ f = f || {}; // our members and functions in here
 			f.gamePlaySelected.dispose();
 			f.teamWheelActivated.dispose();
 			f.teamWheelDeactivated.dispose();
+			f.showTeamNumRing.dispose();
+			f.hideTeamNumRing.dispose();
 
 			f.assignedTweens.forEach(removeTween);
 			f.buttons.forEach(removeEvt);
@@ -75,10 +77,11 @@ f = f || {}; // our members and functions in here
 			f.homeZones.destroy(true, true);
 			removeWheelPointers();
 			f.teamWheel.destroy(true, true);
+			f.logos.destroy(true, true);
 			if(f.gameSelectionMenu) {
 				f.gameSelectionMenu.destroy(true, false);
 			}
-			destroyOb(f);	
+			destroyOb(f);
 
 			// state will be falsey if not passed to cleanUp
 			top.GameManager.startSession(state, gameURL, gameID, showInstructions);
@@ -96,6 +99,8 @@ f = f || {}; // our members and functions in here
 	f.MAX_TEAMS = 4;
 	f.UI_TWEEN_DUR = 500;
 	f.MIN_GAMES_TO_CYCLE_MENU = 3;
+	f.PULSE_INTERVAL = 150;
+	f.LOGO_OFFSET = 470;
 
 	f.assignedTweens = [];
 	f.buttons = [];
@@ -117,6 +122,8 @@ f = f || {}; // our members and functions in here
 	f.gamePlaySelected = new Phaser.Signal();
 	f.teamWheelActivated = new Phaser.Signal();
 	f.teamWheelDeactivated = new Phaser.Signal();
+	f.showTeamNumRing = new Phaser.Signal();
+	f.hideTeamNumRing = new Phaser.Signal();
 	f.emitterOffsetX = 0;
 	f.emitterOffsetY = 80;
 	f.emitters = [];	
@@ -260,6 +267,21 @@ f = f || {}; // our members and functions in here
 		}
 	};
 
+	f.TurnRingInstruction = function (game, x, y) {
+
+		Phaser.Sprite.call(this, game, x, y, 'turnRing');
+
+	    this.alpha = 0;
+	    this.anchor.setTo(0.5, 0.5);
+		f.assignedTweens.push(this.fadeOutTween = StartPage.game.add.tween(this).to( {alpha: 0}, f.UI_TWEEN_DUR * 0.1, Phaser.Easing.Linear.InOut, false));
+		f.assignedTweens.push(this.fadeInTween = StartPage.game.add.tween(this).to( {alpha: 1}, f.UI_TWEEN_DUR/2, Phaser.Easing.Linear.InOut, false));
+		
+		f.showTeamNumRing.add(function () { this.fadeOutTween.start();}, this);
+		f.hideTeamNumRing.add(function () { this.fadeInTween.start();}, this);
+	};
+	f.TurnRingInstruction.prototype = Object.create(Phaser.Sprite.prototype);
+	f.TurnRingInstruction.prototype.constructor = f.TurnRingInstruction;
+
 	f.Ring = function (game, x, y, imgName, segmentAngle) {
 
 		Phaser.Sprite.call(this, game, x, y, imgName);
@@ -317,6 +339,7 @@ f = f || {}; // our members and functions in here
 	f.TeamNumRing.prototype = Object.create(f.Ring.prototype);
 	f.TeamNumRing.prototype.constructor = f.TeamNumRing;
 	f.TeamNumRing.prototype.show = function () {
+		f.showTeamNumRing.dispatch();
 		this.assignTeams();
 		this.inputEnabled = true;
 		this.fadeInTween.start();
@@ -453,14 +476,33 @@ f = f || {}; // our members and functions in here
 		Phaser.Sprite.call(this, game, x, y, imgName);
 	    this.anchor.setTo(0.5, 0.5);
 		this.inputEnabled = true;
-		this.events.onInputDown.add(this.onInputDown, this);
+		this.events.onInputDown.add(this.onInputDown, this);		        
+		this.pulseClock = 0;
+
+		f.assignedTweens.push(this.pulseTween = StartPage.game.add.tween(this.scale).to( {x: 0.90, y: 0.90}, f.PULSE_DUR, Phaser.Easing.Elastic.In, false));
+		f.assignedTweens.push(this.unPulseTween = StartPage.game.add.tween(this.scale).to( {x: 1, y: 1}, f.PULSE_DUR, Phaser.Easing.Elastic.Out, false));
+		this.pulseTween.chain(this.unPulseTween);
 	};	
 	f.StartButton.prototype = Object.create(Phaser.Sprite.prototype);
 	f.StartButton.prototype.constructor = f.StartButton;
 	f.StartButton.prototype.onInputDown = function () {
 		f.teamWheel.scaleDownTween.start();
+		f.showTeamNumRing.dispatch();
+			
 		f.startSound.play();
-	};
+	};	
+	f.StartButton.prototype.updatePulseClock = function () {
+    	if(this.pulseClock === f.PULSE_INTERVAL) {
+    		this.pulseClock = 0;
+    		this.pulseTween.start();
+    	} else {
+    		this.pulseClock++;	
+    	}	    
+    };
+    f.StartButton.prototype.update = function () {
+    	Phaser.Sprite.prototype.update.call(this);
+    	this.updatePulseClock();
+    }
 
 	f.PlayButton = function (game, x, y) {		
 		f.StartButton.call(this, game, x, y, 'playBttn');
@@ -473,6 +515,10 @@ f = f || {}; // our members and functions in here
 			var state = VTAPI.cloneState(f.state);
 			cleanUp(state);
 		}	
+	};
+	f.PlayButton.prototype.update = function () {
+		// Override super's update as we don't want the pulse
+		Phaser.Sprite.prototype.update.call(this);	
 	};
 
 	f.ResultsButton = function (game, x, y, imgName, inputDownHandler) {
