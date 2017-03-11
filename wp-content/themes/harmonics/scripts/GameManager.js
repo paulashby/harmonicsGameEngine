@@ -31,6 +31,7 @@ var GameManager = (function () {
 		{place: 8, player: 1, ranking: 0}
 	],	
 	teamState = [],
+	instructionsShown = [], // Array of game id numbers - these are cleared when players change
 	sessionState,
 	initialState,
 	showResults = false,
@@ -181,6 +182,7 @@ var GameManager = (function () {
 		}
 	},
 	_changePlayers = function () {
+		instructionsShown = [];
 		sessionState = [];
 		initialState = [];
 		teamState = [];
@@ -220,7 +222,9 @@ var GameManager = (function () {
 		}
 		return sessionState ? cloneState(sessionState) : [];
 	},
-	_startSession = function (state, gameUrl, gameID, showInstructions) {	 
+	_startSession = function (state, gameUrl, gameID, showInstructions) {
+
+		var replaying = instructionsShown.indexOf(gameID) >= 0;	 
 
 		if((! sessionState || sessionState.length === 0) && state) {
 			// Players have just regsitered, save this state in case they play again
@@ -243,7 +247,11 @@ var GameManager = (function () {
 		showDraw = false;
 		currGameUrl = gameUrl;
 		currGame = gameID;
-		redirectSufffix = showInstructions ? '/instructions' : '/game';
+
+		if(showInstructions && ! replaying) {
+			gameUrl = showInstructions;
+			instructionsShown.push(gameID);
+		}
 		
 		// Remove game related buttons from menu
 		document.getElementById('menuContainer').classList.toggle('showGameButtons');
