@@ -110,7 +110,7 @@
 		    	$query->the_post();
 
 		        $postID = get_the_ID();
-		        $use_separate_instructions = false;
+		        $instructions_url = false;
 		        $under_review = false;
 		        $description = get_field("game-description", $postID);
 		        $gameName = get_the_title();
@@ -120,7 +120,7 @@
 		        	foreach ($loading_options as $optn) {
 		        		
 		        		if($optn["value"] == "instructions") {
-		        			$use_separate_instructions = true;
+		        			$instructions_url = content_url() . "/97dL81xtE49aXxa/" . $gameName . "/instructions/";
 		        		} else if($optn["value"] == "suspended") {
 		        			$under_review = true;
 		        		}
@@ -131,7 +131,7 @@
 			        	"gameName"=>$gameName,
 			        	"url"=>get_permalink($postID),
 			        	"id"=>$postID, 
-			        	"instructions"=>$use_separate_instructions, 
+			        	"instructions"=>$instructions_url, 
 			        	"description"=>$description, 
 			        	"iconGraphic"=>$gameName,
 			        	"iconURL"=>content_url() . "/gameMenu/" . $gameName]);
