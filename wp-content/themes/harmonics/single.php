@@ -16,11 +16,11 @@ echo "<!DOCTYPE html>
 		<meta http-equiv='content-type' content='text/html; charset=utf-8' />
 		<title>Game Engine</title>
 	</head>
-	<body id='bodyElmt' data-gameurl='" . content_url( '97dL81xtE49aXxa/' ) . get_the_title() . "'>";
+	<body id='bodyElmt' data-gameurl='" . content_url( '97dL81xtE49aXxa/' ) . get_the_title() . "/game/'>";
 ?>
 <script>
 	// this redirect goes to the page in the game folder
-	var gameUrl = document.getElementById('bodyElmt').dataset.gameurl + top.GameManager.getGameSuffix();
+	var gameUrl = document.getElementById('bodyElmt').dataset.gameurl;
 	window.location.replace(gameUrl);	
 </script>
 </php 
