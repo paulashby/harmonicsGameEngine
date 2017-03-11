@@ -16,7 +16,7 @@ echo "<!DOCTYPE html>
 		<meta http-equiv='content-type' content='text/html; charset=utf-8' />
 		<title>Game Engine</title>
 	</head>
-	<body id='bodyElmt' data-gameurl='" . content_url( '97dL81xtE49aXxa/' ) . get_the_title() . "/game/'>";
+	<body id='bodyElmt' data-gameurl='" . esc_url( content_url( '97dL81xtE49aXxa/' ) . get_the_title() . '/game/' ) . "'>";
 ?>
 <script>
 	// this redirect goes to the page in the game folder
