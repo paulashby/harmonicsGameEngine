@@ -32,6 +32,8 @@
 					echo "<div class='menu " . $classString . "'>";		
 				    if( have_rows("menu-items", "option") ) {
 
+				    	$currUser ="user_" . get_current_user_id();
+
 				    	echo "<ul>
 					        <li class='logoutBttn'>";				        	
 				        	$ServicesPageName = get_field('services-page-name', $currUser);
@@ -41,8 +43,6 @@
 			        		<li class='exitBttn exitGame'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_exitgame.png' alt='exit game' data-category='exit'></a></li>
 				        	<li class='teamBttn changeTeams'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_changeteams.png' alt='change teams' data-category='teamchange'></a></li>";
 
-				    	$currUser ="user_" . get_current_user_id();
-	        
 				        while( have_rows("menu-items", "option") ) {
 				        	
 				        	the_row();
