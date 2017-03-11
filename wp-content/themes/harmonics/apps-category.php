@@ -7,14 +7,10 @@
 		}
 		write_log( date('[Y-m-d H:i e] '). $errStr );
 	};
-	$adminEmail = get_option( 'admin_email' );
-	// TODO: Need 'from' address for error emails
-	$emailHeaders = 'From: AppsCategory <info@primitive.co>' . "\r\n";
-
+	
 	// Determine required category links
-    $categoryArray = [];
+    $categoryArray = array('games'=>get_home_url());
     $numCategories = 0;
-    $gamesEnabled = false;
 
     if( have_rows('menu-items', 'option') ) {
         
@@ -30,13 +26,6 @@
             	$ServicesPageName = get_field('services-page-name', $currUser);
             	$url = esc_url( content_url(). '/servicespages/' . $ServicesPageName );
             }
-
-            if( $title == 'games' && ! $url ) {			        			
-    			$url = get_home_url();
-    			if($include) {
-    				$gamesEnabled = true;	
-    			}
-    		}
     		if($title !== 'shopping') {
 	            if( $include ) {
 	            	$categoryArray[$title] = $url;
@@ -48,14 +37,7 @@
         }              
     }
     if($numCategories < 2) {
-    	if($gamesEnabled) {
-    		// Only games available - go straight to Game Engine
-    		header('Location: '. get_home_url());	
-    	} else {
-    		// Error - we expect games to be available - notify administrator
-			// wp_mail( $adminEmail, "AppsCategory issue: Games disabled in Game Engine Settings"], $emailHeaders );
-			logError("AppsCategory issue: Games disabled in Game Engine Settings");
-    	}    	
+    	header('Location: '. get_home_url());
     }
 
 	echo " 
