@@ -2,14 +2,18 @@
 var GameManager = (function () {
 
 	'use strict';
-	console.log('GameManager');
+	
 	var
+	
+	NEXT_GAME_TIMEOUT = 15000,
+	GAMES_PER_SESSION = 3,
+
 	pauseEvent = new Event('pause'),	
 	exitEvent = new Event('exit'),
 	reteam = false,
 	dburl,
-	NEXT_GAME_TIMEOUT = 15000,
-	GAMES_PER_SESSION = 3,	
+	gamesURL,
+	inactivityTimeout,
 	// State is changed when we receive user input or insertScores is called 
 	// this inital state is used for testing until we implement user input
 	startPageUrl,
@@ -18,7 +22,6 @@ var GameManager = (function () {
 	teamRankings = [],
 	currGame, // current game's index in gameList
 	currGameUrl,
-	redirectSufffix,
 	nextGameTimeout,
 	fallbackState = [
 		{place: 1, player: 8, ranking: 0},  
@@ -197,7 +200,7 @@ var GameManager = (function () {
 			showResults = true;	
 		}
 		showDraw = !exit;
-		document.getElementById('ifrm').src = document.body.dataset.starturl;
+		document.getElementById('ifrm').src = gamesURL;
 		clearTimeout(nextGameTimeout);
 		// Remove game related buttons from menu
 		menu.classList.toggle('showGameButtons'); return {success: true, data: 'Loading next game'};
@@ -260,15 +263,11 @@ var GameManager = (function () {
 	_startGame = function () {
 		var menu = document.getElementById('menuContainer');
 		// Instructions have just been shown
-		redirectSufffix = '/game';
 		document.getElementById('ifrm').src = currGameUrl;
 
 		if( ! menu.classList.contains('showGameButtons')) {
 			menu.classList.toggle('showGameButtons');	
 		}
-	},
-	_getGameSuffix = function () {
-		return redirectSufffix;
 	},
 	_onMenuClick = function (e) {
 		var ifrm = document.getElementById('ifrm'),
@@ -301,6 +300,12 @@ var GameManager = (function () {
 			hideMenu();
 			window.dispatchEvent(pauseEvent);
 		}
+	},
+	_getGamesURL = function () {
+		return gamesURL;
+	},
+	_getInactvityTimeout = function () {
+		return inactivityTimeout;
 	},
 	apiCall = function (url) {
 
@@ -336,6 +341,9 @@ var GameManager = (function () {
 		templateDirURL = document.body.dataset.templateurl,
 		i, len = logoutLinks.length;
 
+		gamesURL = document.body.dataset.starturl;
+		inactivityTimeout = document.body.dataset.timeoutduration * 1000;
+
 		for(i = 0; i < len; i++) {
 			logoutLinks[i].innerHTML = "<img src='" + templateDirURL + "/css/img/menu_logout.png' alt='logout' data-category='logout'>";
 		}
@@ -347,7 +355,7 @@ var GameManager = (function () {
 				gameList = parsedData.games;				
 
 				// The gameList is ready, safe to load the start page
-				document.getElementById('ifrm').src = document.body.dataset.starturl;
+				document.getElementById('ifrm').src = gamesURL;
 
 				// Add menu event listeners
 				document.getElementById('topBttn').addEventListener('click', GameManager.onMenuClick);
@@ -387,9 +395,6 @@ var GameManager = (function () {
 		startGame: function () {
 			return _startGame();
 		},
-		getGameSuffix: function () {
-			return _getGameSuffix();
-		},
 		getResults: function () {			
 			return showResults ? _getState() : showResults;
 		},
@@ -410,6 +415,12 @@ var GameManager = (function () {
 		},
 		onMenuClick: function (e) {
 			return _onMenuClick(e);
+		},
+		getGamesURL: function () {
+			return _getGamesURL();
+		},
+		getInactivityTimeout: function () {
+			return _getInactvityTimeout();
 		}
 	};
 }());
