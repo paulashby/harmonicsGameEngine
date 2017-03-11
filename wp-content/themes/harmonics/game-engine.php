@@ -6,7 +6,8 @@
 		<title>Game Engine</title>					
 		<?php wp_head(); ?>				
 	</head>	
-	<?php echo "<body  data-db='" . esc_url( site_url() . '/?page_id=6' ) . "' data-starturl='" . esc_url( content_url() . '/startPage/src/index.html' ) . "' data-templateurl='" . get_template_directory_uri(). "' id='bodyElmt'>"; ?>
+	<?php 
+	echo "<body  data-db='" . esc_url( site_url() . '/?page_id=6' ) . "' data-starturl='" . esc_url( content_url() . '/startPage/src/index.html' ) . "' data-templateurl='" . get_template_directory_uri() . "' data-timeoutduration='" . get_field('inactivity-timeout-duration', 'option') . "'id='bodyElmt'>"; ?>
 			<div id='menuContainer' class='hideMenu'>
 		
 			<?php	
