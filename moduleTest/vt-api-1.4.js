@@ -1,12 +1,24 @@
 /*global window, array, CustomEvent, testConfig, parent, top */
+
+
 var VTAPI = (function (GameManager) {
 
 	'use strict';
 
   var
+  INACTIVITY_PERIOD = GameManager.getInactivityTimeout(),
+
   pauseEvent = new Event('pause'),
   exitEvent = new Event('exit'),
   testing = window.frameElement === null,
+  inactivityTimeout,
+  onTimeout = function () {
+      location.href = GameManager.getGamesURL();
+  },
+  resetTimer = function () {
+    clearTimeout(inactivityTimeout);
+    inactivityTimeout = setTimeout(onTimeout, INACTIVITY_PERIOD);
+  },
   dispatchInputError = function (errDetails) {
     var inputErrorEvent = new CustomEvent("VTAPIinputError", {
       detail: {
@@ -234,6 +246,8 @@ var VTAPI = (function (GameManager) {
     }
     return state;
   }; 
+  resetTimer();
+  document.onclick = function () { resetTimer();};
 	
 	return {
     registerGame: function (game) {
@@ -272,9 +286,6 @@ var VTAPI = (function (GameManager) {
         return GameManager.onGameOver(true);
       } 
       return testing ? {success: true, data: 'Loading next game'} : GameManager.onGameOver();      
-    },
-    onGameTimeout: function () {
-      return testing ? {success: true, data: 'loading start page'} : GameManager.onGameTimeout();
     },
     cloneState: function (state) {
       return _cloneState(state);
