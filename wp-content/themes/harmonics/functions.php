@@ -13,21 +13,21 @@ function enqueue_by_template() {
 
     if ( is_page_template( 'game-engine.php' ) ) {
 
-        wp_enqueue_style( 'game-engine.css', get_template_directory_uri() . '/css/game-engine.css' );
-        wp_register_script('GameManager', get_template_directory_uri() . '/scripts/GameManager.js' );
+        wp_enqueue_style( 'game-engine.css', esc_url( get_template_directory_uri() . '/css/game-engine.css' ) );
+        wp_register_script('GameManager', esc_url( get_template_directory_uri() . '/scripts/GameManager.js' ) );
         wp_enqueue_script( 'GameManager');
 
     } else if ( is_page_template( 'apps-category.php' ) ) {
 
-        wp_register_script('Phaser', content_url() . '/appsCategory/src/phaser.js' );
+        wp_register_script('Phaser', esc_url( content_url() . '/appsCategory/src/phaser.js' ) );
         wp_enqueue_script( 'Phaser');
-        wp_register_script('Boot', content_url() . '/appsCategory/src/Boot.js' );
+        wp_register_script('Boot', esc_url( content_url() . '/appsCategory/src/Boot.js' ) );
         wp_enqueue_script( 'Boot');
-        wp_register_script('Preloader', content_url() . '/appsCategory/src/Preloader.js' );
+        wp_register_script('Preloader', esc_url( content_url() . '/appsCategory/src/Preloader.js' ) );
         wp_enqueue_script( 'Preloader');
-        wp_register_script('Game', content_url() . '/appsCategory/src/Game.js' );
+        wp_register_script('Game', esc_url( content_url() . '/appsCategory/src/Game.js' ) );
         wp_enqueue_script( 'Game');
-        wp_register_script('GameOver', content_url() . '/appsCategory/src/GameOver.js' );
+        wp_register_script('GameOver', esc_url( content_url() . '/appsCategory/src/GameOver.js' ) );
         wp_enqueue_script( 'GameOver');
 
     } else {
@@ -39,7 +39,7 @@ add_action( 'wp_enqueue_scripts', 'enqueue_by_template' );
 
 function custom_login_stylesheet() {
 
-    wp_enqueue_style( 'custom-login', get_template_directory_uri() . '/css/login.css' );
+    wp_enqueue_style( 'custom-login', esc_url( get_template_directory_uri() . '/css/login.css' ) );
 }
 add_action( 'login_enqueue_scripts', 'custom_login_stylesheet' );
 
@@ -177,7 +177,7 @@ add_filter('acf/load_field/name=user-menu-items-title', 'acf_load_user_menu_item
 
 
 function registerCustomAdminCss(){
-	$src = get_template_directory_uri() . '/css/custom-admin.css';
+	$src = esc_url( get_template_directory_uri() . '/css/custom-admin.css' );
 	$handle = 'customAdminCss';
 
 	wp_register_script($handle, $src);

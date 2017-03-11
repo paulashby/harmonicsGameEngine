@@ -120,7 +120,7 @@
 		        	foreach ($loading_options as $optn) {
 		        		
 		        		if($optn["value"] == "instructions") {
-		        			$instructions_url = content_url() . "/97dL81xtE49aXxa/" . $gameName . "/instructions/";
+		        			$instructions_url = esc_url( content_url() . "/97dL81xtE49aXxa/" . $gameName . "/instructions/" );
 		        		} else if($optn["value"] == "suspended") {
 		        			$under_review = true;
 		        		}
@@ -134,7 +134,7 @@
 			        	"instructions"=>$instructions_url, 
 			        	"description"=>$description, 
 			        	"iconGraphic"=>$gameName,
-			        	"iconURL"=>content_url() . "/gameMenu/" . $gameName]);
+			        	"iconURL"=>esc_url( content_url() . "/gameMenu/" . $gameName )]);
 			    }
 		    }
 		    if( count( $retrievedArray ) > 0 ){	
