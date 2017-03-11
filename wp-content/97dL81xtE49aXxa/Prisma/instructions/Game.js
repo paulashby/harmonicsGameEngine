@@ -1279,29 +1279,6 @@
 					hzPanel.alpha = 0;
 					hzPanel.alphaTween = Prisma.game.add.tween(hzPanel).to({alpha: 0.5}, alphaTweenDur, Phaser.Easing.Linear.InOut, false);	
 				},
-				makeDemo = function (tap) {
-					console.log(tap.x);
-					/*
-					var i = 1,
-					tweenTargetGlobal,
-					tweenTargetLocal,
-					tweenTargets = f.elmtByZone[tap.homeZone].targetElmt,
-					numTaps = f.NUM_DEMO_CLICKS,
-					tweenDur = 600,
-					tapGroup = tap.parent;
-					
-					 //add tweens
-					for(i = 0; i < numTaps; i++){
-						tweenTargetGlobal = tweenTargets[i];
-						tweenTargetLocal = tapGroup.toLocal({x: 0, y: 0}, tweenTargetGlobal);
-						tap.tweens.push(Prisma.game.add.tween(tap).to({x: tweenTargetLocal.x, y: tweenTargetLocal.y}, tweenDur * (i + 1), Phaser.Easing.Sinusoidal.InOut, false));
-						tap.targetElmt = tweenTargetGlobal;
-						tap.tweens[i].onComplete.add(function() { demoTap(tap); }, this);
-					}
-					chainTweens(tap);
-					tap.tweens[0].start();
-					*/					
-				},
 				// instOpts is an object with the properties position(object), duration(number), angle(number), textureKey(string), callback(function) 
 				addInstruction = function (instOpts) {
 					var instruction = Prisma.game.add.sprite(instOpts.position.x, instOpts.position.y, instOpts.textureKey);
@@ -1338,8 +1315,7 @@
 					tap.animations.add('tapAnim', [1, 2, 3, 2, 1, 0]);
 					tap.scaleTween = Prisma.game.add.tween(tap.scale).to({x: 1, y: 1}, 400, Phaser.Easing.Linear.Out, false);
 					tap.scaleDownTween = Prisma.game.add.tween(tap.scale).to({x: 0, y: 0}, 750, Phaser.Easing.Elastic.In, false);
-					tap.scaleDownTween.onComplete.add(function () { f.sound[3].play(); }, this);					
-					tap.scaleTween.onComplete.add(function () { makeDemo(tap);  }, this, tap);
+					tap.scaleDownTween.onComplete.add(function () { f.sound[3].play(); }, this);
 					
 					homeZoneGroup.tap = tap;
 					f.tapGroup.add(tap);
