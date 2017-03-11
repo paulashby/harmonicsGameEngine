@@ -17,13 +17,15 @@ body {
 }
 
 #menuContainer .exitBttn,
-#menuContainer .teamBttn
+#menuContainer .teamBttn,
+#menuContainer .gamesBttn
 {
 	display: none;	
 }
 
 #menuContainer.showGameButtons .exitBttn,
-#menuContainer.showGameButtons .teamBttn
+#menuContainer.showGameButtons .teamBttn,
+#menuContainer.showGameButtons .gamesBttn
 {
 	display: inline-block;	
 }

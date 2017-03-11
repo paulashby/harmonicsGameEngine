@@ -40,8 +40,9 @@
 							$redirectURL = esc_url( content_url(). '/servicespages/' . $ServicesPageName );
 							$redirectString = '[logout redirect="' . $redirectURL . '"]';
 				        	echo do_shortcode( $redirectString ) . "</li>
-			        		<li class='exitBttn exitGame'><a href=''><img src='" . esc_url( get_template_directory_uri('/css/img/menu_exitgame.png') ) . "' alt='exit game' data-category='exit'></a></li>
-				        	<li class='teamBttn changeTeams'><a href=''><img src='" . esc_url( get_template_directory_uri('/css/img/menu_changeteams.png') ) . "' alt='change teams' data-category='teamchange'></a></li>";
+			        		<li class='exitBttn exitGame'><a href=''><img src='" . esc_url( get_template_directory_uri() )  . "/css/img/menu_exitgame.png' alt='exit game' data-category='exit'></a></li>
+				        	<li class='teamBttn changeTeams'><a href=''><img src='" . esc_url( get_template_directory_uri() ) . "/css/img/menu_changeteams.png' alt='change teams' data-category='teamchange'></a></li>
+				        	<li class='gamesBttn games'><a href='" . esc_url( get_home_url() ) . "'><img src='" . esc_url( get_template_directory_uri() ) . "/css/img/menu_games.png' alt='games'></a></li>";
 
 				        while( have_rows("menu-items", "option") ) {
 				        	
@@ -66,10 +67,7 @@
 							}
 							// Only include item in menu if include is checked on Game Engine Settings page
 				        	if(get_sub_field("include")){
-				        		// Game Engine address not expected from Game Engine Settings page
-				        		if($title == "games" && ! $linkURL) {			        			
-				        			$linkURL = get_home_url();
-				        		} else if($title == "services") {
+				        		 if($title == "services") {
 				        			$ServicesPageName = get_field('services-page-name', $currUser);
             						$linkURL = esc_url( content_url(). '/servicespages/' . $ServicesPageName );
 				        		}
