@@ -863,7 +863,7 @@ f = {
 		this.setMotionTimeout(this);		
 	};
 	f.DiscAuto.prototype.setMotionTimeout = function (disc) {
-		disc.motionTimeout = setTimeout(function (disc) {disc.exitHomeZone(); console.log('motionTimeout');}, 20000, disc);
+		disc.motionTimeout = setTimeout(function (disc) {disc.exitHomeZone(); }, 20000, disc);
 	};
 	f.DiscAuto.prototype.update = function () {
 		f.Disc.prototype.update.call(this);
