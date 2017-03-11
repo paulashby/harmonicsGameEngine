@@ -6,7 +6,7 @@
 		<title>Game Engine</title>					
 		<?php wp_head(); ?>				
 	</head>	
-	<?php echo "<body  data-db='" . site_url() . "/?page_id=6' data-starturl='" . content_url() . "/startPage/src/index.html' data-templateurl='" . get_template_directory_uri(). "' id='bodyElmt'>"; ?>
+	<?php echo "<body  data-db='" . esc_url( site_url() . '/?page_id=6' ) . "' data-starturl='" . esc_url( content_url() . '/startPage/src/index.html' ) . "' data-templateurl='" . get_template_directory_uri(). "' id='bodyElmt'>"; ?>
 			<div id='menuContainer' class='hideMenu'>
 		
 			<?php	
@@ -40,8 +40,8 @@
 							$redirectURL = esc_url( content_url(). '/servicespages/' . $ServicesPageName );
 							$redirectString = '[logout redirect="' . $redirectURL . '"]';
 				        	echo do_shortcode( $redirectString ) . "</li>
-			        		<li class='exitBttn exitGame'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_exitgame.png' alt='exit game' data-category='exit'></a></li>
-				        	<li class='teamBttn changeTeams'><a href=''><img src='" . get_template_directory_uri() . "/css/img/menu_changeteams.png' alt='change teams' data-category='teamchange'></a></li>";
+			        		<li class='exitBttn exitGame'><a href=''><img src='" . esc_url( get_template_directory_uri() . '/css/img/menu_exitgame.png' ) . "' alt='exit game' data-category='exit'></a></li>
+				        	<li class='teamBttn changeTeams'><a href=''><img src='" . esc_url( get_template_directory_uri() . '/css/img/menu_changeteams.png' ) . "' alt='change teams' data-category='teamchange'></a></li>";
 
 				        while( have_rows("menu-items", "option") ) {
 				        	
@@ -73,7 +73,7 @@
 				        			$ServicesPageName = get_field('services-page-name', $currUser);
             						$linkURL = esc_url( content_url(). '/servicespages/' . $ServicesPageName );
 				        		}
-				        		echo "<li class='" . $title . "'><a href='" . $linkURL . "'><img src='" . get_template_directory_uri() . "/css/img/menu_" . $title . ".png' alt='" . $title . "' data-category='" . $title . "'></a></li>";	
+				        		echo "<li class='" . $title . "'><a href='" . $linkURL . "'><img src='" . esc_url( get_template_directory_uri() . "/css/img/menu_" . $title . '.png' ) . "' alt='" . $title . "' data-category='" . $title . "'></a></li>";	
 				        	}			        				        	
 				        }
 				        echo "</ul>
