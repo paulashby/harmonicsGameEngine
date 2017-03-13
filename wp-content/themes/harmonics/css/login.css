@@ -2,6 +2,11 @@ body.login
 {
 	background-image: url('../../../startPage/assets/bg.jpg');
     background-color: #cccccc;
+    position: relative;
+}
+body.login div#login form#loginform 
+{
+	padding-bottom: 20px;
 }
 body.login div#login h1 
 {
@@ -24,10 +29,19 @@ body.login div#login p.message
 	border: none;
 	background-color: transparent;
 	color: #fff;
+	display: none;
+	font-size: 1.5em;
+	left:500px;
 	padding: 0;
 	font-size: 1.15em;
-	position: relative;
-    top: 320px;
+	position: absolute;	
+	text-align: center;
+    top: 600px;
+	width: 920px;
+}
+body.login div#login p#custom.message
+{
+	display: block;
 }
 body.login div#login form#loginform input#wp-submit 
 {
@@ -35,4 +49,8 @@ body.login div#login form#loginform input#wp-submit
     border: medium none;
     box-shadow: none;
     text-shadow: none;
+}
+body.login div#login form#loginform p.forgetmenot 
+{
+	display: none;
 }
