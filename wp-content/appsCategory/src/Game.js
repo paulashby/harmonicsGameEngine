@@ -24,22 +24,16 @@
 				}
 				if(playNow) {
 					// TODO: Uncomment start page sound
-					//newSound.play();
+					newSound.play();
 				}
 				return newSound;
 			},
 			// gears = AppsCategory.game.add.group(),
 			gears = new f.GearGroup(AppsCategory.game);
-			// testGear = AppsCategory.game.add.sprite(f.HALF_WIDTH, f.HALF_HEIGHT, 'gears', 0);
 
-			// testGear = new f.Gear(AppsCategory.game, f.HALF_WIDTH, f.HALF_HEIGHT, 0),
-			// testGear1 = new f.Gear(AppsCategory.game, 860, 795, 1);
-			// gears.add(testGear);
-			// gears.add(testGear1);
-
-			// f.activeLoop = addSound('activeLoop', true, true);			
-			// f.ringTurn = addSound('ringTurn', true);
-			// f.loser.volume = 0.4;	
+			f.activeLoop = addSound('activeLoop', true, true);
+			f.bump = addSound('bump');
+			f.bump.volume = 0.6;	
 	    },
 	    update: function () {
 	    	if(f.gameOver) {

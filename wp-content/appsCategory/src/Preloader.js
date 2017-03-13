@@ -15,9 +15,9 @@
 	AppsCategory.Preloader.prototype = {
 		
 		preload: function () {
-			// this.load.bitmapFont('luckiestGuy', '../assets/LuckiestGuy/LuckiestGuy.png', '../assets/LuckiestGuy/LuckiestGuy.fnt');
-
-			// this.load.audio('showResults', ['../assets/audio/showResults.mp3', '../assets/audio/showResults.ogg']);	
+			
+			this.load.audio('activeLoop', ['wp-content/appsCategory/assets/audio/bellMastera.mp3', 'wp-content/appsCategory/assets/audio/bellMastera.ogg']);
+			this.load.audio('bump', ['wp-content/appsCategory/assets/audio/bump.mp3', 'wp-content/appsCategory/assets/audio/bump.ogg']);
 			
 			this.load.image('buttonBG', 'wp-content/appsCategory/assets/buttonBG.png');
 			this.load.image('services', 'wp-content/appsCategory/assets/services.png');

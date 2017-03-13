@@ -13,13 +13,15 @@ f = f || {}; // our members and functions in here
 	f.HALF_WIDTH = f.GAME_WIDTH/2;
 	f.HALF_HEIGHT = f.GAME_HEIGHT/2;
 	f.PULSE_DUR = 600;
-	f.PULSE_INTERVAL = 200;
+	f.PULSE_INTERVAL = 200;	
+	f.PULSE_SOUND_INTERVAL = 35;
 	f.GEAR_SPEED = 0.1;
 
 	f.assignedTweens = [];
 	f.servicesURL = false;
 	f.numSecondaryCategories = 0;
-	f.pulseSignal = new Phaser.Signal();	
+	f.pulseSignal = new Phaser.Signal();
+	f.pulsed = false;	
 		
 	f.normaliseAngle = function (ang) {
 		return ang + 360;
@@ -253,8 +255,12 @@ f = f || {}; // our members and functions in here
 	f.GearGroup.prototype.updatePulseClock = function () {
     	if(this.pulseClock === f.PULSE_INTERVAL) {
     		this.pulseClock = 0;
+    		f.pulsed = true;
     		f.pulseSignal.dispatch();
     	} else {
+    		if(f.pulsed && this.pulseClock === f.PULSE_SOUND_INTERVAL) {
+    			f.bump.play();
+    		}
     		this.pulseClock++;	
     	}	    
     }
