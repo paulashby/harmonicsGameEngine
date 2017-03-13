@@ -7,9 +7,16 @@
 		}
 		write_log( date('[Y-m-d H:i e] '). $errStr );
 	};
+	function get_url_by_slug($slug) {
+	    $page_url_id = get_page_by_path( $slug );
+	    $page_url_link = get_permalink($page_url_id);
+	    return esc_url( $page_url_link );
+	};
 	
+	$gamesPageURL = get_url_by_slug( 'game-engine' );
+
 	// Determine required category links
-    $categoryArray = array('games'=>get_home_url());
+    $categoryArray = array('games'=>$gamesPageURL);
     $numCategories = 0;
 
     if( have_rows('menu-items', 'option') ) {
