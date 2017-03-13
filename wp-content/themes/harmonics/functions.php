@@ -9,6 +9,35 @@
  * @since 1.0
  */
 
+// login timeout on per user basis
+add_filter('auth_cookie_expiration', 'expiration_per_user', 99, 3);
+function expiration_per_user($seconds, $user_id, $remember){
+
+    $defaultTimeout = 14 * 24 * 60 * 60;
+
+    $currUser = 'user_' . $user_id;
+
+    // Login timeout period for current user
+    $userTimeout = get_field('login-timeout', $currUser);
+
+    $expiration = $userTimeout ? $userTimeout * 60 : $defaultTimeout;
+
+    //http://en.wikipedia.org/wiki/Year_2038_problem
+    if ( PHP_INT_MAX - time() < $expiration ) {
+        //Fix to a little bit earlier!
+        $expiration =  PHP_INT_MAX - time() - 5;
+    }
+
+    return $expiration;
+}
+
+// Add message to login page
+function custom_login_message() {
+$message = '<p id="custom" class="message">The session has expired - please log in to continue</p><br />';
+return $message;
+}
+add_filter('login_message', 'custom_login_message');
+
 function enqueue_by_template() {
 
     if ( is_page_template( 'game-engine.php' ) ) {
@@ -168,7 +197,7 @@ function acf_load_user_menu_item_choices( $field ) {
             $value = get_sub_field('title');
             $label = get_sub_field('title');
 
-            $field['choices'][ $value ] = $label;            
+            $field['choices'][ $value ] = $label;
         }        
     }
     return $field;    
