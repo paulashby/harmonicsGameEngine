@@ -1057,8 +1057,6 @@
 				f.setLevelTimers();
 				f.collectLoop.stop();
 				f.ambientLoop.play();
-				f.inactivityTimer = f.getTimer(f, 'inactivityHandler', f.MAX_INACTIVITY);
-				f.inactivityTimer.start();
 				f.beat.play();
 			},
 			addCountdownTweens = function (currElmt) {
@@ -1253,9 +1251,7 @@
 				Prisma.game.paused = true;
 				top.window.removeEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
 				top.window.removeEventListener('exit', function (e) { gameOver(false, true); }, false);
-				if(gameTimeout) {
-					VTAPI.onGameTimeout();
-				} else if (exit) {
+				if (exit) {
 					VTAPI.onGameOver(true);
 				} else {
 					VTAPI.onGameOver();
@@ -1739,7 +1735,6 @@
 					durrMultiplier;
 					f.levelOver = true;
 
-				f.inactivityTimer.destroy();
 				f.draggedPrisms = 0;
 				Prisma.game.sound.stopAll();
 				f.selected = [];
@@ -1812,12 +1807,7 @@
 				var zap = f.getZapper(pointer);
 				f.zapperGroup.add(zap);
 			};
-			f.resetInactivityTimer = function () {				
-				f.inactivityTimer.stop(false);
-				f.inactivityTimer.start();
-			};
 			f.onTap = function (eTarget, pointer) {
-				f.resetInactivityTimer();
 				if(!f.collecting){
 					if(eTarget.isHZ){
 						if(eTarget.loaded()){
@@ -1899,19 +1889,11 @@
 			f.sound[10].allowMultiple = true;
 
 			f.beat.play();
-			f.inactivityHandler = function () {
-				gameOver(true);
-			}
-			f.inactivityTimer = f.getTimer(f, 'inactivityHandler', f.MAX_INACTIVITY);
-
-		    top.window.addEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
+			top.window.addEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
 		    top.window.addEventListener('exit', function (e) { gameOver(false, true); }, false);
 	    },
 	    update: function () {
-	    	if(f.draggedPrisms > 0) {
-	    		f.resetInactivityTimer();
-	    	}
-			// checking f.homeZones just to be sure f is not an empty object
+	    	// checking f.homeZones just to be sure f is not an empty object
 			if(f.homeZones && f.gameStarted){
 				var i,
 					j,
