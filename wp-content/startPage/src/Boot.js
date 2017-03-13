@@ -100,6 +100,7 @@ f = f || {}; // our members and functions in here
 	f.UI_TWEEN_DUR = 500;
 	f.MIN_GAMES_TO_CYCLE_MENU = 3;
 	f.PULSE_INTERVAL = 150;
+	f.PULSE_SOUND_INTERVAL = 65;
 	f.LOGO_OFFSET = 470;
 
 	f.assignedTweens = [];
@@ -494,8 +495,11 @@ f = f || {}; // our members and functions in here
 	f.StartButton.prototype.updatePulseClock = function () {
     	if(this.pulseClock === f.PULSE_INTERVAL) {
     		this.pulseClock = 0;
-    		this.pulseTween.start();
+    		this.pulseTween.start();    		
     	} else {
+    		if(this.parent.scale.x === 1 && this.pulseClock === f.PULSE_SOUND_INTERVAL) {
+    			f.bump.play();
+    		}
     		this.pulseClock++;	
     	}	    
     };
@@ -608,6 +612,7 @@ f = f || {}; // our members and functions in here
 		}
 		// enable click detection after swipe
 		if(this.parent) {
+			f.swoosh.play();
 			this.parent.swiping = false;
 		}
 	};

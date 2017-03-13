@@ -44,8 +44,7 @@
 					newSound.loop = true;
 				}
 				if(playNow) {
-					// TODO: Uncomment start page sound
-					//newSound.play();
+					newSound.play();
 				}
 				return newSound;
 			},
@@ -282,6 +281,9 @@
 			f.loser = addSound('loser');
 			f.loser.volume = 0.4;
 			f.showResultsSound = addSound('showResults');
+			f.swoosh = addSound('swoosh');
+			f.bump = addSound('bump');
+			f.bump.volume = 0.6;
 
 			if(f.results) {
 				// We're returning to start page at end of a session
