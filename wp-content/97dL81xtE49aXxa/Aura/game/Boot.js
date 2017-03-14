@@ -9,7 +9,7 @@ f = {
 	SCORE_PANEL_FRAMES: 8,
 	SCORE_PANELS_OFFSET_V: 48,
 	NUM_LEVELS: 3,
-	LEVEL_DURATION: 1000,
+	LEVEL_DURATION: 60000,
 	PANEL_DELAY: 750,// Allow results to get out of the way
 	LEVEL_PANEL_DELAY: 500,// Show level over before scores
 	SCORE_PANEL_DELAY: 100,// stagger timing of panels
