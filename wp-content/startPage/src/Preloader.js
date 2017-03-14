@@ -47,6 +47,8 @@
 			this.load.audio('winner', ['../assets/audio/winner.mp3', '../assets/audio/winner.ogg']);
 			this.load.audio('loser', ['../assets/audio/loser.mp3', '../assets/audio/loser.ogg']);
 			this.load.audio('showResults', ['../assets/audio/showResults.mp3', '../assets/audio/showResults.ogg']);	
+			this.load.audio('swoosh', ['../assets/audio/swoosh.mp3', '../assets/audio/swoosh.ogg']);
+			this.load.audio('bump', ['../assets/audio/bump.mp3', '../assets/audio/bump.ogg']);
 			
 			this.load.image('corona', '../assets/particlePink.png');
 
