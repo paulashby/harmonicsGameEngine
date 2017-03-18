@@ -57,9 +57,10 @@ f = f || {}; // our members and functions in here
 		for (var prop in categories) {
 		    if (categories.hasOwnProperty(prop)) {
 		    	if(prop !== 'services' && prop !== 'games') {
-		    		// push category name and url to secondaryCategories Array
-		    		secondaryCategories.push([prop, categories[prop]]);	
+		    		
 		    		if(categories[prop] !== false) {
+		    			// push category name and url to secondaryCategories Array
+		    		secondaryCategories.push([prop, categories[prop]]);	
 		    			f.numSecondaryCategories++;	
 		    		}    		
 		    	}
@@ -71,8 +72,9 @@ f = f || {}; // our members and functions in here
 		var 
 		// Array of arrays containing [categoryString, urlStrings]
 		// these will be added to the gears as properties
+
 		secondaryCategories = f.getSecondaryCategories(categories),
-		layouts = {
+		layouts = (function (secondaryCategories) {
 
 			/*
 			 * Primary = main categories (Games, Services)
@@ -83,8 +85,8 @@ f = f || {}; // our members and functions in here
 			 * So layout with Services enabled and a single secondary category
 			 * would be layouts.servicesEnabled[1]
 			 */
-
-			servicesEnabled: [		
+			var layoutArray = {
+				servicesEnabled: [		
 
 				// Assuming games category will not be disabled for purposes of assigning labelNames and urls - so single primary category will always be games
 				// If in future we need to allow for games being disabled, this will need to be refactored
@@ -97,54 +99,58 @@ f = f || {}; // our members and functions in here
 					[],
 					// tertiary
 					[{x: 412, y: 725, dir: -1}, {x: 925, y: 503, dir: -1}, {x: 1515, y: 369, dir: -1}]
-				],
+					] 
+				], 
+				servicesDisabled: [
 
-				// 1: Single secondary category
-				[
+					// 0: No secondary category
+					false
+				]
+			};
+
+			// Add required secondary categories
+			if(f.numSecondaryCategories > 0) {
+				// At least one secondary category
+				layoutArray.servicesEnabled.push(
+					[
 					// primary
 					[{x: 496, y: 481, dir: 1, labelName: 'games', url: categories.games}, {x: 1212, y: 415, dir: -1, labelName: 'services', url: categories.services}], 
 					// secondary
 					[{x: 761, y: 728, dir: -1, labelName: secondaryCategories[0][0], url: secondaryCategories[0][1]}],
 					// tertiary
 					[{x: 1021, y: 675, dir: 1}, {x: 1525, y: 344, dir: 1}] 
-				],
-
-				// 2: Two secondary categories
-				[
-					// primary
-					[{x: 551, y: 417, dir: 1, labelName: 'games', url: categories.games}, {x: 1081, y: 380, dir: -1, labelName: 'services', url: categories.services}], 
-					// secondary
-					[{x: 1352, y: 633, dir: 1, labelName: secondaryCategories[0][0], url: secondaryCategories[0][1]}, {x: 726, y: 738, dir: -1, labelName: secondaryCategories[1][0], url: secondaryCategories[1][1]}],
-					// tertiary
-					[{x: 1474, y: 397, dir: -1}, {x: 992, y: 690, dir: 1}] 
-				], 
-			], 
-			servicesDisabled: [
-
-				// 0: No secondary category
-				false,
-
-				// 1: Single secondary category
-				[
+				]);
+				layoutArray.servicesDisabled.push([
 					// primary
 					[{x: 589, y: 427, dir: 1, labelName: 'games', url: categories.games}],
 					// secondary
 					[{x: 1116, y: 638, dir: 1, labelName: secondaryCategories[0][0], url: secondaryCategories[0][1]}],
 					// tertiary
 					[{x: 906, y: 465, dir: -1}, {x: 1374, y: 702, dir: -1}]
-				],
-
-				// 2: Two secondary categories
-				[
+				]);
+			}
+			if(f.numSecondaryCategories === 2) {
+				layoutArray.servicesEnabled.push(
+					[
+					// primary
+					[{x: 551, y: 417, dir: 1, labelName: 'games', url: categories.games}, {x: 1081, y: 380, dir: -1, labelName: 'services', url: categories.services}], 
+					// secondary
+					[{x: 1352, y: 633, dir: 1, labelName: secondaryCategories[0][0], url: secondaryCategories[0][1]}, {x: 726, y: 738, dir: -1, labelName: secondaryCategories[1][0], url: secondaryCategories[1][1]}],
+					// tertiary
+					[{x: 1474, y: 397, dir: -1}, {x: 992, y: 690, dir: 1}] 
+				]);
+				layoutArray.servicesDisabled.push(					[
 					// primary
 					[{x: 523, y: 469, dir: -1, labelName: 'games', url: categories.games}],
 					// secondary
 					[{x: 1045, y: 570, dir: -1, labelName: secondaryCategories[0][0], url: secondaryCategories[0][1]}, {x: 1312, y: 410, dir: 1, labelName: secondaryCategories[1][0], url: secondaryCategories[1][1]}],
 					// tertiary
 					[{x: 749, y: 708, dir: 1}, {x: 840, y: 396, dir: 1}, {x: 1517, y: 580, dir: -1}]
-				]
-			]
-		},		
+				]);
+
+			}
+			return layoutArray;
+		})(secondaryCategories),		
 		layout;
 
 		f.servicesURL = categories.services;
@@ -225,7 +231,7 @@ f = f || {}; // our members and functions in here
 		i,
 		currGearSet,
 		currGear,
-		gearSettings = {};		
+		gearSettings = {};	
 
 		// Extend Phaser.Group
 		Phaser.Group.call(this, game);
