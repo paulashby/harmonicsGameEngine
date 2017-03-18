@@ -162,12 +162,16 @@
 				i,
 				j,
 				k,
-				len = f.homeZones.length,
+				len,
 				jlen,
 				klen,
 				currElmt,
 				currJelmt,
 				currKelmt;
+
+				if(f && f.homeZones) {
+					len = f.homeZones.length;
+				}
 
 				for(i = 0; i < len; i++){
 					currElmt = f.homeZones.getAt(i);
