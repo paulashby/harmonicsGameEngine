@@ -197,7 +197,9 @@ function acf_load_user_menu_item_choices( $field ) {
             $value = get_sub_field('title');
             $label = get_sub_field('title');
 
-            $field['choices'][ $value ] = $label;
+            if( $value != 'services' ) {
+                $field['choices'][ $value ] = $label;                
+            }
         }        
     }
     return $field;    
