@@ -164,6 +164,14 @@ var GameManager = (function () {
 		});		
 		return {success: true};
 	},
+	clearTeams = function () {
+		var i, len = initialState.length;
+		for(i = 0; i < len; i++) {
+			delete initialState[i]['team'];
+		}
+		sessionState = initialState;
+		teamState = [];
+	},
 	_getGameList = function () {
 		return gameList;
 	},
@@ -194,8 +202,8 @@ var GameManager = (function () {
 		// TODO: Can we use onError to handle 404 in case an incorrect name is added on backend?
 		var menu = document.getElementById('menuContainer');
 		if(reteam) {
-			_changePlayers();
-			reteam = false;
+			// _changePlayers();
+			clearTeams();
 		} else {
 			showResults = true;	
 		}
@@ -256,7 +264,7 @@ var GameManager = (function () {
 			instructionsShown.push(gameID);
 		}
 		
-		// Remove game related buttons from menu
+		// Toggle game related menu buttons
 		document.getElementById('menuContainer').classList.toggle('showGameButtons');
 		document.getElementById('ifrm').src = gameUrl;
 	},
@@ -285,7 +293,7 @@ var GameManager = (function () {
 		document.getElementById('bodyElmt').focus();
 		if(e.target.dataset.category === 'exit') {
 			e.preventDefault();
-			if(document.getElementById('menuContainer').classList.contains('showGameButtons')){
+			if(document.getElementById('menuContainer').classList.contains('showGameButtons')){				
 				window.dispatchEvent(exitEvent);
 				hideMenu();
 			}			
@@ -341,7 +349,7 @@ var GameManager = (function () {
 		templateDirURL = document.body.dataset.templateurl,
 		i, len = logoutLinks.length;
 
-		gamesURL = document.body.dataset.starturl;
+		gamesURL = document.body.dataset.starturl;		
 		inactivityTimeout = document.body.dataset.timeoutduration * 1000;
 
 		for(i = 0; i < len; i++) {
@@ -400,6 +408,19 @@ var GameManager = (function () {
 		},
 		getDrawVisibility: function () {
 			return showDraw;
+		},
+		getReteamSettings: function () {
+			var stateVal = _getState(),
+			reteamVal = reteam;
+
+			reteam = false;
+			sessionState = [];
+			initialState = [];
+
+			return {
+				reteam: reteamVal,
+				state: stateVal
+			};
 		},
 		setResultsMode: function (mode) {
 			return showResults = mode;
