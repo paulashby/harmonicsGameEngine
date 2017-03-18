@@ -112,6 +112,27 @@
 						homeZoneGroup.add(homeZoneGroup.joinBttn);
 						f.changePlayers.add(homeZoneGroup.joinBttn.onChangePlayers, homeZoneGroup.joinBttn);
 						f.showInterface.add(scaleUp, homeZoneGroup.joinBttn);
+						f.showInterface.add(function () {
+							var reteamSettings = parent.GameManager.getReteamSettings(),
+							state, i, len, j, jlen, currPlace, currHomeZone;
+
+							if(reteamSettings.reteam) {
+								state = reteamSettings.state;
+								len = state.length;
+								jlen = f.homeZones.length;
+							}
+							for (i = 0; i < len; i++) {
+								currPlace = state[i].place;
+								// check against homeZoneGroup.place
+								for (j = 0; j < jlen; j++) {
+									currHomeZone = f.homeZones.getChildAt(j);
+									if(currHomeZone.place === currPlace) {
+										f.reteam = true;
+										currHomeZone.joinBttn.onBttnTap();
+									}
+								}
+							}
+						}, f.homeZones);
 
 						homeZoneGroup.playerLabel = StartPage.game.add.bitmapText(0, f.GAME_HEIGHT/15, 'luckiestGuy', '', f.playerLabelSize);
 						homeZoneGroup.playerLabel.align = 'center';

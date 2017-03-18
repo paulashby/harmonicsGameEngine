@@ -203,11 +203,14 @@ f = f || {}; // our members and functions in here
 	
 	f.UIbutton.prototype = Object.create(Phaser.Sprite.prototype);
 	f.UIbutton.prototype.constructor = f.UIbutton;
-	f.UIbutton.prototype.onBttnTap = function () {	
-		var playerNum = f.state.length + 1;	
+	f.UIbutton.prototype.onBttnTap = function (reteam) {	
+		var playerNum = f.state.length + 1;			
 		if(this.active && !this.joined) {
 			f.playerJoin.play();
 			this.scaleDownTween.start();
+			if(f.reteam) {
+				this.alpha = 0;	
+			}			
 			// Add player to state
 			this.joined = true;	
 			f.state.push({place: this.parent.place, player: playerNum, ranking: 0});							
@@ -1057,15 +1060,19 @@ f = f || {}; // our members and functions in here
 		var winningMembers,
 		losingMembers,
 		teamPlay = f.results[0].team;	
-
-		if(teamPlay) {
-			winningMembers = this.getWinningTeams();
-			losingMembers = this.getLosingTeams();	
+		if(parent.GameManager.getDrawVisibility()) {
+			if(teamPlay) {
+				winningMembers = this.getWinningTeams();
+				losingMembers = this.getLosingTeams();	
+			} else {
+				winningMembers = this.getWinningPlayers();
+				losingMembers = this.getLosingPlayers();
+			}
+			this.updateResultsView(winningMembers, losingMembers, teamPlay);	
 		} else {
-			winningMembers = this.getWinningPlayers();
-			losingMembers = this.getLosingPlayers();
+			this.hidePlayerPanels();
 		}
-		this.updateResultsView(winningMembers, losingMembers, teamPlay);		
+		
 	};
 	f.ResultsGroup.prototype.onChangePlayers = function () {
 		this.changePlayersTween.start();
