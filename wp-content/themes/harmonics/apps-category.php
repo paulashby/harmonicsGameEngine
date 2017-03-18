@@ -20,6 +20,9 @@
     $numCategories = 0;
 
     if( have_rows('menu-items', 'option') ) {
+
+    	$currUser = 'user_' . get_current_user_id();
+    	$linkURL = '';
         
         while( have_rows('menu-items', 'option') ) {
 
@@ -27,24 +30,57 @@
             
             $include = get_sub_field('include');
             $title = get_sub_field('title');            
-            $url = get_sub_field('link-url');
-            if( $title == 'services' ) {
-            	$currUser = 'user_' . get_current_user_id();
-            	$ServicesPageName = get_field('services-page-name', $currUser);
-            	$url = esc_url( content_url(). '/servicespages/' . $ServicesPageName );
-            }
+            $url = get_sub_field('page-name');
+
     		if($title !== 'shopping') {
-	            if( $include ) {
-	            	$categoryArray[$title] = $url;
+    			if( $include ) {
+
+					switch ( $title ) {
+		        		case "services":
+		        		// Check for user override 
+		        		$linkPageName = get_field('services-page-name', $currUser);
+		        			
+		        		if( strlen( $linkPageName ) == 0 ) {
+		        			// If override unavailable, use Game Engine settings
+		        			$linkURL = esc_url( content_url(). '/servicesPages/' . get_sub_field("page-name") );
+		        		} else {
+		        			$linkURL = esc_url( content_url(). '/servicesPages/' . $linkPageName );
+		        		}				        		
+						break;
+
+						case "cardgames":
+		        		// Check for user override 
+						$linkPageName = get_field('card-games-page-name', $currUser);
+		        		
+		        		if( strlen( $linkPageName ) == 0 ) {
+		        			// If override unavailable, use Game Engine settings
+		        			$linkURL = esc_url( content_url(). '/appsCategoryPages/' . get_sub_field("page-name") );
+		        		} else {
+		        			$linkURL = esc_url( content_url(). '/appsCategoryPages/' . $linkPageName );
+		        		}
+						break;
+
+						default:
+		        		// Check for user override 
+						$linkPageName = get_field('whiteboard-page-name', $currUser);	        						
+		        		
+		        		if( strlen( $linkPageName ) == 0 ) {
+		        			// If override unavailable, use Game Engine settings
+		        			$linkURL = esc_url( content_url(). '/appsCategoryPages/' . get_sub_field("page-name") );
+		        		} else {
+		        			$linkURL = esc_url( content_url(). '/appsCategoryPages/' . $linkPageName );	
+		        		}
+		        	}					        	
+		        	$categoryArray[$title] = $linkURL;
 	            	$numCategories++;
-	            } else {
+				} else {
 	            	$categoryArray[$title] = false;
 	            }
 	        }
         }              
     }
-    if($numCategories < 2) {
-    	header('Location: '. get_home_url());
+    if($numCategories == 0) {
+    	header('Location: '. get_url_by_slug( "game-engine" ));
     }
 
 	echo " 
