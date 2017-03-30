@@ -6,7 +6,6 @@ var GameManager = (function () {
 	var
 	
 	NEXT_GAME_TIMEOUT = 15000,
-	GAMES_PER_SESSION = 3,
 
 	pauseEvent = new Event('pause'),	
 	exitEvent = new Event('exit'),
@@ -14,8 +13,6 @@ var GameManager = (function () {
 	dburl,
 	gamesURL,
 	inactivityTimeout,
-	// State is changed when we receive user input or insertScores is called 
-	// this inital state is used for testing until we implement user input
 	startPageUrl,
 	gameList = [],
 	prevGameUrl,
@@ -35,22 +32,14 @@ var GameManager = (function () {
 	],	
 	teamState = [],
 	instructionsShown = [], // Array of game id numbers - these are cleared when players change
-	sessionState,
+	sessionState,	
+	// State is changed when we receive user input or insertScores is called 
+	// this inital state is used for testing until we implement user input
 	initialState,
 	showResults = false,
 	showDraw = false,
 	getRandomInt = function (min, max) {
 	    return Math.floor(Math.random() * (max - min + 1)) + min;
-	},
-	shuffle = function (arr) {
-		var j, x, i;
-		for (i = arr.length; i; i--) {
-			j = Math.floor(Math.random() * i);
-			x = arr[i - 1];
-			arr[i - 1] = arr[j];
-			arr[j] = x;
-		}
-		return arr;
 	},
 	startNextGameTimeout = function () {
 		nextGameTimeout = setTimeout(_onGameOver, NEXT_GAME_TIMEOUT);
@@ -176,9 +165,6 @@ var GameManager = (function () {
 		return gameList;
 	},
 	_insertScores = function (newState) {
-		// Here - validatedInput isn't used - I believe this would be handled by 
-		// vtapi's checks so no need for that here - OR suspendGame call below?
-		var validatedInput;
 		if(checkPermission('useTestState')) {
 			sessionState = VTAPI.getPlayersInformation();
 		}
@@ -344,7 +330,6 @@ var GameManager = (function () {
 	},
 	init = function () {
 		var parsedData,
-		iframe = document.getElementById('ifrm'),
 		logoutLinks = document.getElementsByClassName('logout'),
 		templateDirURL = document.body.dataset.templateurl,
 		i, len = logoutLinks.length;
