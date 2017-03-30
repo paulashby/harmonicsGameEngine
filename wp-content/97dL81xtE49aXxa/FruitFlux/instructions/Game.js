@@ -226,6 +226,12 @@
 				}
 				f.endLevel();			
 			},
+			pauseHandler = function () {
+				FruitFlux.game.paused = ! FruitFlux.game.paused;
+			},
+			exitHandler = function () {
+				gameOver(true);
+			},			
 			gameOver = function (exit) {
 				var 
 				removeSound = function(_sound) {
@@ -338,8 +344,8 @@
 						delete f[currElmt];
 					}
 				}
-				top.window.removeEventListener('pause', function (e) { FruitFlux.game.paused = ! FruitFlux.game.paused; }, false);
-				top.window.addEventListener('exit', function (e) { f.gameOver(true); }, false);
+				top.window.removeEventListener('pause', pauseHandler, false);
+				top.window.removeEventListener('exit', exitHandler, false);
 				if(exit) {
 					VTAPI.onGameOver(true);
 				} else {
@@ -813,8 +819,8 @@
 			f.instructionTimers.push(FruitFlux.game.time.events.add(5500, showTap, this));
 			f.instructionTimers.push(FruitFlux.game.time.events.add(8000, hideTap, this));
 
-			top.window.addEventListener('pause', function (e) { FruitFlux.game.paused = ! FruitFlux.game.paused; }, false);
-			top.window.addEventListener('exit', function (e) { gameOver(true); }, false);
+			top.window.addEventListener('pause', pauseHandler, false);
+			top.window.addEventListener('exit', exitHandler, false);
 		}
 	};
 }());

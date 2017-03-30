@@ -1139,6 +1139,12 @@
 			countdown = function () {
 				f.countdownTimer = Prisma.game.time.events.add(f.PANEL_DELAY, countdownPulse, this, 0);
 			},
+			pauseHandler = function () {
+				Prisma.game.paused = ! Prisma.game.paused;
+			},
+			exitHandler = function () {
+				gameOver(true);
+			},
 			gameOver = function (gameTimeout, exit) {
 				var
 				removeSound = function(sound) {
@@ -1249,8 +1255,8 @@
 					}
 				}
 				Prisma.game.paused = true;
-				top.window.removeEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
-				top.window.removeEventListener('exit', function (e) { gameOver(false, true); }, false);
+				top.window.removeEventListener('pause', pauseHandler, false);
+				top.window.removeEventListener('exit', exitHandler, false);
 				if (exit) {
 					VTAPI.onGameOver(true);
 				} else {
@@ -1889,8 +1895,8 @@
 			f.sound[10].allowMultiple = true;
 
 			f.beat.play();
-			top.window.addEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
-		    top.window.addEventListener('exit', function (e) { gameOver(false, true); }, false);
+			top.window.addEventListener('pause', pauseHandler, false);
+			top.window.addEventListener('exit', exitHandler, false);
 	    },
 	    update: function () {
 	    	// checking f.homeZones just to be sure f is not an empty object

@@ -971,6 +971,12 @@
 				f.gameOver = true;
 				f.endLevel();			
 			},
+			pauseHandler = function () {
+				Prisma.game.paused = ! Prisma.game.paused;
+			},
+			exitHandler = function () {
+				gameOver(true);
+			},
 			gameOver = function (exit) {
 				var 
 				removeSound = function(_sound) {
@@ -1066,8 +1072,8 @@
 						delete f[currElmt];
 					}
 				}
-				top.window.removeEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
-				top.window.addEventListener('exit', function (e) { f.gameOver(true); }, false);
+				top.window.removeEventListener('pause', pauseHandler, false);
+				top.window.removeEventListener('exit', exitHandler, false);
 				if(exit) {
 					VTAPI.onGameOver(true);
 				} else {
@@ -1514,8 +1520,8 @@
 			f.instructionTimers.push(Prisma.game.time.events.add(5500 + instructionDelay, showInstruction, this, 'instruction3'));	
 			f.instructionTimers.push(Prisma.game.time.events.add(5500 + (instructionDelay * 2), showInstruction, this, 'instruction4'));
 
-			top.window.addEventListener('pause', function (e) { Prisma.game.paused = ! Prisma.game.paused; }, false);
-			top.window.addEventListener('exit', function (e) { gameOver(true); }, false);			
+			top.window.addEventListener('pause', pauseHandler, false);
+			top.window.addEventListener('exit', exitHandler, false);		
 		},
 	    update: function () {
 	    	var 

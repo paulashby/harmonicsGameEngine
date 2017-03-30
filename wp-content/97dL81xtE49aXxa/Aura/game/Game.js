@@ -138,6 +138,12 @@
 					f.countdownSprite.alphaInTween.start();
 				}
 			},
+			pauseHandler = function () {
+				Aura.game.paused = ! Aura.game.paused;
+			},
+			exitHandler = function () {
+				gameOver(true);
+			},
 			gameOver = function (exit) {
 				var
 				removeSound = function(sound) {
@@ -248,8 +254,8 @@
 					}
 				}
 				Aura.game.paused = true;
-				top.window.removeEventListener('pause', function (e) { Aura.game.paused = ! Aura.game.paused; }, false);
-				top.window.removeEventListener('exit', function (e) { gameOver(true); }, false);				
+				top.window.removeEventListener('pause', pauseHandler, false);
+				top.window.removeEventListener('exit', exitHandler, false);				
 				if(exit) {
 					VTAPI.onGameOver(true);
 				} else {
@@ -849,8 +855,8 @@
 			}			
 
 			f.gameStarted = true;
-			top.window.addEventListener('pause', function (e) { Aura.game.paused = ! Aura.game.paused; }, false);
-			top.window.addEventListener('exit', function (e) { gameOver(true); }, false);
+			top.window.addEventListener('pause', pauseHandler, false);
+			top.window.addEventListener('exit', exitHandler, false);
 			// window.setTimeout(gameOver, 1000);
 	    },
 	    update: function () {

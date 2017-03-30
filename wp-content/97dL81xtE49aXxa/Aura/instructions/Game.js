@@ -4,15 +4,18 @@
 	
 	"use strict";
 
-	top.window.addEventListener('pause', function (e) { Aura.game.paused = ! Aura.game.paused; }, false);
-	top.window.addEventListener('exit', function (e) { f.gameOver(true); }, false);
-	
 	f.level = 0;
 	f.levelOver = true;
 	f.gameStarted = false;
 	f.elmtByZone = [];
 	f.removeInstructionTweens = function (instruction) {
 		f.removeTweens(instruction, ['scaleTween', 'pauseTween', 'scaleDownTween']);
+	};
+	f.pauseHandler = function () {
+		Aura.game.paused = ! Aura.game.paused;
+	};
+	f.exitHandler = function () {
+		f.gameOver(true);
 	};	
 	f.gameOver = function (exit) {
 		var 
@@ -63,6 +66,10 @@
 		}
 		f.homeZones.destroy(true, true);
 		f.bg.exists = false;
+
+		top.window.removeEventListener('pause', f.pauseHandler, false);
+		top.window.removeEventListener('exit', f.exitHandler, false);
+
 		// delete properties of f
 		for(currElmt in f){
 			if(f.hasOwnProperty(currElmt)){
@@ -70,14 +77,15 @@
 			}
 		}
 		Aura.game.paused = true;
-		top.window.removeEventListener('pause', function (e) { Aura.game.paused = ! Aura.game.paused; }, false);
-		top.window.addEventListener('exit', function (e) { f.gameOver(true); }, false);
 		if(exit) {
 			VTAPI.onGameOver(true);
 		} else {
 			VTAPI.startGame();	
 		}		
-    };
+    };    
+	top.window.addEventListener('pause', f.pauseHandler, false);
+	top.window.addEventListener('exit', f.exitHandler, false);
+
     f.startDemo = (function () {
 		var addTap = function (currZone, demoDiscNum) {
 				var currZoneHZBGsprite = currZone.getAt(0),
