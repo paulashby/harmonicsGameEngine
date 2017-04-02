@@ -12,11 +12,15 @@ var VTAPI = (function (GameManager) {
   exitEvent = new Event('exit'),
   testing = window.frameElement === null,
   inactivityTimeout,
+  clockTimeout,
   onTimeout = function () {
       location.href = GameManager.getGamesURL();
   },
-  resetTimer = function () {
-    clearTimeout(inactivityTimeout);
+  resetTimer = function (e) {
+    if(e) {
+      e.preventDefault();
+    }
+    clearTimeout(inactivityTimeout);    
     inactivityTimeout = setTimeout(onTimeout, INACTIVITY_PERIOD);
   },
   dispatchInputError = function (errDetails) {
@@ -247,7 +251,9 @@ var VTAPI = (function (GameManager) {
     return state;
   }; 
   resetTimer();
-  document.onclick = function () { resetTimer();};
+  document.addEventListener("click", resetTimer, false);
+  document.addEventListener("touchend", resetTimer, false);
+
 	
 	return {
     registerGame: function (game) {
