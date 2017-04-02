@@ -121,13 +121,6 @@
 			echo "</div>
 			<iframe id='ifrm' data-servicesurl='" . $logOutURL . "' class='hideMenu' src='about:blank'></iframe>";
 		
-		/*
-			Let's assume we'e getting a list of file names for the ads
-			and that they'll be hosted on our server for now
-
-			For cycling through the ads, probably easiest to move them between active and inactive divs 
-			These can be placed inside a parent div whose visibility can be adjusted when menu is activated.
-		*/
 			// AdSet for current user
 			function getAds($adSet) {
 
@@ -193,16 +186,15 @@
 					case 3:
 					$adClass .= "threeAds";
 					make_images(8, $adImages, $adState, $ads, $numAds);
-					array_push($adState["cycle"], 3, 4); // zero-based ordinals
+					array_push($adState["cycle"], 3, 4); 
 					break;
 
 					default:
 					$adClass .= "threePlusAds";
 					make_images(8, $adImages, $adState, $ads, $numAds);
-					array_push($adState["cycle"], 0, 1, 2, 3, 4, 5, 6, 7); // zero-based indices. And is this correct syntax?
+					array_push($adState["cycle"], 0, 1, 2, 3, 4, 5, 6, 7); 
 				}
 			}
-			// We don't care if the ads div is empty - we treat it the same way
 			echo "<div id='ads' class='hideAds " . $adClass . "' data-adstate=" . json_encode($adState) . ">" . $adImages . "</div><!-- End ads -->";
 		?>
 		<div class='cornerBttn hide' id='bottomBttn' data-category='toggleMenu'></div>
