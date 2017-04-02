@@ -45,6 +45,8 @@ function enqueue_by_template() {
         wp_enqueue_style( 'game-engine.css', esc_url( get_template_directory_uri() . '/css/game-engine.css' ) );
         wp_register_script('GameManager', esc_url( get_template_directory_uri() . '/scripts/GameManager.js' ) );
         wp_enqueue_script( 'GameManager');
+        wp_register_script('AdManager', esc_url( get_template_directory_uri() . '/scripts/AdManager.js' ) );
+        wp_enqueue_script( 'AdManager');
 
     } else if ( is_page_template( 'apps-category.php' ) ) {
 
@@ -180,6 +182,30 @@ function acf_load_member_choices( $field ) {
     return $field;    
 }
 add_filter('acf/load_field/name=membership-group-select', 'acf_load_member_choices');
+
+// Populate Ad Set select menu with Ad Sets
+function acf_load_ad_set_choices( $field ) {
+    
+    
+    // reset choices
+    $field['choices'] = array();
+
+    // if has rows
+    if( have_rows('ad-set', 'option') ) {
+        
+        while( have_rows('ad-set', 'option') ) {
+
+            the_row();
+
+            $value = get_sub_field('title');
+            $label = get_sub_field('title');
+
+            $field['choices'][ $value ] = $label;            
+        }        
+    }
+    return $field;    
+}
+add_filter('acf/load_field/name=ad-set-select', 'acf_load_ad_set_choices');
 
 function registerCustomAdminCss(){
 	$src = esc_url( get_template_directory_uri() . '/css/custom-admin.css' );
