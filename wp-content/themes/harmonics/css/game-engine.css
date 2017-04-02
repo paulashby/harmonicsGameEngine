@@ -119,9 +119,74 @@ li a {
     font-size: 0;
 	line-height: 0;
 }
+#ads {
+	width: 1540px;
+    height: 775px;
+    background-color: transparent;
+    position: absolute;
+    top: 155px;
+    left: 194px;
+}
+#ads img {
+	margin: 17px;
+}
+#ads.singleAd #ad2,
+#ads.singleAd #ad4 {
+	position: relative;
+	top: 388px;
+}
+#ads.singleAd #ad1,
+#ads.twoAds #ad1,
+#ads.twoAds #ad5, 
+#ads.threePlusAds #ad1,
+#ads.threePlusAds #ad5 {
+	transform: rotate(90deg);
+}
+#ads.singleAd #ad3,
+#ads.twoAds #ad2,
+#ads.twoAds #ad3,
+#ads.threePlusAds #ad2,
+#ads.threePlusAds #ad3 {
+	transform: rotate(180deg);
+}
+#ads.singleAd #ad4,
+#ads.twoAds #ad4,
+#ads.twoAds #ad8,
+#ads.threePlusAds #ad4,
+#ads.threePlusAds #ad8 {
+	transform: rotate(270deg);
+}
 
 
 
+@keyframes showAds {
+	from {
+		opacity:0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+@keyframes hideAds {
+	from {
+		opacity:1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+#ads.showAds {
+	animation-name: showAds;
+	animation-duration: 0.2s;
+	opacity: 1;
+	display: block;
+}
+#ads.hideAds {
+	animation-name: hideAds;
+	animation-duration: 0.2s;
+	opacity: 0;
+	display: none;
+}
 @keyframes showMenu {
 	from {
 		transform: scale(1);
@@ -131,14 +196,14 @@ li a {
     to {
     	transform: scale(0.87, 0.78);
         transform-origin: 0.5 0.5;
-        opacity: 0.3;
+        opacity: 0;
     }
 }
 @keyframes hideMenu {	
 	from {
 		transform: scale(0.87, 0.78);
         transform-origin: 0.5 0.5;
-        opacity: 0.3;
+        opacity: 0;
 	}
     to {
     	transform: scale(1);
@@ -159,7 +224,7 @@ iframe.showMenu {
     transform-origin: 0.5 0.5;
     animation-name: showMenu;
 	animation-duration: 0.2s;
-	opacity: 0.3;	
+	opacity: 0;	
 }
 
 iframe.hideMenu {	
@@ -185,4 +250,8 @@ iframe.hideMenu {
 	top: -6px;
 	transform-origin: 50% 50%;
 	transform: rotate(180deg); 	
+}
+#topBttn.hide,
+#bottomBttn.hide {
+	display: none;
 }

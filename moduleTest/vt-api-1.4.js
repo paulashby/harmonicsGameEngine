@@ -7,14 +7,13 @@ var VTAPI = (function (GameManager) {
 
   var
   INACTIVITY_PERIOD = GameManager.getInactivityTimeout(),
-
   pauseEvent = new Event('pause'),
   exitEvent = new Event('exit'),
   testing = window.frameElement === null,
   inactivityTimeout,
   clockTimeout,
   onTimeout = function () {
-      location.href = GameManager.getGamesURL();
+    top.location.href = GameManager.getHomeURL();
   },
   resetTimer = function (e) {
     if(e) {
