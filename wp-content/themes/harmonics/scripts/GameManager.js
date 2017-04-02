@@ -12,6 +12,7 @@ var GameManager = (function () {
 	reteam = false,
 	dburl,
 	gamesURL,
+	homeURL,
 	inactivityTimeout,
 	startPageUrl,
 	gameList = [],
@@ -252,6 +253,8 @@ var GameManager = (function () {
 		
 		// Toggle game related menu buttons
 		document.getElementById('menuContainer').classList.toggle('showGameButtons');
+		document.getElementById('topBttn').classList.toggle('hide');
+		document.getElementById('bottomBttn').classList.toggle('hide');
 		document.getElementById('ifrm').src = gameUrl;
 	},
 	_startGame = function () {
@@ -262,10 +265,17 @@ var GameManager = (function () {
 		if( ! menu.classList.contains('showGameButtons')) {
 			menu.classList.toggle('showGameButtons');	
 		}
+		document.getElementById('topBttn').classList.toggle('hide');
+		document.getElementById('bottomBttn').classList.toggle('hide');
+	},
+	_onIframeLoad = function (e) {
+		document.getElementById('topBttn').classList.toggle('hide');
+		document.getElementById('bottomBttn').classList.toggle('hide');
 	},
 	_onMenuClick = function (e) {
 		var ifrm = document.getElementById('ifrm'),
 		menu = document.getElementById('menuContainer'),
+		adDiv = document.getElementById('ads'),
 		hideMenu = function () {
 			if(ifrm.classList.contains('showMenu')) {
 				// We're hiding the menu, so focus ifrm
@@ -273,8 +283,9 @@ var GameManager = (function () {
 			}
 			ifrm.classList.toggle('hideMenu');
 			ifrm.classList.toggle('showMenu');
-
 			menu.classList.toggle('hideMenu');
+			adDiv.classList.toggle('showAds');
+			adDiv.classList.toggle('hideAds');
 		};
 		document.getElementById('bodyElmt').focus();
 		if(e.target.dataset.category === 'exit') {
@@ -282,6 +293,8 @@ var GameManager = (function () {
 			if(document.getElementById('menuContainer').classList.contains('showGameButtons')){				
 				window.dispatchEvent(exitEvent);
 				hideMenu();
+				document.getElementById('topBttn').classList.toggle('hide');
+				document.getElementById('bottomBttn').classList.toggle('hide');
 			}			
 		} else if(e.target.dataset.category === 'teamchange') {
 			e.preventDefault();			
@@ -289,14 +302,16 @@ var GameManager = (function () {
 				reteam = true;
 				window.dispatchEvent(exitEvent);
 				hideMenu();
+				document.getElementById('topBttn').classList.toggle('hide');
+				document.getElementById('bottomBttn').classList.toggle('hide');
 			}			
 		} else if(e.target.dataset.category === 'toggleMenu') {
 			hideMenu();
 			window.dispatchEvent(pauseEvent);
 		}
 	},
-	_getGamesURL = function () {
-		return gamesURL;
+	_getHomeURL = function () {
+		return homeURL;
 	},
 	_getInactvityTimeout = function () {
 		return inactivityTimeout;
@@ -335,6 +350,7 @@ var GameManager = (function () {
 		i, len = logoutLinks.length;
 
 		gamesURL = document.body.dataset.starturl;		
+		homeURL = document.getElementById('ifrm').dataset.servicesurl;
 		inactivityTimeout = document.body.dataset.timeoutduration * 1000;
 
 		for(i = 0; i < len; i++) {
@@ -353,7 +369,8 @@ var GameManager = (function () {
 				// Add menu event listeners
 				document.getElementById('topBttn').addEventListener('click', GameManager.onMenuClick);
 				document.getElementById('bottomBttn').addEventListener('click', GameManager.onMenuClick);
-				document.getElementById('menuContainer').addEventListener('click', GameManager.onMenuClick);
+				document.getElementById('menuContainer').addEventListener('click', GameManager.onMenuClick);				
+				document.getElementById("ifrm").addEventListener('load', GameManager.onIframeLoad);
 						
 				// If response includes an error message, an email notification will have been dispatched
 				// so the problem can be investigated by the administrator.
@@ -367,6 +384,9 @@ var GameManager = (function () {
 	window.addEventListener('VTAPIinputError', onInputError, false);
 	window.onload = function () {
 		init();
+		if(AdManager){
+			AdManager.init();			
+		}
 	};
 
 	return {
@@ -419,11 +439,14 @@ var GameManager = (function () {
 		onGameTimeout: function () {
 			return _onGameTimeout();
 		},
+		onIframeLoad: function (e) {
+			return _onIframeLoad(e);
+		},
 		onMenuClick: function (e) {
 			return _onMenuClick(e);
 		},
-		getGamesURL: function () {
-			return _getGamesURL();
+		getHomeURL: function () {
+			return _getHomeURL();
 		},
 		getInactivityTimeout: function () {
 			return _getInactvityTimeout();
