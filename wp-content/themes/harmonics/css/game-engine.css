@@ -156,7 +156,17 @@ li a {
 #ads.threePlusAds #ad8 {
 	transform: rotate(270deg);
 }
-
+#ads.threeAds #ad1 {
+	transform: rotate(90deg);
+}
+#ads.threeAds #ad2,
+#ads.threeAds #ad3,
+#ads.threeAds #ad4{
+	transform: rotate(180deg);
+}
+#ads.threeAds #ad8 {
+	transform: rotate(270deg);
+}
 
 
 @keyframes showAds {
@@ -196,14 +206,14 @@ li a {
     to {
     	transform: scale(0.87, 0.78);
         transform-origin: 0.5 0.5;
-        opacity: 0;
+        opacity: 0.15;
     }
 }
 @keyframes hideMenu {	
 	from {
 		transform: scale(0.87, 0.78);
         transform-origin: 0.5 0.5;
-        opacity: 0;
+        opacity: 0.15;
 	}
     to {
     	transform: scale(1);
@@ -224,7 +234,7 @@ iframe.showMenu {
     transform-origin: 0.5 0.5;
     animation-name: showMenu;
 	animation-duration: 0.2s;
-	opacity: 0;	
+	opacity: 0.15;	
 }
 
 iframe.hideMenu {	
