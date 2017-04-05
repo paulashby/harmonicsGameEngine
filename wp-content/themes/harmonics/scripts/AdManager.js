@@ -1,4 +1,4 @@
-/*global window */
+/*global window, document*/
 var AdManager = (function () {
 
 	'use strict';
@@ -8,92 +8,92 @@ var AdManager = (function () {
 	   this.name = funcName;
 	   this.message = message;	   
 	},
-	cycle = false,
-	adState = [],
 	numAds,
 	adURLs,
+	cycleOffset = 1,
+	adState = (function () {
+		// adState will track assignment of ads to DOM img elements
+		var state = [],
+		canCycle = false,
+		_addEntry = function (img, urlIndex) {
+			state.push({domImage: img, currURLindex: urlIndex});
+		},
+		_cycle = function () {
+			var i,
+				len = state.length,
+				currEntry;
+
+			for(i = 0; i < len; i++) {
+				currEntry = state[i];
+				currEntry.currURLindex = (currEntry.currURLindex + cycleOffset) % numAds;
+				currEntry.domImage.src = adURLs[currEntry.currURLindex];
+			}
+		};
+
+		return {
+			addEntry: function (img, urlIndex) {
+				_addEntry(img, urlIndex);
+			},
+			setCycleMode: function (cycleMode) {
+				canCycle = cycleMode;
+			},
+			cycle: function () {
+				if(canCycle) {
+					_cycle();	
+				}				
+			}
+		}
+	})(),
 	_init = function () {		
 		var adData = JSON.parse(document.getElementById('ads').dataset.adstate),
-		adDiv = document.getElementById('ads'),
-		numAds = adData.numAds,		
-		adURLs = adData.adURLs,
-		cycle = adData.cycle,
+		adDiv = document.getElementById('ads'),		
 		currImg,
+		currURLindex,
 		currURL,
-		endIndex,
 		i;
 
-		// #ads div is currently populated with transparent placeholder images
-		// Replace those with the ad images
-		// Have deferred this till now so start page can load without competing for bandwidth
-		switch(numAds) {
-			case 1:
+		if(adData) {
+			numAds = adData.numAds;		
+			adURLs = adData.adURLs;
+			adState.setCycleMode(adData.cycle);	
+		} else {
+			numAds = 0;
+			return;
+		}
+
+		// Replace transparent placeholder images in #ads div with live ad images
+		// Have deferred this till now so start page can load without ads competing for bandwidth
+		
+		if(numAds === 1) {
 			// Load one version of ad for each side of the table
 			for(i = 0; i < 4; i++) {
 				currImg = adDiv.children[i];
-				currURL = adURLs[i];
+				currURLindex = i % numAds;
+				currURL = adURLs[currURLindex];
 				if(currImg && currURL) {
 					currImg.src = currURL;
+					// create entry in adState
+					adState.addEntry(currImg, currURLindex);
 				} else {
 					throw new AdManagerException('init', 'unexpected number of images or URLs');
 				}
 			}
-			break;
-
-			case 3:
-			// Load three ads to go along each of the long sides of the table
-			// plus one for each end which will be cycled
-			endIndex = adURLs.length - 1;
-			for(i = 0; i < 8; i++) {
-				currImg = adDiv.children[i];
-				
-				if(currImg){
-					if(i < 3){
-						currURL = adURLs[i];
-						if(currURL) {
-							currImg.src = currURL;	
-						} else {
-							throw new AdManagerException('init', 'unexpected number of URLs');	
-						}
-							
-					} else if (i > 4){
-						currURL = adURLs[endIndex - i];
-						if(currURL) {
-							currImg.src = currURL;
-						} else {
-							throw new AdManagerException('init', 'unexpected number of URLs');	
-						}
-						
-					} else {
-						currURL = adURLs[0];
-						if(currURL) {
-							currImg.src = adURLs[0];
-						} else {
-							throw new AdManagerException('init', 'unexpected number of URLs');	
-						}
-					}
-					
-				} else {
-					throw new AdManagerException('init', 'unexpected number of images');
-				}
-			}
-			break;
-			
-			default:
+		} else {
 			// Two ads on each side of the table - 
-			// If there are more than two ads, all will cycle (cycling is taken care of elsewhere)
-			// We're only intersted in loading the images here
+			cycleOffset = 2; // show the next two when we cycle
 			for(i = 0; i < 8; i++) {
 				currImg = adDiv.children[i];				
 				if(i < 4) {
-					currURL = adURLs[i % 2];	
+					currURLindex = i % 2;
+					currURL = adURLs[currURLindex];	
 				} else {
-					// currURL = adURLs[(i%2)+1];
-					currURL = adURLs[(i-1) % 2];
-				}
-				
+					currURLindex = (i-1) % 2;
+					currURL = adURLs[currURLindex];
+				}				
 				if(currImg && currURL){
 					currImg.src = currURL;
+					// create entry in adState
+					adState.addEntry(currImg, currURLindex);
 				} else {
 					throw new AdManagerException('init', 'unexpected number of images or URLs');
 				}
@@ -101,13 +101,8 @@ var AdManager = (function () {
 		}
 	},
 	_cycleAds = function () {
-		// Check whether we should be cycling
-		if(cycle) {
-
-		}
+		adState.cycle();
 	};
-
-
 
 	return {
 		init: function () {
