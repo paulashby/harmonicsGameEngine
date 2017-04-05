@@ -160,14 +160,16 @@
 				$adState = [
 					"numAds"=>$numAds,
 					"adURLs"=>[],
-					"cycle"=>[]
+					"cycle"=>false
 				];
 				function make_images($numImages, &$adImages, &$adState, &$ads, &$numAds) {
 
 					$blankImageString = "data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 
 					for($i = 0; $i < $numImages; $i++) {						
-						$adImages .= "<img id='ad" . ($i + 1) . "' src='" . $blankImageString . "'>";							
+						$adImages .= "<img id='ad" . ($i + 1) . "' src='" . $blankImageString . "'>";													
+					}
+					for($i = 0; $i < $numAds; $i++){
 						array_push($adState["adURLs"], esc_url( content_url() . "/ads/" )  . $ads[$i % $numAds]);
 					}
 				};
@@ -180,19 +182,13 @@
 
 					case 2:
 					$adClass .= "twoAds";
-					make_images(8, $adImages, $adState, $ads, $numAds);
-					break;
-
-					case 3:
-					$adClass .= "threeAds";
-					make_images(8, $adImages, $adState, $ads, $numAds);
-					array_push($adState["cycle"], 3, 4); 
+					make_images(8, $adImages, $adState, $ads, $numAds); 
 					break;
 
 					default:
-					$adClass .= "threePlusAds";
+					$adClass .= "twoPlusAds";
 					make_images(8, $adImages, $adState, $ads, $numAds);
-					array_push($adState["cycle"], 0, 1, 2, 3, 4, 5, 6, 7); 
+					$adState["cycle"] = true;
 				}
 			}
 			echo "<div id='ads' class='hideAds " . $adClass . "' data-adstate=" . json_encode($adState) . ">" . $adImages . "</div><!-- End ads -->";
