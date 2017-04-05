@@ -1143,7 +1143,7 @@
 				Prisma.game.paused = ! Prisma.game.paused;
 			},
 			exitHandler = function () {
-				gameOver(true);
+				gameOver(false, true);
 			},
 			gameOver = function (gameTimeout, exit) {
 				var
