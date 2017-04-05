@@ -138,22 +138,22 @@ li a {
 #ads.singleAd #ad1,
 #ads.twoAds #ad1,
 #ads.twoAds #ad5, 
-#ads.threePlusAds #ad1,
-#ads.threePlusAds #ad5 {
+#ads.twoPlusAds #ad1,
+#ads.twoPlusAds #ad5 {
 	transform: rotate(90deg);
 }
 #ads.singleAd #ad3,
 #ads.twoAds #ad2,
 #ads.twoAds #ad3,
-#ads.threePlusAds #ad2,
-#ads.threePlusAds #ad3 {
+#ads.twoPlusAds #ad2,
+#ads.twoPlusAds #ad3 {
 	transform: rotate(180deg);
 }
 #ads.singleAd #ad4,
 #ads.twoAds #ad4,
 #ads.twoAds #ad8,
-#ads.threePlusAds #ad4,
-#ads.threePlusAds #ad8 {
+#ads.twoPlusAds #ad4,
+#ads.twoPlusAds #ad8 {
 	transform: rotate(270deg);
 }
 #ads.threeAds #ad1 {
