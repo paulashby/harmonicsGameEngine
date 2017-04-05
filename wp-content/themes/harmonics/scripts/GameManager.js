@@ -280,6 +280,8 @@ var GameManager = (function () {
 			if(ifrm.classList.contains('showMenu')) {
 				// We're hiding the menu, so focus ifrm
 				ifrm.focus();
+				// update the ads
+				AdManager.cycleAds();
 			}
 			ifrm.classList.toggle('hideMenu');
 			ifrm.classList.toggle('showMenu');
