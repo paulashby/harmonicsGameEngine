@@ -112,7 +112,7 @@
 						homeZoneGroup.add(homeZoneGroup.joinBttn);
 						f.changePlayers.add(homeZoneGroup.joinBttn.onChangePlayers, homeZoneGroup.joinBttn);
 						f.showInterface.add(scaleUp, homeZoneGroup.joinBttn);
-						f.showInterface.add(function () {
+						f.showInterface.add(function () {							
 							var reteamSettings = parent.GameManager.getReteamSettings(),
 							state, i, len, j, jlen, currPlace, currHomeZone;
 
@@ -120,6 +120,12 @@
 								state = reteamSettings.state;
 								len = state.length;
 								jlen = f.homeZones.length;
+								if(! f.logos.initialized) {
+									f.logos.showMono();
+								}
+															
+							} else if (! f.logos.initialized) {
+								f.logos.showColor();
 							}
 							for (i = 0; i < len; i++) {
 								currPlace = state[i].place;
@@ -251,25 +257,6 @@
 						f.playersReadyDispatched = true;
 					}					
 				}, this);				 
-			},
-			addHarmonicsLogo = function () {
-				var i,
-					logo,
-					angle = 90,
-					xOffset = f.LOGO_OFFSET,
-					xPos, 
-					sign;
-
-					f.logos = StartPage.game.add.group();
-
-				for(i = 0; i < 2; i++) {
-					sign = i === 1 ? 1 : - 1;
-					xPos = f.HALF_WIDTH + (xOffset * sign);
-					logo = StartPage.game.add.sprite(xPos, f.HALF_HEIGHT, 'harmonicsLogo');
-					logo.anchor.setTo(0.5, 0.5);
-					logo.angle = angle + (180 * i);
-					f.logos.add(logo);
-				}
 			};
 
 			f.bg = new Phaser.TileSprite(StartPage.game, 0, 0, f.GAME_WIDTH, f.GAME_HEIGHT, 'bg');
@@ -287,8 +274,7 @@
 			f.homeZones = new f.HomeZoneGroup(StartPage.game);
 			addTeamWheel();
 			addHomeZones();
-			addHarmonicsLogo();
-
+			f.logos = new f.LogoContainer(StartPage.game);
 			f.results = parent.GameManager.getResults();			
 			
 			f.activeLoop = addSound('activeLoop', true, true);			
@@ -311,10 +297,11 @@
 				f.showResults.dispatch();
 				f.showResultsSound.play();
 				// Now we've shown results, reset mode
-				parent.GameManager.setResultsMode(false);				
+				parent.GameManager.setResultsMode(false);
+				f.logos.showMono();		
 			} else {
 				// We're waiting for players to join
-				f.showInterface.dispatch();
+				f.showInterface.dispatch();		
 			}			
 
 			f.playersReady.add(function () {
@@ -327,7 +314,7 @@
 				f.gameChanging = false;
 			}, f);			
 	    },
-	    update: function () {	    	  
+	    update: function () { 
 	    }
 	};
 }());

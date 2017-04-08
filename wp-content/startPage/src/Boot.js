@@ -101,7 +101,7 @@ f = f || {}; // our members and functions in here
 	f.MIN_GAMES_TO_CYCLE_MENU = 3;
 	f.PULSE_INTERVAL = 150;
 	f.PULSE_SOUND_INTERVAL = 65;
-	f.LOGO_OFFSET = 470;
+	f.LOGO_OFFSET = 455;//470;
 
 	f.assignedTweens = [];
 	f.buttons = [];
@@ -173,6 +173,89 @@ f = f || {}; // our members and functions in here
 		teamNumbersArray = VTAPI.mapTeamNumbers(teamSetUp);
 		return VTAPI.assignTeams(state, teamNumbersArray);
 	};
+	f.LogoContainer = function (game) {
+
+		// Contains mono and full color 3rdHarmonics logos
+
+		Phaser.Group.call(this, game);
+
+		var i,
+		logo,
+		angle = 90,
+		xOffset = f.LOGO_OFFSET,
+		xPos, 
+		sign;
+
+		for(i = 0; i < 2; i++) {
+			sign = i === 1 ? 1 : - 1;
+			xPos = f.HALF_WIDTH + (xOffset * sign);
+			logo = new f.HarmonicsLogoGroup(StartPage.game, sign, xPos, i);
+			this.add(logo);
+		}
+
+	};
+	f.LogoContainer.prototype = Object.create(Phaser.Group.prototype);
+	f.LogoContainer.prototype.constructor = f.LogoContainer;	
+	f.LogoContainer.prototype.showMono = function () {
+		if(! this.inMono) {
+			this.callAll('showLogo', null, true);
+			this.inMono = true;
+			this.initialized = true;
+		}		
+	};
+	f.LogoContainer.prototype.showColor = function () {
+		if(! this.inColor) {
+			this.callAll('showLogo');
+			this.inColor = true;
+			this.initialized = true;
+		}		
+	};
+
+	f.HarmonicsLogoSprite = function (game, x, y, frame, angle, imgName) {
+
+		Phaser.Sprite.call(this, game, x, y, imgName);
+
+	    this.anchor.setTo(0.5, 0.5);
+	    this.frame = frame;
+	    this.angle = angle;
+	    this.alpha = 0;
+	    f.assignedTweens.push(this.fadeOutTween = StartPage.game.add.tween(this).to( {alpha: 0}, f.UI_TWEEN_DUR, Phaser.Easing.Linear.InOut, false));
+		f.assignedTweens.push(this.fadeInTween = StartPage.game.add.tween(this).to( {alpha: 1}, f.UI_TWEEN_DUR/2, Phaser.Easing.Linear.InOut, false));
+	};
+	f.HarmonicsLogoSprite.prototype = Object.create(Phaser.Sprite.prototype);
+	f.HarmonicsLogoSprite.prototype.constructor = f.HarmonicsLogoSprite;	
+	f.HarmonicsLogoSprite.prototype.fadeIn = function () {
+		this.fadeInTween.start();
+	};
+	f.HarmonicsLogoSprite.prototype.fadeOut = function () {
+		this.fadeOutTween.start();
+	};
+
+	f.HarmonicsLogoGroup = function (game, sign, xPos, i) {
+
+		// Contains mono and full colour 3rdHarmonics logos
+
+		Phaser.Group.call(this, game);
+
+		var BASE_ANGLE = 90,
+		angle = BASE_ANGLE + (180 * i);		
+
+		this.monoLogo = new f.HarmonicsLogoSprite(game, xPos, f.HALF_HEIGHT, 0, angle, 'harmonicsLogo');
+		this.colLogo = new f.HarmonicsLogoSprite(game, xPos, f.HALF_HEIGHT, 1, angle, 'harmonicsLogo');
+		this.add(this.monoLogo);
+		this.add(this.colLogo);
+	};
+	f.HarmonicsLogoGroup.prototype = Object.create(Phaser.Group.prototype);
+	f.HarmonicsLogoGroup.prototype.constructor = f.HarmonicsLogoGroup;	
+	f.HarmonicsLogoGroup.prototype.showLogo = function (mono) {
+		if(mono) {
+			this.monoLogo.fadeIn();
+			this.colLogo.fadeOut();
+		} else {
+			this.monoLogo.fadeOut();
+			this.colLogo.fadeIn();
+		}
+	}
 
 	f.UIbutton = function (game, x, y, imgName) {
 
@@ -216,6 +299,7 @@ f = f || {}; // our members and functions in here
 			f.state.push({place: this.parent.place, player: playerNum, ranking: 0});							
 			f.homeZones.addActive(this.parent.place);
 			this.initPlayerLabel();
+			f.logos.showMono();
 		}
 	};
 	f.UIbutton.prototype.initPlayerLabel = function () {
