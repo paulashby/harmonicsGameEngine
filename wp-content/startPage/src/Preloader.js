@@ -60,8 +60,8 @@
 			this.load.image('gamePlayRing', '../assets/trGamePlay.png');
 			this.load.image('playBttn', '../assets/playBttn.png');
 			this.load.image('drawLabel', '../assets/drawLabel.png');
-			this.load.image('harmonicsLogo', '../assets/3rdHarmonicsLogo.png');
-			this.load.image('turnRing', '../assets/turnRing.png');			
+			this.load.image('turnRing', '../assets/turnRing.png');	
+			this.load.spritesheet('harmonicsLogo', '../assets/3rdHarmonicsLogo.png', 484, 120, 2);		
 			this.load.spritesheet('pointers', '../assets/ringPointers.png', 152, 70, 2);
 			this.load.spritesheet('winnerLoserLabels', '../assets/winnerLoserLabels.png', 227, 33, 2);
 			this.load.spritesheet('winnerLoserTeamLabels', '../assets/winnerLoserTeamLabels.png', 224, 33, 2);
