@@ -197,8 +197,17 @@ var GameManager = (function () {
 		showDraw = !exit;
 		document.getElementById('ifrm').src = gamesURL;
 		clearTimeout(nextGameTimeout);
-		// Remove game related buttons from menu
-		menu.classList.toggle('showGameButtons'); return {success: true, data: 'Loading next game'};
+
+		// Toggle game-related menu item visibility
+		menu.classList.toggle('showGameButtons'); 
+
+		if(! exit) {
+			// Toggle menu button visibility
+			document.getElementById('topBttn').classList.toggle('hide');
+			document.getElementById('bottomBttn').classList.toggle('hide');
+		}
+
+		return {success: true, data: 'Loading next game'};
 	},
 	_onGameTimeout = function () {
 		currGame = undefined;
@@ -251,10 +260,13 @@ var GameManager = (function () {
 			instructionsShown.push(gameID);
 		}
 		
-		// Toggle game related menu buttons
+		// Toggle game-related menu item visibility
 		document.getElementById('menuContainer').classList.toggle('showGameButtons');
+
+		// Toggle menu button visibility
 		document.getElementById('topBttn').classList.toggle('hide');
 		document.getElementById('bottomBttn').classList.toggle('hide');
+
 		document.getElementById('ifrm').src = gameUrl;
 	},
 	_startGame = function () {
