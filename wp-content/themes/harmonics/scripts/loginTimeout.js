@@ -16,10 +16,7 @@ var loginTimeout = (function () {
     	onTimeout = function () {
 		  top.location.href = homeURL;
 		};
-		resetTimer = function (e) {
-		  if(e && e.type !== 'keypress') {
-		    e.preventDefault();
-		  }
+		resetTimer = function (e) {		  
 		  clearTimeout(inactivityTimeout);    
 		  inactivityTimeout = setTimeout(onTimeout, INACTIVITY_PERIOD);
 		}; 
