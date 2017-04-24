@@ -33,10 +33,17 @@ function expiration_per_user($seconds, $user_id, $remember){
 
 // Add message to login page
 function custom_login_message() {
-$message = '<p id="custom" class="message">The session has expired - please log in to continue</p><br />';
+    $message = '<p id="custom" class="message">The session has expired - please log in to continue</p><br />';
 return $message;
 }
 add_filter('login_message', 'custom_login_message');
+
+
+// Add timeout to login page
+function enqueue_login_timeout( $page ) {
+    wp_enqueue_script( 'login-timeout', esc_url( get_template_directory_uri() . '/scripts/loginTimeout.js' ), null, null, true );
+}
+add_action( 'login_enqueue_scripts', 'enqueue_login_timeout' );
 
 function enqueue_by_template() {
 
