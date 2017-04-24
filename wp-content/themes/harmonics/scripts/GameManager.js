@@ -367,6 +367,11 @@ var GameManager = (function () {
 		homeURL = document.getElementById('ifrm').dataset.servicesurl;
 		inactivityTimeout = document.body.dataset.timeoutduration * 1000;
 
+		// Store homeURL and inactivityTimeout in local storage so we can query it for login page timeout (when user won't be logged in)
+		// This will be available from first time machine loads games page until the browser cache is cleared
+		localStorage.setItem('homeURL', homeURL);
+		localStorage.setItem('inactivityTimeout', inactivityTimeout);			
+
 		for(i = 0; i < len; i++) {
 			logoutLinks[i].innerHTML = "<img src='" + templateDirURL + "/css/img/menu_logout.png' alt='logout' data-category='logout'>";
 		}
