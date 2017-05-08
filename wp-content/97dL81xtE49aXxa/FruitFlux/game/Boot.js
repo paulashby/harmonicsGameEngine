@@ -105,6 +105,7 @@ f = {
 	// How far apart do inputs need to be to be regarded as being from different players 
 	// Say 3". Tables are 42" and 50". Split diff = 46", so tolerance is screen width *0.065;
 	f.CONSECUTIVE_PLAYER_NUMS = true;
+	f.LEVEL_DURATION = 40000;
 	f.DAMPING_PERCENT_OF_WIDTH = 0.065;
 	f.SMALL_SCALE = 0.53;
 	f.VARIETIES = 8;
@@ -114,19 +115,54 @@ f = {
 	f.FRUIT_TWEEN_DELAY = 100;
 	f.GROUP_TWEEN_DELAY = (f.FRUIT_TWEEN_DELAY * f.FRUIT_PER_COLUMN) + f.FRUIT_FLUX_DURATION;
 	f.FRUIT_TWEEN_DURATION = f.FRUIT_FLUX_DURATION/6;
+
+	f.FLUX_RANGE = 1000;
+	f.FLUX_STEPS = f.LEVEL_DURATION / f.FRUIT_FLUX_DURATION;
+	f.FLUX_STEP_VAL = f.FLUX_RANGE / f.FLUX_STEPS;
+	f.ASSIGN_STEP_FAC = 0.9;
+	f.FLUX_STEP_VAL = 80;
+	f.FLUX_SOUND_DELAY = 600;
+
+/*
+	Game duration is now 40 seconds (40000ms)
+	We want our intervals to go from 1000 + f.FRUIT_FLUX_DURATION to f.FRUIT_FLUX_DURATION
+
+	let's assume we want our slowest flux to be f.FRUIT_FLUX_DURATION + 1000
+
+	and we want to increase duration by 1000 over course of game
+	the number of increases would be
+	f.LEVEL_DURATION / f.FRUIT_FLUX_DURATION
+	40000ms/400 = 100
+
+	total change in flux duration is 1000
+	so each increase is total change/num increases
+	1000/100 = 10
+
+	so we start at f.FRUIT_FLUX_DURATION + 1000
+	and subtract 10 from duration after each flux until we end up with f.FRUIT_FLUX_DURATION + 0
+
+*/
+
+
+
 	f.FLUX_INTERVALS = [1000 + f.FRUIT_FLUX_DURATION, 500 + f.FRUIT_FLUX_DURATION, f.FRUIT_FLUX_DURATION];
 	f.REASSIGNMENT_INTERVALS = [5500, 3500, 2200]; 
 	f.SCORE_VAL = 5;
 	f.SCORE_PANEL_FRAMES = 6;
 	f.SCORE_PANELS_OFFSET_V = 40;
-	f.NUM_LEVELS = 3;
-	f.LEVEL_DURATION = 60000;
+	f.NUM_LEVELS = 1;
+	
 	f.PANEL_DELAY = 750;// Allow fruit and scores to get out of the way
 	f.LEVEL_PANEL_DELAY = 500;// Show level over before scores
 	f.SCORE_PANEL_DELAY = 100;// stagger timing of panels
 	f.COUNTDOWN_DELAY = 600;// Adjust arrival of countdown to coincide with removal of panels
 	f.NUM_COUNTDOWN_FRUIT = 3;
 	f.FINAL_RESULTS_DUR = 2000;
+
+	f.currStepVal = f.FRUIT_FLUX_DURATION + f.FLUX_RANGE;
+
+
+
 	
 	f.fruitAllocation = [];
 	f.freePlay = !f.teams;
@@ -197,10 +233,6 @@ f = {
 			this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
 			
 			this.game.stage.backgroundColor = 0x000f46;
-
-	    },
-
-	    preload: function () {	       
 
 	    },
 

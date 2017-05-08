@@ -10,21 +10,22 @@
 	f.reassignmentRunning = false;
 	f.endLevelPending = false;
 	
-	var FruitGroup = function (game, descending) {
+	var FruitGroup = function (game, descending, firstGroup, lastGroup) {
 
 		// Extend Phaser.Group
         Phaser.Group.call(this, game);
 
 		this.descending = descending;
+		this.lastGroup = lastGroup;
+		this.firstGroup = firstGroup;
 		this.iterations = 0;		
 		this.timer = FruitFlux.game.time.create(false);
 		this.nextFluxInitiated = false;
 		
 		this.nextFlux = function () {
-			if(!f.levelOver){
-				f.sound[8].play();
+			if(!f.levelOver && this.firstGroup){
+				f.playFluxSound();
 			}			
-			
 			this.currFruitIndex = descending ? 0 : this.length -1;
 			this.iterations = 0;
 			this.nextFluxInitiated = false;
@@ -46,9 +47,14 @@
 				if(!this.nextFluxInitiated && !f.levelOver){
 					this.timer.stop();
 					this.timer.removeAll();
-					this.timer.add(f.FLUX_INTERVALS[f.level], this.nextFlux, this);
+					// this.timer.add(f.FLUX_INTERVALS[f.level], this.nextFlux, this);
+					this.timer.add(f.currStepVal, this.nextFlux, this);					
 					this.timer.start();	
 					this.nextFluxInitiated = true;
+					if(this.lastGroup) {
+						// All fruit have now fluxed - let's speed things up a bit
+						f.currStepVal -= f.FLUX_STEP_VAL;
+					}
 				}							
 			}
 		};
@@ -214,6 +220,15 @@
 			},
 			setFruitAssignmentLoop = function (){
 				f.fruitAssignmentLoop = FruitFlux.game.time.events.loop(f.REASSIGNMENT_INTERVALS[f.level], reassignFruit, this);
+			},
+			accelerateFruitAssignment = function (delay){
+				if(! f.assignmentTimer){
+					f.assignmentTimer = FruitFlux.game.time.create(false);
+				} else {
+					reassignFruit();	
+				}		
+				f.assignmentTimer.add(delay, accelerateFruitAssignment, this, Math.ceil(delay * f.ASSIGN_STEP_FAC));
+				f.assignmentTimer.start();
 			},
 			hideHomeZonePanel = function (panel) {
 				panel.scaleDownTween.start();
@@ -460,6 +475,9 @@
 				FruitFlux.game.time.events.remove(f.endTimer);
 				
 				f.allFruit.timer.destroy();
+				if(f.assignmentTimer){
+					f.assignmentTimer.destroy();
+				}
 
 				// destroy groups
 				f.allFruit.destroy();
@@ -577,7 +595,7 @@
 				f.levelTimer = FruitFlux.game.time.create(false);
 				f.levelTimer.add(f.LEVEL_DURATION, f.endLevel, this);
 				f.levelRestartTimer = FruitFlux.game.time.create(false);
-				f.levelRestartTimer.add(f.levelBreakDuration, startCountdown, this);
+				f.levelRestartTimer.add(f.levelBreakDuration, startCountdown, this);				
 				f.levelTimer.start();
 			},
 			initFruitFrame = function (currFruit) {
@@ -621,16 +639,16 @@
 				fruitGroup.fluxDuration = f.FRUIT_FLUX_DURATION + (f.FRUIT_TWEEN_DELAY * fruitGroup.length);
 				
 			},
-			addFruitGroup = function (groupNum, colWidth) {
+			addFruitGroup = function (groupNum, colWidth, firstGroup, lastGroup) {
 				// Offset groupX by width of 1 column to allow for fruit coming in from left hand side
 				var groupX = (groupNum * f.fruitWidth) - colWidth + (f.fruitWidth/2),
 				
 				// 2nd arg alternates true/false so alternate fluxes run in different directions
 				// checking for !== 0 rather than === 0 because otherwise first group (which only 
 				// contains one fruit) is out of sync with others
-				fruitGroup = new FruitGroup(FruitFlux.Game(), groupNum % 2 !== 0); 
+				fruitGroup = new FruitGroup(FruitFlux.Game(), groupNum % 2 !== 0, firstGroup, lastGroup); 
 				f.allFruit.add(fruitGroup);				
-				initFruitGroup(fruitGroup, groupX);				
+				initFruitGroup(fruitGroup, groupX);
 			},
 			assignFruit = function () {
 				
@@ -665,16 +683,6 @@
 				
 				return panelGroup;
 			},
-			// getStartOffsetX = function (panelGroupWidth, freePlay) {
-			// 	// returns x position of first score panel in a homeZone
-			// 	var offsetVal = freePlay ? f.numPlayers * (panelGroupWidth/30) : f.teams.length * (panelGroupWidth/30);
-			// 	return offsetVal;
-			// },			
-			// getStartOffsetY = function (panelGroupHeight, freePlay) {
-			// 	// returns y position of first score panel in a homeZone
-			// 	var reqPanels = freePlay ? f.numPlayers : f.teams.length;
-			// 	return panelGroupHeight - (panelGroupHeight * Math.ceil((f.MAX_PLAYERS - reqPanels)/2));
-			// },
 			hudZone = function (zoneNum) {
 				// returns true if the current zone requires score panels at end of level
 				// (the top and bottom of the table only has panels in centre zone)
@@ -885,7 +893,8 @@
 				this.game.add.audio('reassign'),
 				this.game.add.audio('powerDown'),
 				this.game.add.audio('panelUp'),
-				this.game.add.audio('countdown')
+				this.game.add.audio('countdown'),
+				this.game.add.audio('flux')
 			];
 			f.endLevel = function () {
 				if(f.reassignmentRunning){
@@ -903,22 +912,27 @@
 					f.levelOver = true;
 					f.endLevelPending = false;
 					FruitFlux.game.time.events.remove(f.fruitAssignmentLoop);
+					if(f.assignmentTimer){
+						f.assignmentTimer.stop();
+					}
 					f.allFruit.timer.stop();
 					FruitFlux.game.sound.stopAll();
 					f.sound[10].play();			
 					f.allFruit.endLevelTween.start();
+					if(f.NUM_LEVELS === 1) {
+						// No subsequent level - go straight to game over
+						f.gameOver = true;
+					}
 
 					len = f.homeZones.length;
 					for(i = 0; i < len; i++){
 						currZone = f.homeZones.getAt(i);						
 
-						// TODO: Add this conditional to other games
 						if(currZone.hudScore) {
 							currZone.hudScore.scaleDownTween.start(); 
 							currZone.hudFruit.levelOverTween.start();
 						}
 						// Hide homeZone teamScore
-						// TODO: Amend this conditional in other games
 						if(!f.freePlay && currZone.hudTeamScore){
 							currZone.hudTeamScore.scaleDownTween.start();
 						}
@@ -930,14 +944,12 @@
 
 							for(j = 0; j < jlen; j++){
 								//score panel delay gets shorter for each panel as order of panels in group is reversed
-								// timerDur = j < jlen - 1 ? f.PANEL_DELAY + f.LEVEL_PANEL_DELAY + (f.SCORE_PANEL_DELAY * (jlen - j + 1)) : f.PANEL_DELAY;
 								durrMultiplier = f.freePlay ? currZone.scorePanels.getAt(j).playerNum : j + 1;
 								timerDur = j < jlen - 1 ? f.PANEL_DELAY + f.LEVEL_PANEL_DELAY + (f.SCORE_PANEL_DELAY * durrMultiplier) : f.PANEL_DELAY;
 								currZone.scorePanels.timers.push(FruitFlux.game.time.events.add(timerDur, onEndLevel, this, currZone.scorePanels.getAt(j)));
 								// update score panel text here
 								if(j < jlen - 1){
 									// update score for the player/team. i = zone number, j = score panel number
-
 									if(j === jlen - 1){
 										// Title								
 										updatePanelScores(currZone.scorePanels.getAt(j).getAt(1), false);
@@ -952,12 +964,23 @@
 							}
 						}
 					}
+					// This will start countdown - don't wanna do this if single level
 					f.levelRestartTimer.start();
 				}
-			};
-			
+			};			
 			f.sound[9].volume = 0.5;
 			f.sound[10].volume = 0.5;
+
+			f.fluxSounds = [
+				f.sound[8],
+				f.sound[13]
+			];
+			f.currFluxSoundIndex = 0;
+			
+			f.playFluxSound = function (){
+				f.fluxSounds[f.currFluxSoundIndex % 2].play();
+				f.currFluxSoundIndex++;
+			}
 			
 			f.allFruit = this.game.add.group();
 			// numCols is number of fruit that fit across gameWidth, 
@@ -966,14 +989,19 @@
 			f.numCols = Math.floor(f.gameWidth/f.fruitWidth) + Math.floor(f.FRUIT_PER_COLUMN/2);
 			
 			for(i = 0; i < f.numCols; i++) {
-				addFruitGroup(i, colWidth);
+				addFruitGroup(i, colWidth, i === 0, i === f.numCols - 1);
 			}
 			
 			// initialise f.fruitAllocation with teams - or players if no teams set
 			assignFruit();
 			f.homeZones = FruitFlux.game.add.group();
 			addHomeZones();
-			setFruitAssignmentLoop();
+			if(f.NUM_LEVELS > 1) {
+				setFruitAssignmentLoop();	
+			} else {
+				accelerateFruitAssignment(f.REASSIGNMENT_INTERVALS[0]);
+			}
+			
 
 			f.allFruit.currGroupNum = 0;
 			f.allFruit.randomFruit = function () {
@@ -984,7 +1012,7 @@
 				len = f.allFruit.length;
 				
 				if(!f.gameStarted){					
-					f.sound[8].play();
+					f.playFluxSound();
 					f.gameStarted = true;
 					f.levelOver = false;
 					f.gameStarted = true;
@@ -1009,7 +1037,6 @@
 
 			top.window.addEventListener('pause', pauseHandler, false);
 			top.window.addEventListener('exit', exitHandler, false);			
-			// window.setTimeout(gameOver, 3000);			
 	    },
 
 	    update: function () {
