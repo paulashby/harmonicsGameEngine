@@ -127,7 +127,7 @@
 	};
 	f.Ray.prototype.findIntersection = function (origin, boundFinder) {
 		var boundsPoint,
-		i,
+			i,
 			len = f.boundsLines.length,
 			intersects,
 			thisDist = 0,
@@ -545,6 +545,7 @@
 	};
 
 	f.Prism = function (game, x, y, key, pAngle, pNum){
+
 		Phaser.Sprite.call(this, game, x, y, key);
 
 		this.isPrism = true;
@@ -574,10 +575,10 @@
 		this.minAlpha = this.getRandomNum(0.1, 0.5);
 		this.maxAlpha = this.getRandomNum(0.51, 1);
 		this.hitSound = f.sound[4];
-		this.hitSound.volume = 0.15;					
+		this.hitSound.volume = 0.15;	
 		f.prismGlowGroup.add(this.innerGlow);		
 		f.prismGlowGroup.add(this.glow1);
-		f.prismGlowGroup.add(this.glow2);
+		f.prismGlowGroup.add(this.glow2);		
 	};
 	f.Prism.prototype = Object.create(Phaser.Sprite.prototype);
 	f.Prism.prototype.constructor = f.Prism;
@@ -657,6 +658,96 @@
 	f.Prism.prototype.startSoundLoop = function () {
 		this.soundTimer = f.getTimer(this, 'playSound', f.getRandomInt(2000, 5000), true);
 	};
+	f.Prism.prototype.makeConnections = function () {
+
+		var i;
+		
+		var coords = [
+				{ x: 43, y: 23 }, 
+				{ x: -43, y: 23 },
+				{ x: 0, y: -52 }
+			],
+			i,
+			len = coords.length;
+
+		for (i = 0; i < len; i++) {
+			// Add sprite to each corner so we can easily locate corner point when connecting web lines
+			this['cornerSprite' + i] = new Phaser.Sprite(Prisma.game, 0, 0, 'corner');
+			this.addChild(this['cornerSprite' + i]);
+			this['cornerSprite' + i].anchor.setTo(0.5, 0.5);
+			this['cornerSprite' + i].x = coords[i].x;
+			this['cornerSprite' + i].y =  coords[i].y;
+			this['cornerSprite' + i].alpha = 0;
+
+			// Add array of game corners to use as
+			// end points of the connection lines
+			this.corners = [
+				{ x:0, y: 0 },
+				{ x:f.gameWidth, y: 0 },
+				{ x:f.gameWidth, y: f.gameHeight },
+				{ x:0, y: f.gameHeight },
+			];			
+			this.corners.splice(f.getRandomInt(0, 3), 1);// Remove random corner as we only connect to 3
+		}
+	};
+	f.Prism.prototype.getOscillationSettings = function () {
+		var oscLimit1 = f.getRandomInt(f.minOscillation, f.maxOscillation),
+			oscLimit2 = f.getRandomInt(f.minOscillation, f.maxOscillation),
+			minOsc = Math.min(oscLimit1, oscLimit2),
+			maxOsc = Math.max(oscLimit1, oscLimit2),
+			oscEnergy = f.getRandomInt(minOsc, maxOsc)/f.OSCILLATION_DAMPING,
+			oscVr = f.getRandomInt(f.minOscVr * 100, f.maxOscVr * 100)/100,
+
+			//Now setting this at same val for all on line 53
+			// Actually, if not randomising for each prism, might as well set to non-random value
+			
+
+
+			oscillation = {
+				pivot: new Phaser.Point(this.x, this.y),
+				min: minOsc,
+				max: maxOsc,
+				energy: oscEnergy, // the variation in distance from oscillation pivot 
+				direction: 1, //movings towards or away from pivot
+				distance: 0,
+				rotation: 0,
+				vr: oscVr
+			};
+			return oscillation;
+	};
+	f.Prism.prototype.connect = function (){
+		var i;
+
+		for (i = 0; i < 3; i++) {
+			this['cornerLine' + i].clear();	
+			this['cornerLine' + i].lineStyle(2, this.lineCol, 0.1);
+			this['cornerLine' + i].moveTo(this['cornerSprite' + i].world.x, this['cornerSprite' + i].world.y);
+			this['cornerLine' + i].lineTo(this.corners[i].x, this.corners[i].y);
+		}		
+	};
+	f.Prism.prototype.disconnect = function () {
+		var i;
+
+		for (i = 0; i < 3; i++) {
+			this['cornerLine' + i].clear();	
+		}
+	}
+	f.Prism.prototype.oscillate = function () {
+		var oscillatedPosition;			
+
+		if(this.oscillation.distance >= this.oscillation.max) {
+			this.oscillation.direction = -1;			
+		} else if (this.oscillation.distance <= this.oscillation.min) {
+			this.oscillation.direction = 1;
+		}
+		
+		this.oscillation.distance += (this.oscillation.energy * this.oscillation.direction);
+		this.oscillation.rotation += this.oscillation.vr;
+		oscillatedPosition = new Phaser.Line().fromAngle(this.oscillation.pivot.x, this.oscillation.pivot.y, this.oscillation.rotation, this.oscillation.distance).end;
+		this.x = oscillatedPosition.x;
+		this.y = oscillatedPosition.y;
+		this.rotation += this.oscillation.vr/10;
+	};
 	f.Prism.prototype.init = function (prismPosition, prismAngle, prismNum) {
 		this.exists = true;
 		this.refracting = false;
@@ -702,7 +793,17 @@
 		this.inputEnabled = false;
 		this.input.disableDrag();
 		this.initialised = true;
-		this.collected = false;
+		this.collected = false;		
+		this.oscillation = this.getOscillationSettings();
+		this.cornerLine0 = Prisma.game.add.graphics(0, 0);
+		this.cornerLine1 = Prisma.game.add.graphics(0, 0);
+		this.cornerLine2 = Prisma.game.add.graphics(0, 0); 
+		// this.lineCol = '0x'+Math.floor(Math.random()*16777215).toString(16);
+		this.lineCol = '0xffffff';
+		this.makeConnections();
+		this.rotation = f.getRandomInt(1, 628319)/100000;
+
+		
 	};
 	f.Prism.prototype.onHit = function () {
 		if(!this.refracting){
@@ -781,6 +882,12 @@
 				}
 				else{						
 					this.updateInnerGlow();
+					if(! this.refracting) {
+						this.oscillate();
+						this.connect();
+					} else {
+						this.disconnect();
+					}					
 				}
 			}
 			else{

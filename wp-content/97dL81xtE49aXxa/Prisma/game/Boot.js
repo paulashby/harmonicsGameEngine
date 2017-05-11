@@ -35,7 +35,7 @@ f = {
 		}
 	},
 	mapPlaces = (function () {
-		// API numbers places differently to sytem used in game
+		// API numbers places differently to system used in game
 		// returns place mapping function
 		var gameToAPI = {0: 3, 1: 2, 2: 1, 3: 4, 4: 6, 5: 7, 6: 8, 7: 5}, 
 		apiToGame = {}, 
@@ -68,7 +68,6 @@ f = {
 			currPlayer.place = apiPlayer.place;
 			currPlayer.score = [0,0,0];
 			currPlayerTeam = apiPlayer.team;
-			// TODO: increment numPlayers in other games
 			f.numPlayers++;
 
 			if(currPlayerTeam !== undefined) {
@@ -129,6 +128,12 @@ f = {
 	f.SPLINTER_SPEED = [4, 6, 7];
 	f.SPLINTER_ANGLE = 8;//12;
 	f.W_LIGHT_W = 7;
+	f.minOscillation = 2;//gradually increase to 20
+	f.maxOscillation = 10;// gradually increase to 50
+	f.minOscVr = 0.01;//Rotation speed in radians
+	f.maxOscVr = 0.03;//Rotation speed in radians - gradually increase to 0.15
+	f.OSCILLATION_DAMPING = 80;//see f.Prism.prototype.getOscillation
+	f.oscillationEnergy = 1;
 
 	f.players = [];	
 	// TODO: in other games, init numPlayers to 0 and declare numTeams
