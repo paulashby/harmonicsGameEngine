@@ -782,6 +782,7 @@
 					// Init new Prism
 					this.init();
 				}
+				/*
 				if( f.refracting === 0 && (f.collecting || f.fabCount === f.NUM_PRISMS[f.level]) ){
 					// Make collectable
 					f.collecting = true;
@@ -791,6 +792,7 @@
 						f.collectLoop.play(); 
 					}
 				}
+				*/
 				if(this.isDragulous){
 					// Drag glow with Prism
 					this.updateOuterGlow();					
@@ -799,7 +801,8 @@
 					// Prism not hit yet
 					this.updateInnerGlow();
 					if(this.willOscillate) {
-						this.oscillate();											
+						this.oscillate();
+						f.dragulousTimeout = f.DRAGULOUS_DELAY;											
 					} 
 				}
 			}
@@ -1947,6 +1950,17 @@
 					}
 				}
 			}
+			f.dragulousTimeout--;		
+			if(f.dragulousTimeout < 1 && ! f.collecting){
+				// Make collectable
+				f.collecting = true;
+				// this.beDragulous();
+				f.fabulousPrismGroup.callAll('beDragulous');
+				f.ambientLoop.stop();
+				if(!f.collectLoop.isPlaying){
+					f.collectLoop.play(); 
+				}
+			}			
 	    }
 	};
 }());

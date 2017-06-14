@@ -130,10 +130,12 @@ f = {
 	f.MIN_OSCILLATION = f.OSCILLATION_INCREMENT;
 	f.MAX_OSCILLATION = 1;
 	f.MAX_OSCILLATION_DIST = 50;
+	f.DRAGULOUS_DELAY = 200;
 	f.oscillationFactor = f.MIN_OSCILLATION;
 	f.OSCILLATION_PAUSE_DURATION = 50;
 	f.oscillationAccelerating = false;
 	f.oscillationPause = f.OSCILLATION_PAUSE_DURATION;
+	f.dragulousTimeout = f.DRAGULOUS_DELAY;
 
 	f.players = [];	
 	// TODO: in other games, init numPlayers to 0 and declare numTeams
