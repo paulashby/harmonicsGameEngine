@@ -25,7 +25,6 @@ f = {
 	assetListing,
 	numPanels,
 	i,
-	j,
 	player = {
 		updateScore: function (val) {
 			this.score[f.level] += val * (f.level + 1);
@@ -98,16 +97,16 @@ f = {
 	f.SMALL_SCALE = 0.53;
 	f.CONSECUTIVE_PLAYER_NUMS = true;
 	f.HOMEZONE_ALPHA = 0.5;
-	f.RELOAD = 5;
-	f.LOAD_DUR = 900;
+	f.RELOAD = 1;
+	f.LOAD_DUR = 1200;
 	f.PRISM_HIT_VAL = 5;
 	f.PRISM_ALPHA = 0.45;
 	f.SPLINTER_VAL = 10;
 	f.PRISM_DRAG_VAL = 20;
-	f.PRISM_RESILIENCE = [2, 3, 4];
+	f.PRISM_RESILIENCE = [1];
 	f.SCORE_PANEL_FRAMES = 6;
 	f.SCORE_PANELS_OFFSET_V = 40;
-	f.NUM_LEVELS = 3;
+	f.NUM_LEVELS = 1;
 	f.LEVEL_DURATION = 60000;
 	f.PANEL_DELAY = 750;// Allow results to get out of the way
 	f.LEVEL_PANEL_DELAY = 500;// Show level over before scores
@@ -120,20 +119,21 @@ f = {
 	f.FINAL_RESULTS_DUR = 2000;
 	f.MIN_LEN = 40; // Used when setting max height of rays
 	f.NUM_SPLINTERS = 7;
-	f.NUM_PRISMS = [10, 15, 20];
-	f.PRISM_SIZE = [1, 0.85, 0.7];
-	f.FAB_DURATION = [0, 4000, 1000];
+	f.NUM_PRISMS = [20];
+	f.PRISM_SIZE = [0.7];
 	f.RAY_SPEED = [8, 9, 10];
 	f.RAY_ALPHA = [0.4, 0.3, 0.2];
 	f.SPLINTER_SPEED = [4, 6, 7];
 	f.SPLINTER_ANGLE = 8;//12;
 	f.W_LIGHT_W = 7;
-	f.minOscillation = 2;//gradually increase to 20
-	f.maxOscillation = 10;// gradually increase to 50
-	f.minOscVr = 0.01;//Rotation speed in radians
-	f.maxOscVr = 0.03;//Rotation speed in radians - gradually increase to 0.15
-	f.OSCILLATION_DAMPING = 80;//see f.Prism.prototype.getOscillation
-	f.oscillationEnergy = 1;
+	f.OSCILLATION_INCREMENT = 0.01;
+	f.MIN_OSCILLATION = f.OSCILLATION_INCREMENT;
+	f.MAX_OSCILLATION = 1;
+	f.MAX_OSCILLATION_DIST = 50;
+	f.oscillationFactor = f.MIN_OSCILLATION;
+	f.OSCILLATION_PAUSE_DURATION = 50;
+	f.oscillationAccelerating = false;
+	f.oscillationPause = f.OSCILLATION_PAUSE_DURATION;
 
 	f.players = [];	
 	// TODO: in other games, init numPlayers to 0 and declare numTeams

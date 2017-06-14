@@ -1,10 +1,10 @@
-/*global Phaser, Prisma, f, PIXI */
+/*global Phaser, Prisma, f, PIXI, top, VTAPI */
 
 (function () {
 
 	"use strict";	
 
-	f.fabIndices = [];
+	f.refracting = 0;
 	f.demo = false;
 	f.getHypotenuse = function (width, height) {
 		var h = height || width;
@@ -127,7 +127,7 @@
 	};
 	f.Ray.prototype.findIntersection = function (origin, boundFinder) {
 		var boundsPoint,
-			i,
+		i,
 			len = f.boundsLines.length,
 			intersects,
 			thisDist = 0,
@@ -245,17 +245,6 @@
 				recycledSplinter.primaryRay = this;
 				return recycledSplinter;
 			},
-			checkPrism = function (splinterName) {
-				// If all splinters have reached edge of screen
-				// prism enters its fabulous draggable state
-				var collidedPrism;
-				if(splinters[splinterName] && (Object.keys(splinters).length === 1)){
-					collidedPrism = splinters[splinterName].primaryRay.shuttle.currPrism;
-					if(collidedPrism){
-						collidedPrism.beFabulous();
-					}
-				}
-			},
 			_splinter = function (primaryRay) {
 
 				// Splinters look after their own collision/exit status
@@ -310,7 +299,6 @@
 					_splinter(primaryRay);
 				},
 				removeSplinter: function(splinterName) {
-					checkPrism(splinterName);
 					_removeSplinter(splinterName);
 				},
 				checkSplinters: function(primaryRay) {
@@ -356,8 +344,9 @@
 		if(!this.active){
 			if(this.numSplinters < 1){
 				this.alpha = 0;
-				if(this.hotSpot){
-					this.hotSpot.exists = false;
+				if(this.hotSpot && this.hotSpot.exists){
+					this.hotSpot.exists = false;					
+					f.refracting--;
 				}
 			}
 			this.splinterManager.checkSplinters(this);
@@ -545,7 +534,6 @@
 	};
 
 	f.Prism = function (game, x, y, key, pAngle, pNum){
-
 		Phaser.Sprite.call(this, game, x, y, key);
 
 		this.isPrism = true;
@@ -560,6 +548,7 @@
 		this.quiverRot = 0;
 		this.maxRot = this.rotIncrement;
 		this.minRot = this.maxRot * -1;
+		this.willOscillate = true;
 		this.innerGlow = Prisma.game.add.sprite(0,0,'prism');
 		this.glow1 = Prisma.game.add.sprite(0,0,'prismGlow');
 		this.glow2 = Prisma.game.add.sprite(0,0,'prismGlow');
@@ -575,10 +564,10 @@
 		this.minAlpha = this.getRandomNum(0.1, 0.5);
 		this.maxAlpha = this.getRandomNum(0.51, 1);
 		this.hitSound = f.sound[4];
-		this.hitSound.volume = 0.15;	
+		this.hitSound.volume = 0.15;					
 		f.prismGlowGroup.add(this.innerGlow);		
 		f.prismGlowGroup.add(this.glow1);
-		f.prismGlowGroup.add(this.glow2);		
+		f.prismGlowGroup.add(this.glow2);
 	};
 	f.Prism.prototype = Object.create(Phaser.Sprite.prototype);
 	f.Prism.prototype.constructor = f.Prism;
@@ -637,6 +626,7 @@
 		this.inputEnabled = true;
 		this.frame = 1;
 		this.alpha = 1;
+		this.willOscillate = false;
 	};
 	f.Prism.prototype.beDragulous = function() {
 		this.isDragulous = true;
@@ -648,6 +638,7 @@
 		if(!this.refracting){
 			if(this.hits === f.PRISM_RESILIENCE[f.level]){
 				this.refracting = true;
+				f.refracting++;
 			}
 			return this.refracting;
 		}
@@ -658,95 +649,15 @@
 	f.Prism.prototype.startSoundLoop = function () {
 		this.soundTimer = f.getTimer(this, 'playSound', f.getRandomInt(2000, 5000), true);
 	};
-	f.Prism.prototype.makeConnections = function () {
-
-		var i;
-		
-		var coords = [
-				{ x: 43, y: 23 }, 
-				{ x: -43, y: 23 },
-				{ x: 0, y: -52 }
-			],
-			i,
-			len = coords.length;
-
-		for (i = 0; i < len; i++) {
-			// Add sprite to each corner so we can easily locate corner point when connecting web lines
-			this['cornerSprite' + i] = new Phaser.Sprite(Prisma.game, 0, 0, 'corner');
-			this.addChild(this['cornerSprite' + i]);
-			this['cornerSprite' + i].anchor.setTo(0.5, 0.5);
-			this['cornerSprite' + i].x = coords[i].x;
-			this['cornerSprite' + i].y =  coords[i].y;
-			this['cornerSprite' + i].alpha = 0;
-
-			// Add array of game corners to use as
-			// end points of the connection lines
-			this.corners = [
-				{ x:0, y: 0 },
-				{ x:f.gameWidth, y: 0 },
-				{ x:f.gameWidth, y: f.gameHeight },
-				{ x:0, y: f.gameHeight },
-			];			
-			this.corners.splice(f.getRandomInt(0, 3), 1);// Remove random corner as we only connect to 3
-		}
-	};
-	f.Prism.prototype.getOscillationSettings = function () {
-		var oscLimit1 = f.getRandomInt(f.minOscillation, f.maxOscillation),
-			oscLimit2 = f.getRandomInt(f.minOscillation, f.maxOscillation),
-			minOsc = Math.min(oscLimit1, oscLimit2),
-			maxOsc = Math.max(oscLimit1, oscLimit2),
-			oscEnergy = f.getRandomInt(minOsc, maxOsc)/f.OSCILLATION_DAMPING,
-			oscVr = f.getRandomInt(f.minOscVr * 100, f.maxOscVr * 100)/100,
-
-			//Now setting this at same val for all on line 53
-			// Actually, if not randomising for each prism, might as well set to non-random value
-			
-
-
-			oscillation = {
-				pivot: new Phaser.Point(this.x, this.y),
-				min: minOsc,
-				max: maxOsc,
-				energy: oscEnergy, // the variation in distance from oscillation pivot 
-				direction: 1, //movings towards or away from pivot
-				distance: 0,
-				rotation: 0,
-				vr: oscVr
-			};
-			return oscillation;
-	};
-	f.Prism.prototype.connect = function (){
-		var i;
-
-		for (i = 0; i < 3; i++) {
-			this['cornerLine' + i].clear();	
-			this['cornerLine' + i].lineStyle(2, this.lineCol, 0.1);
-			this['cornerLine' + i].moveTo(this['cornerSprite' + i].world.x, this['cornerSprite' + i].world.y);
-			this['cornerLine' + i].lineTo(this.corners[i].x, this.corners[i].y);
-		}		
-	};
-	f.Prism.prototype.disconnect = function () {
-		var i;
-
-		for (i = 0; i < 3; i++) {
-			this['cornerLine' + i].clear();	
-		}
-	}
 	f.Prism.prototype.oscillate = function () {
 		var oscillatedPosition;			
 
-		if(this.oscillation.distance >= this.oscillation.max) {
-			this.oscillation.direction = -1;			
-		} else if (this.oscillation.distance <= this.oscillation.min) {
-			this.oscillation.direction = 1;
-		}
-		
-		this.oscillation.distance += (this.oscillation.energy * this.oscillation.direction);
-		this.oscillation.rotation += this.oscillation.vr;
+		this.oscillation.distance += (this.oscillation.energy * this.oscillation.direction);	
+		this.oscillation.rotation += this.oscillation.vr * f.oscillationFactor;
 		oscillatedPosition = new Phaser.Line().fromAngle(this.oscillation.pivot.x, this.oscillation.pivot.y, this.oscillation.rotation, this.oscillation.distance).end;
 		this.x = oscillatedPosition.x;
-		this.y = oscillatedPosition.y;
-		this.rotation += this.oscillation.vr/10;
+		this.y = oscillatedPosition.y;		
+		this.rotation += (this.oscillation.vr/10) * this.oscillation.rotDirection * f.oscillationFactor;
 	};
 	f.Prism.prototype.init = function (prismPosition, prismAngle, prismNum) {
 		this.exists = true;
@@ -793,17 +704,18 @@
 		this.inputEnabled = false;
 		this.input.disableDrag();
 		this.initialised = true;
-		this.collected = false;		
-		this.oscillation = this.getOscillationSettings();
-		this.cornerLine0 = Prisma.game.add.graphics(0, 0);
-		this.cornerLine1 = Prisma.game.add.graphics(0, 0);
-		this.cornerLine2 = Prisma.game.add.graphics(0, 0); 
-		// this.lineCol = '0x'+Math.floor(Math.random()*16777215).toString(16);
-		this.lineCol = '0xffffff';
-		this.makeConnections();
-		this.rotation = f.getRandomInt(1, 628319)/100000;
-
-		
+		this.collected = false;
+		this.oscillation = {
+			pivot: new Phaser.Point(this.x, this.y),
+			min:  10,
+			max: 80,
+			energy: 0.02, // the variation in distance from oscillation pivot 
+			direction: 1, //moving towards or away from pivot
+			rotDirection: 1,
+			distance: 0,
+			rotation: 0,
+			vr: 0.1
+		};
 	};
 	f.Prism.prototype.onHit = function () {
 		if(!this.refracting){
@@ -865,11 +777,13 @@
 	};
 	f.Prism.prototype.update = function () {
 		if(! f.levelOver){	
-			if(this.exists){
+			if(this.exists){				
 				if(!this.initialised){
+					// Init new Prism
 					this.init();
 				}
-				if(f.collecting || f.fabCount === f.NUM_PRISMS[f.level]){
+				if( f.refracting === 0 && (f.collecting || f.fabCount === f.NUM_PRISMS[f.level]) ){
+					// Make collectable
 					f.collecting = true;
 					this.beDragulous();
 					f.ambientLoop.stop();
@@ -878,16 +792,15 @@
 					}
 				}
 				if(this.isDragulous){
-					this.updateOuterGlow();
-				}
-				else{						
+					// Drag glow with Prism
+					this.updateOuterGlow();					
+				}				
+				else{
+					// Prism not hit yet
 					this.updateInnerGlow();
-					if(! this.refracting) {
-						this.oscillate();
-						this.connect();
-					} else {
-						this.disconnect();
-					}					
+					if(this.willOscillate) {
+						this.oscillate();											
+					} 
 				}
 			}
 			else{
@@ -906,7 +819,7 @@
 	f.Prism.prototype.cleanUp = function () {
 		this.initialised = false;
 		this.exists = false;
-		if(f.prismGroup.getFirstExists() === null){
+		if(f.fabulousPrismGroup.getFirstExists() === null){
 			f.endLevel();
 		}
 	};
@@ -950,7 +863,7 @@
 		return num * sign;
 	};
 	f.randomAngle = function () {
-		return f.randomSign(Math.floor(Math.random()*180) + 1);
+		return f.randomSign(Math.floor(Math.random()*30) + 1);
 	};
 	f.getPrimaryRay = function (pos, player) {
 		var recycledRay = f.rayGroup.getFirstExists(false);
@@ -999,6 +912,9 @@
 			shuttle.currPrism = prism;
 			if(prism.willRefract()){
 				shuttle.ray.splinter();
+				prism.willOscillate = false;
+				prism.beFabulous();
+				f.fabulousPrismGroup.add(prism);
 			}
 			else if(!prism.isFabulous){
 				shuttle.ray.onExit();
@@ -1050,7 +966,7 @@
 				currPlayer;
 				if(indx === false){
 					// title panel
-					panelSettings.txt = f.gameOver ? 'GAME  OVER' : 'LEVEL  '  + (f.level + 1) + '  OVER';
+					panelSettings.txt = 'GAME  OVER';
 					panelSettings.frameNum = f.SCORE_PANEL_FRAMES -1;
 					panelSettings.panelVis = false;
 				}
@@ -1088,9 +1004,6 @@
 				var panelSettings = getPanelSettings(indx);
 				panelBmapTxtOb.setText(panelSettings.txt);
 			},
-			hideHomeZonePanel = function (panel) {
-				panel.scaleDownTween.start();
-			},
 			isLastPulse = function (pulseNum) {
 				return pulseNum === f.NUM_COUNTDOWN_ELMTS - 1;
 			},
@@ -1127,13 +1040,10 @@
 				currElmt,
 				currZone;
 
-				f.fabIndices = [];
-
 				f.newLevelSignal.dispatch(this);
 				resetCountdownScale();
 
 				f.level++;
-				f.gameOver = f.level === f.NUM_LEVELS - 1;
 				f.levelOver = false;
 				f.gameStarted = true;
 				f.fabCount = 0;	
@@ -1242,9 +1152,6 @@
 						playCountdownAnim();
 					}
 				}
-			},
-			countdown = function () {
-				f.countdownTimer = Prisma.game.time.events.add(f.PANEL_DELAY, countdownPulse, this, 0);
 			},
 			pauseHandler = function () {
 				Prisma.game.paused = ! Prisma.game.paused;
@@ -1427,37 +1334,9 @@
 					}),
 					rankedPlayers = optimiseState(rankElements(playersByScore, 'score'), ['place', 'ranking']);
 					VTAPI.insertScores(rankedPlayers);
-				},
-				currZone,
-				i,
-				j,
-				len = f.homeZones.length,
-				jlen,
-				timerDur;
-				
-				if(f.gameOver){
-					returnScores();
-					f.endTimer = Prisma.game.time.events.add(f.FINAL_RESULTS_DUR, gameOver, this);					
-				}
-				else{
-					for(i = 0; i < len; i++){
-						currZone = f.homeZones.getAt(i);
-
-						if(currZone.scorePanels){
-							// Hide score panels
-							currZone.scorePanels.timers = clearScoreTimers(currZone.scorePanels);
-							jlen = currZone.scorePanels.children.length - 1;
-
-							for(j = jlen; j >= 0; j--){
-								//All panels are removed at same time
-								timerDur = f.PANEL_DELAY;
-								currZone.scorePanels.timers.push(Prisma.game.time.events.add(timerDur, hideHomeZonePanel, this, currZone.scorePanels.getAt(j)));
-							}							
-						}
-
-					}
-					currZone.scorePanels.timers.push(Prisma.game.time.events.add(f.COUNTDOWN_DELAY, countdown, this));
-				}
+				};
+				returnScores();
+				f.endTimer = Prisma.game.time.events.add(f.FINAL_RESULTS_DUR, gameOver, this);					
 			},
 			setLevelTimers = function () {
 				f.levelTimer = Prisma.game.time.create(false);
@@ -1493,7 +1372,7 @@
 				return zoneNum > 0 && zoneNum % 2 !== 0;
 			},
 			// TODO: This is a rewrite - update in other games
-			initScorePanels = function (scorePanelsGroup, freePlay) {
+			initScorePanels = function (scorePanelsGroup) {
 
 				// initialise score panels to display at end of each level
 				var i,
@@ -1734,7 +1613,7 @@
 						homeZoneGroup.hudOnly = true;
 					}
 					homeZoneGroup.add(homeZoneGroup.scorePanels);
-					initScorePanels(homeZoneGroup.scorePanels, f.freePlay);
+					initScorePanels(homeZoneGroup.scorePanels);
 					rotateHomeZone();
 					scorePnls = homeZoneGroup.scorePanels;
 					jlen = scorePnls.children.length;
@@ -1955,6 +1834,7 @@
 			f.homeZones.isHomeZones = true;
 			f.zapperGroup = this.game.add.group();
 			f.prismGlowGroup = Prisma.game.add.group();
+			f.fabulousPrismGroup = Prisma.game.add.group();
 			f.prismGroup = Prisma.game.add.group();
 			f.shuttleGroup = Prisma.game.add.group();			
 			f.splinterShuttleGroup = Prisma.game.add.group();
@@ -1968,6 +1848,7 @@
 				f.hotSpotsGroup,
 				f.splinterGroup,
 				f.rayGroup,
+				f.fabulousPrismGroup,
 				f.prismGroup,
 				f.prismGlowGroup,
 				f.splinterShuttleGroup,
@@ -1981,9 +1862,9 @@
 			};
 			f.newLevelSignal.add(f.setAddPrismTimer, this);
 
-			Prisma.game.add.existing(f.homeZones);
-			addHomeZones();
+			// Prisma.game.add.existing(f.homeZones);			
 			addPrisms();
+			addHomeZones();
 			setLevelTimers();
 			f.ambientLoop = f.sound[2];
 			f.ambientLoop.volume = 0.25;
@@ -2004,13 +1885,13 @@
 			f.beat.play();
 			top.window.addEventListener('pause', pauseHandler, false);
 			top.window.addEventListener('exit', exitHandler, false);
+			Prisma.game.add.existing(f.homeZones);
 	    },
 	    update: function () {
 	    	// checking f.homeZones just to be sure f is not an empty object
 			if(f.homeZones && f.gameStarted){
 				var i,
 					j,
-					k,
 					prismGroupLen = f.prismGroup.length,
 					shuttleGroupLength = f.shuttleGroup.length,
 					zapperGroupLength = f.zapperGroup.length,
@@ -2045,6 +1926,25 @@
 				}
 				if(f.selected.length === f.TOTAL_PRISM_PLACES){
 					f.updateSelectedArray();
+				}
+			}
+			// ease oscillation in and out
+			if(f.oscillationAccelerating) {
+				if(f.oscillationFactor < f.MAX_OSCILLATION) {
+					f.oscillationFactor += f.OSCILLATION_INCREMENT;
+				} else {
+					f.oscillationAccelerating = false;
+				}
+			} else {
+				if(f.oscillationFactor > f.MIN_OSCILLATION) {
+					f.oscillationFactor -= f.OSCILLATION_INCREMENT;
+				} else {
+					if(f.oscillationPause > 0) {
+						f.oscillationPause--;
+					} else {
+						f.oscillationAccelerating = true;
+						f.oscillationPause = f.OSCILLATION_PAUSE_DURATION;
+					}
 				}
 			}
 	    }
