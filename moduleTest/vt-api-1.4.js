@@ -5,15 +5,15 @@ var VTAPI = (function (GameManager) {
 
 	'use strict';
 
-  var
-  INACTIVITY_PERIOD = GameManager.getInactivityTimeout(),
+  var  
   pauseEvent = new Event('pause'),
   exitEvent = new Event('exit'),
   testing = window.frameElement === null,
+  INACTIVITY_PERIOD = testing ? 90000 : GameManager.getInactivityTimeout(),
   inactivityTimeout,
   clockTimeout,
   onTimeout = function () {
-    top.location.href = GameManager.getHomeURL();
+    top.location.href = testing ? '.' : GameManager.getHomeURL();
   },
   resetTimer = function (e) {
     if(e) {
@@ -285,12 +285,12 @@ var VTAPI = (function (GameManager) {
     },
     dispatchExitEvent: function () {
       window.dispatchEvent(exitEvent);
-    },
-    onGameOver: function (exit) { 
+    }, 
+    onGameOver: function (exit) {
       if(exit){
-        return GameManager.onGameOver(true);
-      } 
-      return testing ? {success: true, data: 'Loading next game'} : GameManager.onGameOver();      
+        return testing ? {success: true, data: 'Game will now exit. Please note: game memory should be freed before calling this function.'} : GameManager.onGameOver(true);
+      }
+      return testing ? {success: true, data: 'Next game will now load. Please note: game memory should be freed before calling this function.'} : GameManager.onGameOver();      
     },
     cloneState: function (state) {
       return _cloneState(state);

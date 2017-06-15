@@ -143,11 +143,12 @@ cr.plugins_.VTapi = function(runtime)
 	// Actions
 	function Acts() {};
 	pluginProto.acts = new Acts();
-	Acts.prototype.TriggerExitEvent = function ()
+	
+	Acts.prototype.triggerExitEvent = function ()
 	{
 		VTAPI.dispatchExitEvent();
 	};
-	Acts.prototype.TriggerPauseEvent = function ()
+	Acts.prototype.triggerPauseEvent = function ()
 	{
 		VTAPI.dispatchPauseEvent();
 	};
@@ -156,7 +157,7 @@ cr.plugins_.VTapi = function(runtime)
 	// Expressions
 	function Exps() {};
 	
-	Exps.prototype.GetPlayersInformation = function (ret)	// 'ret' must always be the first parameter - always return the expression's result through it!
+	Exps.prototype.getPlayersInformation = function (ret)	// 'ret' must always be the first parameter - always return the expression's result through it!
 	{
 		ret.set_string(JSON.stringify(VTAPI.getPlayersInformation()));
 	};
@@ -168,6 +169,10 @@ cr.plugins_.VTapi = function(runtime)
 	{
 		ret.set_string(JSON.stringify(VTAPI.onGameOver()));
 	};
+	Exps.prototype.onGameExit = function (ret)
+	{
+		ret.set_string(JSON.stringify(VTAPI.onGameOver(true)));
+	}
 	
 	pluginProto.exps = new Exps();
 

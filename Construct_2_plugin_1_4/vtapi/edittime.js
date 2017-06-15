@@ -3,7 +3,7 @@
 	return {
 		"name":			"VTapi",
 		"id":			"VTapi",
-		"version":		"1.3",
+		"version":		"1.4",
 		"description":	"<Interface for interacting with VT API>",
 		"author":		"<Paul Ashby>",
 		"help url":		"<https://www.scirra.com/manual/69/plugins>",
@@ -11,22 +11,24 @@
 		"type":			"object",
 		"rotatable":	false,
 		"flags":		pf_singleglobal,
-		"dependency": "vt-api-1.4.js"
+		"dependency": 	"vt-api-1.4.js"
 	};
 };
 
 ////////////////////////////////////////
 // Actions
-AddAction(0, 0, "Trigger Exit Event For Testing", "Misc", "Trigger Exit Event", "Trigger an Exit Event to test that your game is detecting it", "TriggerExitEvent");
-AddAction(1, 0, "Trigger Pause Event For Testing", "Misc", "Trigger Pause Event", "Trigger a Pause Event to test that your game is detecting it", "TriggerPauseEvent");
+AddAction(0, 0, "Trigger Exit Event For Testing", "Misc", "Trigger Exit Event", "Trigger an Exit Event to test that your game is detecting it", "triggerExitEvent");
+AddAction(1, 0, "Trigger Pause Event For Testing", "Misc", "Trigger Pause Event", "Trigger a Pause Event to test that your game is detecting it", "triggerPauseEvent");
+
 ////////////////////////////////////////
 // Expressions
-AddExpression(0, ef_return_string, "Leet expression", "API", "GetPlayersInformation", "Get players information");
+AddExpression(0, ef_return_string, "Leet expression", "API", "getPlayersInformation", "Get players information");
 
 AddStringParam("Updated players information", "Player information updated with score from game - you can generate random scores with spoofScores.");
 AddExpression(3, ef_return_string, "Leet expression", "API", "insertScores", "Return scores to API");
 
-AddExpression(7, ef_return_string, "Leet expression", "API", "onGameOver", "Notify GameManager that game has freed all memory and is ready to shutdown");
+AddExpression(7, ef_return_string, "Leet expression", "API", "onGameOver", "When game has completed, free game memory then call this function to notify GameManager that game is ready to shutdown");
+AddExpression(8, ef_return_string, "Leet expression", "API", "onGameExit", "When exitGame has been called, free game memory then call this function to notify GameManager that game is ready to shutdown");
 
 ACESDone();
 
