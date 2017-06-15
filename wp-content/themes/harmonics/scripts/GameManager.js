@@ -170,7 +170,8 @@ var GameManager = (function () {
 			sessionState = VTAPI.getPlayersInformation();
 		}
 		try {
-			return updateState(newState); 
+			updateState(newState);
+			return  {success: true};
 		} catch (e) {
 			// Error is passed back to the game via VTAPI	
 			if(currGame) {
@@ -206,8 +207,7 @@ var GameManager = (function () {
 			document.getElementById('topBttn').classList.toggle('hide');
 			document.getElementById('bottomBttn').classList.toggle('hide');
 		}
-
-		return {success: true, data: 'Loading next game'};
+		return {success: true, data: 'Loading main menu on assumption that game memory has been freed'};
 	},
 	_onGameTimeout = function () {
 		currGame = undefined;
