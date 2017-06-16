@@ -32,7 +32,7 @@
 				var panelSettings = {};
 				if(indx === false){
 					// title panel
-					panelSettings.txt = f.gameOver ? 'GAME  OVER' : 'LEVEL  '  + (f.level + 1) + '  OVER';
+					panelSettings.txt = 'GAME  OVER';
 					panelSettings.frameNum = f.SCORE_PANEL_FRAMES -1;
 					panelSettings.panelVis = false;
 				}
@@ -144,6 +144,12 @@
 			exitHandler = function () {
 				gameOver(true);
 			},
+			pauseHandler = function () {
+				Aura.game.paused = ! Aura.game.paused;
+			},
+			exitHandler = function () {
+				gameOver(true);
+			},
 			gameOver = function (exit) {
 				var
 				removeSound = function(sound) {
@@ -241,6 +247,7 @@
 					f.dynamicGroups[i].destroy(true, false); 
 				}
 				f.homeZones.destroy(true, false);
+				f.dragZones.destroy(true, false);
 				f.bg.destroy();
 
 				// Remove signal
@@ -326,30 +333,9 @@
 				j,
 				len = f.homeZones.length,
 				jlen,
-				timerDur;
-				
-				if(f.gameOver){
-					returnScores();
-					f.endTimer = Aura.game.time.events.add(f.FINAL_RESULTS_DUR, gameOver, this);					
-				}
-				else{
-					for(i = 0; i < len; i++){
-						currZone = f.homeZones.getAt(i);
-
-						if(currZone.scorePanels){
-							// Hide score panels
-							currZone.scorePanels.timers = clearScoreTimers(currZone.scorePanels);
-							jlen = currZone.scorePanels.children.length - 1;
-
-							for(j = jlen; j >= 0; j--){
-								//All panels are removed at same time
-								timerDur = f.PANEL_DELAY;
-								currZone.scorePanels.timers.push(Aura.game.time.events.add(timerDur, hideHomeZonePanel, this, currZone.scorePanels.getAt(j)));
-							}
-						}
-					}
-					currZone.scorePanels.timers.push(Aura.game.time.events.add(f.COUNTDOWN_DELAY, countdown, this));
-				}
+				timerDur;				
+				returnScores();
+				f.endTimer = Aura.game.time.events.add(f.FINAL_RESULTS_DUR, gameOver, this);					
 			},
 			setLevelTimers = function () {
 				f.levelTimer = Aura.game.time.create(false);
@@ -451,6 +437,10 @@
 				rightPos = f.gameWidth - (posInset * 1.009),
 				leftPos = posInset * 1.009,
 				bottomPos = f.gameHeight - posInset,
+				dzPosInset = posInset + 81,
+				dzBottomPos = bottomPos - 81,
+				dzRightPos = rightPos - 81,
+				dzLeftPos = leftPos + 81,
 				homeSettings = [ // Clockwise from TL
 					{x: innerSideL, y: posInset , angle: 180},
 					{x: f.HALF_WIDTH, y: posInset, angle: 180},
@@ -460,6 +450,16 @@
 					{x: f.HALF_WIDTH, y: bottomPos, angle: 0},
 					{x: innerSideL, y: bottomPos, angle: 0},
 					{x: leftPos, y: f.HALF_HEIGHT, angle: 90}
+				],
+				dragZoneSettings = [ // Clockwise from TL
+					{x: innerSideL, y: dzPosInset , angle: 180},
+					{x: f.HALF_WIDTH, y: dzPosInset, angle: 180},
+					{x: innerSideR, y: dzPosInset, angle: 180},
+					{x: dzRightPos, y: f.HALF_HEIGHT, angle: 270},
+					{x: innerSideR, y: dzBottomPos, angle: 0},
+					{x: f.HALF_WIDTH, y: dzBottomPos, angle: 0},
+					{x: innerSideL, y: dzBottomPos, angle: 0},
+					{x: dzLeftPos, y: f.HALF_HEIGHT, angle: 90}
 				],
 				numZones = f.MAX_PLAYERS,
 				hudTeamScoreOffset = 0, // This gets adjusted for team play to allow space for team score panel
@@ -576,16 +576,19 @@
 				
 
 				f.freePlay = f.teams.length === 0;
+
 				return function () {
 					var hzfg,
-					hzfgThrob;
+					hzfgThrob,
+					dragZone;
+
+					f.dragZones = Aura.game.add.group();
 					for(i = 0; i < numZones; i++) {
 
 						if(f.players[i] !== null){
 							// homeZoneGroup = Aura.game.add.group();
 							homeZoneGroup = new f.HomeZoneGroup(Aura.Game());
-							homeZoneGroup.player = i;
-							addZonePanel(i);
+							homeZoneGroup.player = i;addZonePanel(i);
 							hzfg = Aura.game.add.sprite(f.HALF_WIDTH, f.HALF_HEIGHT * 0.8498, 'hzfg');
 							hzfg.anchor.setTo(0.5, 0.5);
 							hzfg.scale.x = f.hzfgScales[f.level];
@@ -617,6 +620,14 @@
 							f.players[i].scoreDisplay = score;
 							homeZoneGroup.zoneNum = i;
 							f.homeZones.add(homeZoneGroup);
+							dragZone = new f.DragZone(Aura.game, f.HALF_WIDTH, f.HALF_HEIGHT);
+							f.dragZones.add(dragZone);
+							homeZoneGroup.dragZone = dragZone;
+							dragZone.pivot.x = 0;
+							dragZone.pivot.y = 0;
+							dragZone.angle = dragZoneSettings[i].angle;
+							dragZone.x = dragZoneSettings[i].x;
+							dragZone.y = dragZoneSettings[i].y;
 						}
 						else if(hudZone(i)) {
 							homeZoneGroup = Aura.game.add.group();
@@ -631,13 +642,8 @@
 						var recycledDisc = f.discGroup.getFirstExists(false);
 
 						if(!recycledDisc) { // No existing Disc available - make new							
-							if(f.demo) {
-								// debug
-								recycledDisc = new f.DiscAuto(Aura.game, pos.x, pos.y, 'disc', f.haloGroup);	
-							} else {
-								recycledDisc = new f.Disc(Aura.game, pos.x, pos.y, 'disc', f.haloGroup);	
-							}
-						}
+							recycledDisc = new f.Disc(Aura.game, pos.x, pos.y, 'disc', f.haloGroup);	
+						}						
 						else{ // Use existing Disc
 							recycledDisc.x = pos.x;
 							recycledDisc.y = pos.y;

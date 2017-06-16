@@ -8,8 +8,9 @@ f = {
 	CONSECUTIVE_PLAYER_NUMS: true,
 	SCORE_PANEL_FRAMES: 8,
 	SCORE_PANELS_OFFSET_V: 48,
-	NUM_LEVELS: 3,
-	LEVEL_DURATION: 60000,
+	NUM_LEVELS: 1,
+	LEVEL_DURATION: 40000,
+	DZ_SCALE_INC: 1/10000,
 	PANEL_DELAY: 750,// Allow results to get out of the way
 	LEVEL_PANEL_DELAY: 500,// Show level over before scores
 	SCORE_PANEL_DELAY: 100,// stagger timing of panels
@@ -26,9 +27,6 @@ f = {
 	HOMEZONE_DEFENCE_DELAY: 1000,
 	SPIRAL_SCORE_VAL: 5,
 
-	// debug
-	demo: false,
-	//
 	players: [],
 	discValues: [20, 40, 60],
 	discPositions: [],
@@ -254,13 +252,35 @@ f = {
     f.HomeZoneGroup.prototype = Object.create(Phaser.Group.prototype);
     f.HomeZoneGroup.prototype.constructor = f.HomeZoneGroup;
     f.HomeZoneGroup.prototype.defensiveZapCallback = function (zone) {
-		console.log('defended reset');
 		zone.defended = false;
 	};
     f.HomeZoneGroup.prototype.onDefensiveZap = function() {
 		this.defended = true;
 		setTimeout(this.defensiveZapCallback, f.HOMEZONE_DEFENCE_DELAY, this);
 	};	
+
+	f.DragZone = function(game, x, y){
+
+		Phaser.Sprite.call(this, game, x, y, 'dragZone');
+		this.anchor.setTo(0.5, 0.5);
+		this.active = true;
+		f.endLevelSignal.add(this.endLevel, this);		
+		this.alpha = 0.4;
+		this.scale.x = 0.73;
+		this.scale.y = 0.73;
+	};
+	f.DragZone.prototype = Object.create(Phaser.Sprite.prototype);
+	f.DragZone.prototype.constructor = f.DragZone;
+	f.DragZone.prototype.update = function () {
+		if(this.active) {
+			this.scale.x = this.scale.x = this.scale.x - f.DZ_SCALE_INC;
+			this.scale.y = this.scale.y = this.scale.y - f.DZ_SCALE_INC;			
+		}
+	};
+	f.DragZone.prototype.endLevel = function () {
+		this.active = false;
+	};
+
 
 	f.HomeZonePanel = function (game, x, y, key){
 		Phaser.Sprite.call(this, game, x, y, key);
@@ -378,6 +398,7 @@ f = {
 	f.Disc.prototype.constructor = f.Disc;
 	f.Disc.prototype.init = function () {
 		this.exists = true;
+		this.draggable = true;
 		this.fired = false;	
 		this.target = null;
 		this.player = null;
@@ -646,6 +667,10 @@ f = {
 		this.bounceSound.stop();
 		this.bounceSound = null;
 	};
+	f.Disc.prototype.preventDrag = function () {
+		this.draggable = false;
+		// this.unregisterPlayer();
+	};
 	f.Disc.prototype.update = (function () {
 
 		var getIntersection = function (that) {
@@ -813,165 +838,41 @@ f = {
 				that.halo.x = pos.x;
 				that.halo.y = pos.y;
 			}				
+		},
+		withinDragZone = function (that) {
+			return that.world.distance(that.player.homeZone.parent.dragZone.world) + that.width/2 <  that.player.homeZone.parent.dragZone.width/2;
 		};
 		return function () {
 			if(f.gameStarted && !this.inWorld) {
+				// Out of play
 				this.onBoundsTimeout();
 			}
 			if(this.fired){
+				// Disc has been released or fired
+				this.draggable = true;
 				updatePosition(this, true);
-			} else if(this.pointer){
-				updatePosition(this,false);
+			} else if(this.pointer && this.draggable){
+				// disc has been touched/is being dragged
+				if( ! this.player){
+					updatePosition(this,false);	
+				} else {
+					if(withinDragZone(this)){
+						updatePosition(this,false);
+					} else {
+						// Aim here is to become undraggable when registered with player, but outside zone
+						this.preventDrag();
+					}
+				} 				
 			} else {
+				// Disc is untouched at its start position
 				this.hitArea = new Phaser.Circle(0, 0, this.defaultHitArea, this.defaultHitArea);
 			}
 			if(this.scoring){
+				// Disc is transferring score to registered zone
 				this.onScore();
 			}
 		};
 	}());
-
-	// Debugging /////////////////////////////
-	f.DiscAuto = function (game, x, y, key, haloGroup){
-		f.Disc.call(this, game, x, y, key, haloGroup);
-
-		this.registeredZone = null;
-		this.inPlay = true;
-			
-	};
-	f.DiscAuto.prototype = Object.create(f.Disc.prototype);
-	f.DiscAuto.prototype.constructor = f.DiscAuto;
-	f.DiscAuto.prototype.init = function () {
-		f.Disc.prototype.init.call(this);
-		this.inPlay = true;
-		if(this.registeredZone) {
-			f.availableZones.push(this.registeredZone);
-			this.registeredZone = null;	
-		}		
-		if(this.targetZone) {
-			f.availableTargets.push(this.targetZone.parent);	
-			this.targetZone = null;
-		}		
-		this.newPosLine = null;
-		this.pointer = null;
-		this.targetDist = null;
-		this.autoTargetSet = false;
-		this.targetDist = null;
-		this.fired = false;
-		this.momentum = 0;
-		this.released = false;
-		this.setMotionTimeout(this);		
-	};
-	f.DiscAuto.prototype.setMotionTimeout = function (disc) {
-		disc.motionTimeout = setTimeout(function (disc) {disc.exitHomeZone(); }, 20000, disc);
-	};
-	f.DiscAuto.prototype.update = function () {
-		f.Disc.prototype.update.call(this);
-
-		if(this.inPlay && this.deltaX === 0 && this.deltaY === 0) {
-			this.setMotionTimeout(this);
-		}
-
-		var tolerance = f.getTolerance(this),
-		newPosLine;
-
-		if(f.gameStarted) {
-			if(!this.registeredZone && this.inPlay) {
-				this.inPlay = false;
-				if(!this.targetZone && f.availableZones.length > 0) {
-					// Register with a zone
-					this.registeredZone = this.getRegisteredZone();
-				}				
-			} else if(this.targetDist) {
-				if(this.registeredZone && this.position.distance(this.registeredZone.position) < tolerance * 2) {
-					// move towards target
-					newPosLine = new Phaser.Line().fromAngle(this.targetZone.world.x, this.targetZone.world.y, this.targetZone.worldPosition.angle(this.registeredZone.getAt(0).worldPosition), this.targetDist);
-
-					this.x = newPosLine.end.x;
-					this.y = newPosLine.end.y;
-					this.pointer = null;
-					this.targetDist -= 80;
-				} else if(!this.released && this.registeredZone){
-					this.released = true;
-					newPosLine = new Phaser.Line().fromAngle(this.targetZone.world.x, this.targetZone.world.y, this.targetZone.worldPosition.angle(this.registeredZone.getAt(0).worldPosition), this.targetDist);
-
-					this.x = newPosLine.end.x;
-					this.y = newPosLine.end.y;
-					this.targetDist = null;
-					this.autoTargetSet = false;					
-					
-					this.onRelease();
-					setTimeout(function(disc) {
-						disc.inPlay = true;
-					}, 10000, this);	
-				}
-			} else if(!this.pointer && this.registeredZone) {
-				this.pointer = this.registeredZone.position;
-			}
-		}
-	};
-	f.DiscAuto.prototype.setAutoTarget = function () {
-		if(!this.inPlay) {
-			this.targetZone = f.availableTargets.pop().getAt(0);	
-			setTimeout(function(disc){ 
-				if(disc.targetZone) {
-					disc.targetDist = disc.targetZone.world.distance(disc);	
-				} else {
-					// that failed - just going to go for randomzone
-					disc.targetZone = f.homeZones.getAt(Math.floor(Math.random() * 8)).getAt(0);
-					disc.targetDist = disc.targetZone.world.distance(disc);
-				}					
-			 }, 1000, this);
-			this.autoTargetSet = true;
-		}		
-	};
-	f.DiscAuto.prototype.onHit = function (collider, onTarget) {
-		// This overrides f.Disc.onHit
-		if(collider.isHomeZone){			
-			if(!this.autoTargetSet){
-				// We're registering
-				this.onHomeZoneHit(collider, onTarget);
-				if(!this.targetDist && f.availableTargets.length > 0) {
-					this.setAutoTarget();	
-				}				
-			} else {
-				// We're hitting a targetZone
-				this.onHomeZoneHit(collider, onTarget);							
-			}
-			
-		} else{
-			if(this.deflectors.indexOf(collider) < 0){
-				// commented for debug
-				// this.onDeflect(collider);
-			} else {
-				this.unCollide(collider);
-			}
-		}				
-	};
-	f.DiscAuto.prototype.onRelease = function () {
-		this.shotPosition = new Phaser.Point(this.world.x, this.world.y);
-			this.fired = true;
-			// momentum added for initial speed boost
-			this.momentum = this.initialMomentum;
-	};
-	f.DiscAuto.prototype.getRegisteredZone = function () {
-		var i, len = f.availableZones.length, closestZone = null,
-		zone, closestZoneIndex;
-
-		for(i = 0; i < len; i++) {
-			zone = f.availableZones[i];
-			if (!closestZone) {
-				closestZone = zone;
-			} else if (zone && this.position.distance(zone.position) < this.position.distance(closestZone.position)) {
-				closestZone = zone;
-				closestZoneIndex = i;				
-			}	
-		}
-		f.availableZones.splice(closestZoneIndex, 1);
-		return closestZone;		
-	};
-
-	// End debugging /////////////////////////
 
 	f.ScoreBubble = function (game, x, y, key){
 		Phaser.Sprite.call(this, game, x, y, key);
