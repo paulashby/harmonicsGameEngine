@@ -6,7 +6,9 @@ f = {
 	hideLogoSignal: new Phaser.Signal(),
 	endDemoSignal: new Phaser.Signal(),
 	endLevelSignal: new Phaser.Signal(),
-	ZAP_DURATION: 10
+	ZAP_DURATION: 10,
+	DZ_SCALE_INC: 1/3000,
+	shrinkDragZones: false
 }; // our members and functions in here
 
 (function () {
@@ -89,7 +91,7 @@ f = {
 			currZoneSpritePos = new Phaser.Point(currZoneSprite.world.x, currZoneSprite.world.y),
 			flingTarget = f.homeZones.getAt(currZone.flingTarget).getAt(0),
 			flingTargetPosition = new Phaser.Point(flingTarget.world.x, flingTarget.world.y),
-			flingPoint = new Phaser.Line().fromAngle(currZoneSpritePos.x, currZoneSpritePos.y, currZoneSpritePos.angle(flingTargetPosition), currZoneSpritePos.distance(flingTargetPosition)/3).end;
+			flingPoint = new Phaser.Line().fromAngle(currZoneSpritePos.x, currZoneSpritePos.y, currZoneSpritePos.angle(flingTargetPosition), currZoneSpritePos.distance(flingTargetPosition)*0.2).end;
 
 		this.captureTween = Aura.game.add.tween(this).to( {x: currZone.disc.x, y: currZone.disc.y}, 1000, Phaser.Easing.Cubic.InOut, true);
 		this.registerTween = Aura.game.add.tween(this).to( {x: this.x, y: this.y}, 1100, Phaser.Easing.Cubic.InOut, false );
@@ -142,6 +144,27 @@ f = {
 	};
 	f.Zapper.prototype = Object.create(Phaser.Sprite.prototype);
 	f.Zapper.prototype.constructor = f.Zapper;
+	f.DragZone = function(game, x, y){
+
+		Phaser.Sprite.call(this, game, x, y, 'dragZone');
+		this.anchor.setTo(0.5, 0.5);
+		f.endLevelSignal.add(this.endLevel, this);		
+		this.alpha = 0.4;
+		this.scale.x = 0.73;
+		this.scale.y = 0.73;
+	};
+	f.DragZone.prototype = Object.create(Phaser.Sprite.prototype);
+	f.DragZone.prototype.constructor = f.DragZone;
+	f.DragZone.prototype.update = function () {
+		if(f.shrinkDragZones) {
+			this.scale.x = this.scale.x = this.scale.x - f.DZ_SCALE_INC;
+			this.scale.y = this.scale.y = this.scale.y - f.DZ_SCALE_INC;			
+		}
+	};
+	f.DragZone.prototype.endLevel = function () {
+		f.shrinkDragZones = false;
+	};
+
 	f.Disc = function (game, x, y, key, zoneNum){
 		Phaser.Sprite.call(this, game, x, y, key);
 
@@ -219,7 +242,7 @@ f = {
 		flingTargetPosition = new Phaser.Point(flingTarget.world.x, flingTarget.world.y),
 		zapPoint = new Phaser.Line().fromAngle(currZoneSpritePos.x, currZoneSpritePos.y, currZoneSpritePos.angle(flingTargetPosition), currZoneSpritePos.distance(flingTargetPosition) * 0.65).end,
 		zapperPos = new Phaser.Line().fromAngle(currZoneSpritePos.x, currZoneSpritePos.y, currZoneSpritePos.angle(flingTargetPosition), currZoneSpritePos.distance(flingTargetPosition) * 0.75).end,
-		flingPoint = new Phaser.Line().fromAngle(currZoneSpritePos.x, currZoneSpritePos.y, currZoneSpritePos.angle(flingTargetPosition), currZoneSpritePos.distance(flingTargetPosition) * 0.3).end,
+		flingPoint = new Phaser.Line().fromAngle(currZoneSpritePos.x, currZoneSpritePos.y, currZoneSpritePos.angle(flingTargetPosition), currZoneSpritePos.distance(flingTargetPosition) * 0.2).end,
 		defensiveTapAdj = this.zoneNum === 1 ? 1 : -1;
 		
 		this.defensiveTap = new f.Tap(Aura.game, zapperPos.x + (10 * defensiveTapAdj), zapperPos.y + (10 * defensiveTapAdj), 'tap', currZone);

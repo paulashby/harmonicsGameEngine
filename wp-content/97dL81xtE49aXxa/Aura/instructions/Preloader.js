@@ -26,6 +26,7 @@
 			this.load.audio('countdown', ['../assets/audio/countdown.mp3', '../assets/audio/countdown.ogg']);
 
 			this.load.image('bg','../assets/' + f.screen + '/bgFade.jpg');
+			this.load.image('dragZone','../assets/' + f.screen + '/dragZone.png');
 			this.load.image('disc','../assets/' + f.screen + '/disc.png');
 			this.load.spritesheet('halo', '../assets/' + f.screen + '/discHalo.png', f.discHaloWH, f.discHaloWH, 8);
 			this.load.image('hzbg', '../assets/' + f.screen + '/homeZoneBG.png');

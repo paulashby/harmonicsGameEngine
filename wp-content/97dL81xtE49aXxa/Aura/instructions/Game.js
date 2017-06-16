@@ -159,6 +159,8 @@
 						f.homeZones.getAt(i)[instr].scaleTween.start();
 						if(instr === 'instruction1'){
 							f.startDemo(i);
+						} else if (instr === 'instruction2') {
+							f.shrinkDragZones = true;
 						}
 					}
 				}
@@ -171,6 +173,10 @@
 				rightPos = f.gameWidth - (posInset * 1.009),
 				leftPos = posInset * 1.009,
 				bottomPos = f.gameHeight - posInset,
+				dzPosInset = posInset + 81,
+				dzBottomPos = bottomPos - 81,
+				dzRightPos = rightPos - 81,
+				dzLeftPos = leftPos + 81,
 				homeSettings = [ // Clockwise from TL
 					{x: innerSideL, y: posInset , angle: 180},
 					{x: f.HALF_WIDTH, y: posInset, angle: 180},
@@ -180,6 +186,16 @@
 					{x: f.HALF_WIDTH, y: bottomPos, angle: 0},
 					{x: innerSideL, y: bottomPos, angle: 0},
 					{x: leftPos, y: f.HALF_HEIGHT, angle: 90}
+				],
+				dragZoneSettings = [ // Clockwise from TL
+					{x: innerSideL, y: dzPosInset , angle: 180},
+					{x: f.HALF_WIDTH, y: dzPosInset, angle: 180},
+					{x: innerSideR, y: dzPosInset, angle: 180},
+					{x: dzRightPos, y: f.HALF_HEIGHT, angle: 270},
+					{x: innerSideR, y: dzBottomPos, angle: 0},
+					{x: f.HALF_WIDTH, y: dzBottomPos, angle: 0},
+					{x: innerSideL, y: dzBottomPos, angle: 0},
+					{x: dzLeftPos, y: f.HALF_HEIGHT, angle: 90}
 				],
 				numZones = f.MAX_PLAYERS,
 				homeZoneGroup,
@@ -247,7 +263,7 @@
 				addHomeZoneInstructions = function () {
 					// make a new group and add text too
 					var instruction1 = Aura.game.add.bitmapText(f.HALF_WIDTH, f.HALF_HEIGHT + 25, 'summercamp', 'CAPTURE DISCS', 24),
-					instruction2 = Aura.game.add.bitmapText(f.HALF_WIDTH, f.HALF_HEIGHT + 25, 'summercamp', 'FLING AT GOALS TO SCORE', 24),
+					instruction2 = Aura.game.add.bitmapText(f.HALF_WIDTH, f.HALF_HEIGHT + 25, 'summercamp', 'FLING FROM SHRINKING\nHOMEZONE TO SCORE', 24),
 					instruction3 = Aura.game.add.bitmapText(f.HALF_WIDTH, f.HALF_HEIGHT + 25, 'summercamp', 'TAP TO DEFEND', 24);
 					initInstructions(instruction1, instruction2, instruction3);
 				},
@@ -267,10 +283,20 @@
 				
 				
 				return function () {
-					var hzfg;
+					var hzfg,
+					dragZone;				
+
 					for(i = 0; i < numZones; i++) {						
 						homeZoneGroup = Aura.game.add.group();
 						f.homeZones.add(homeZoneGroup);
+						dragZone = new f.DragZone(Aura.game, f.HALF_WIDTH, f.HALF_HEIGHT);
+						f.dragZones.add(dragZone);
+						dragZone.pivot.x = 0;
+						dragZone.pivot.y = 0;
+						dragZone.angle = dragZoneSettings[i].angle;
+						dragZone.x = dragZoneSettings[i].x;
+						dragZone.y = dragZoneSettings[i].y;
+						f.showAfterLogo(dragZone);
 						addZonePanel(i);
 						hzfg = Aura.game.add.sprite(f.HALF_WIDTH, f.HALF_HEIGHT * 0.8498, 'hzfg');
 						hzfg.anchor.setTo(0.5, 0.5);
@@ -326,6 +352,7 @@
 			}		
 
 			f.bg = Aura.game.add.sprite(0, 0, 'bg');
+			f.dragZones = Aura.game.add.group();
 			f.homeZones = Aura.game.add.group();
 			f.discGroup = Aura.game.add.group();
 			f.tapGroup = Aura.game.add.group();
@@ -335,7 +362,8 @@
 				f.discGroup,
 				f.tapGroup,
 				f.haloGroup,
-				f.zapperGroup
+				f.zapperGroup,
+				f.dragZones
 			];
 			addHomeZones();
 			addDiscs();
