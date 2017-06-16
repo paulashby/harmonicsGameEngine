@@ -40,6 +40,7 @@
 			this.load.spritesheet('halo', '../assets/' + f.screen + '/discHalo.png', f.discHaloWH, f.discHaloWH, 8);
 
 			this.load.image('bg','../assets/' + f.screen + '/bgFade.jpg');
+			this.load.image('dragZone','../assets/' + f.screen + '/dragZone.png');
 			this.load.image('disc','../assets/' + f.screen + '/disc.png');
 			this.load.image('hzbg', '../assets/' + f.screen + '/homeZoneBG.png');
 			this.load.spritesheet('hzfg', '../assets/' + f.screen + '/homeZoneFG.png', f.hzfgWH, f.hzfgWH, 9);
