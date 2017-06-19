@@ -17,13 +17,19 @@
         csv = '"' + $rows.map(function (i, row) {
             var $row = $(row), $cols = $row.find('td,th');
 
-            return $cols.map(function (j, col) {
-                var $col = $(col), text = $col.text();
+            if( ! $row.parent().is('tfoot') ) {
+                return $cols.map(function (j, col) {
+                    var $col = $(col), text = $col.text();
 
-                return text.replace(/"/g, '""'); // escape double quotes
+                    text = text.replace('Show more details','');
 
-            }).get().join(tmpColDelim);
+                    if( ! $col.hasClass('check-column') ) {
+                        return text.replace(/"/g, '""'); // escape double quotes    
+                    }                    
 
+                }).get().join(tmpColDelim);
+
+            }
         }).get().join(tmpRowDelim)
             .split(tmpRowDelim).join(rowDelim)
             .split(tmpColDelim).join(colDelim) + '"',
@@ -32,6 +38,7 @@
         csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);        
         console.log(csv);        
 
-        $(this).attr({ 'download': filename, 'href': csvData, 'target': '_blank' });         
+        $(this).attr({ 'download': filename, 'href': csvData, 'target': '_blank' });  
+
     }
 })(jQuery);
