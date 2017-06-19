@@ -263,7 +263,7 @@
 				addHomeZoneInstructions = function () {
 					// make a new group and add text too
 					var instruction1 = Aura.game.add.bitmapText(f.HALF_WIDTH, f.HALF_HEIGHT + 25, 'summercamp', 'CAPTURE DISCS', 24),
-					instruction2 = Aura.game.add.bitmapText(f.HALF_WIDTH, f.HALF_HEIGHT + 25, 'summercamp', 'FLING FROM SHRINKING\nHOMEZONE TO SCORE', 24),
+					instruction2 = Aura.game.add.bitmapText(f.HALF_WIDTH, f.HALF_HEIGHT + 25, 'summercamp', 'FLING FROM HOMEZONE TO SCORE', 24),
 					instruction3 = Aura.game.add.bitmapText(f.HALF_WIDTH, f.HALF_HEIGHT + 25, 'summercamp', 'TAP TO DEFEND', 24);
 					initInstructions(instruction1, instruction2, instruction3);
 				},
