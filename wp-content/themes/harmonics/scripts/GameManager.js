@@ -185,6 +185,7 @@ var GameManager = (function () {
 		sessionState = [];
 		initialState = [];
 		teamState = [];
+		teamRankings = [];
 	},
 	_onGameOver = function (exit) {
 		// TODO: Can we use onError to handle 404 in case an incorrect name is added on backend?
