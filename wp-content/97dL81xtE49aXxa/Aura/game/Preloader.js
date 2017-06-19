@@ -34,6 +34,7 @@
 			this.load.audio('spiralBubble', ['../assets/audio/spiralBubble.mp3', '../assets/audio/spiralBubble.ogg']);
 			this.load.audio('spiralScore', ['../assets/audio/spiralScore.mp3', '../assets/audio/spiralScore.ogg']);
 			this.load.audio('endLevKlaxon', ['../assets/audio/endLevKlaxon.mp3', '../assets/audio/endLevKlaxon.ogg']);
+			this.load.audio('dragPulse', ['../assets/audio/dragPulse.mp3', '../assets/audio/dragPulse.ogg']);
 		
 			this.load.spritesheet('scorePanels', '../assets/' + f.screen + '/scorePanels.png', f.scorePanelsWidth, f.scorePanelsHeight, 8);
 

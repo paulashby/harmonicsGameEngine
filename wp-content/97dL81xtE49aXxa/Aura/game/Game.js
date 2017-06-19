@@ -181,10 +181,21 @@
 				currJelmt,
 				currKelmt;
 
+				
+
+				if(f && f.dragZones) {
+					len = f.dragZones.length;
+				}
+				for(i = 0; i < len; i++) {
+					currElmt = f.dragZones.getAt(i);
+
+					// Remove dragzone tweens
+					removeTweens(currElmt, ['alphaInTween', 'alphaOutTween']);
+				}
+				len = 0;
 				if(f && f.homeZones) {
 					len = f.homeZones.length;
 				}
-
 				for(i = 0; i < len; i++){
 					currElmt = f.homeZones.getAt(i);
 
@@ -679,7 +690,8 @@
 				this.game.add.audio('countdown'),//11
 				this.game.add.audio('spiralBubble'),//12
 				this.game.add.audio('spiralScore'),//13
-				this.game.add.audio('endLevKlaxon')//14
+				this.game.add.audio('endLevKlaxon'),//14
+				this.game.add.audio('dragPulse')//15
 			];
 			f.sound[0].volume = 0.5;
 			f.sound[5].loop = true;

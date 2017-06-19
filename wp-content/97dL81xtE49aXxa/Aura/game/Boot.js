@@ -268,6 +268,9 @@ f = {
 		this.alpha = 0.4;
 		this.scale.x = 0.73;
 		this.scale.y = 0.73;
+		this.alphaInTween = Aura.game.add.tween(this).to( {alpha: 1}, f.LEVEL_FADE_DURATION * 0.1, Phaser.Easing.Quadratic.In, false);
+		this.alphaOutTween = Aura.game.add.tween(this).to( {alpha: this.alpha}, f.LEVEL_FADE_DURATION * 0.1, Phaser.Easing.Quadratic.In, false);
+		this.alphaInTween.chain(this.alphaOutTween);
 	};
 	f.DragZone.prototype = Object.create(Phaser.Sprite.prototype);
 	f.DragZone.prototype.constructor = f.DragZone;
@@ -277,6 +280,10 @@ f = {
 			this.scale.y = this.scale.y = this.scale.y - f.DZ_SCALE_INC;			
 		}
 	};
+	f.DragZone.prototype.pulse = function () {
+		f.sound[15].play();
+		this.alphaInTween.start();
+	}
 	f.DragZone.prototype.endLevel = function () {
 		this.active = false;
 	};
@@ -398,7 +405,6 @@ f = {
 	f.Disc.prototype.constructor = f.Disc;
 	f.Disc.prototype.init = function () {
 		this.exists = true;
-		this.draggable = true;
 		this.fired = false;	
 		this.target = null;
 		this.player = null;
@@ -668,8 +674,7 @@ f = {
 		this.bounceSound = null;
 	};
 	f.Disc.prototype.preventDrag = function () {
-		this.draggable = false;
-		// this.unregisterPlayer();
+		this.unregisterPlayer();
 	};
 	f.Disc.prototype.update = (function () {
 
@@ -849,18 +854,16 @@ f = {
 			}
 			if(this.fired){
 				// Disc has been released or fired
-				this.draggable = true;
 				updatePosition(this, true);
-			} else if(this.pointer && this.draggable){
+			} else if(this.pointer){
 				// disc has been touched/is being dragged
 				if( ! this.player){
 					updatePosition(this,false);	
 				} else {
-					if(withinDragZone(this)){
-						updatePosition(this,false);
-					} else {
-						// Aim here is to become undraggable when registered with player, but outside zone
-						this.preventDrag();
+					updatePosition(this,false);
+					if(! withinDragZone(this)){
+						this.player.homeZone.parent.dragZone.pulse();
+						this.unregisterPlayer();							
 					}
 				} 				
 			} else {
