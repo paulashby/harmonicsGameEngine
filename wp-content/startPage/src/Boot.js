@@ -1028,9 +1028,12 @@ f = f || {}; // our members and functions in here
 		return winners;
 	};
 	f.ResultsGroup.prototype.getWinners = function () {
+		// For team play, we're averaging ranking by number of team members,
+		// so team with highest game score isn't necessarily highest ranking team
 		return f.results[0].team ? this.getWinningTeams() : this.getWinningPlayers();		
 	};
 	f.ResultsGroup.prototype.getLosingTeams = function () {
+		// Include single losing team, or multiple for tied last place
 		var teamRankings = parent.GameManager.getTeamRankings(),
 		targetAverage = teamRankings[teamRankings.length - 1].average,
 		i, len = teamRankings.length, losers = [];
@@ -1040,7 +1043,7 @@ f = f || {}; // our members and functions in here
 			}
 		}
 		return losers;
-	};
+	};	
 	f.ResultsGroup.prototype.getLosingPlayers = function () {
 		var worstRanking = 0,
 		losers = [],
