@@ -190,8 +190,9 @@
 					make_images(8, $adImages, $adState, $ads, $numAds);
 					$adState["cycle"] = true;
 				}
+				echo "<div id='ads' class='hideAds " . $adClass . "' data-adstate=" . json_encode($adState) . ">" . $adImages . "</div><!-- End ads -->";
 			}
-			echo "<div id='ads' class='hideAds " . $adClass . "' data-adstate=" . json_encode($adState) . ">" . $adImages . "</div><!-- End ads -->";
+			
 		?>
 		<div class='cornerBttn hide' id='bottomBttn' data-category='toggleMenu'></div>
 		<div class='cornerBttn hide' id='topBttn' data-category='toggleMenu'></div>
