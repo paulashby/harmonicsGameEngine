@@ -548,7 +548,7 @@
 					score.scaleDownTween = Aura.game.add.tween(score.scale).to({x: 0, y: 0}, f.SCORE_TWEEN_DURATION * 10, Phaser.Easing.Elastic.In, false);
 					homeZoneGroup.add(score);
 					// HERE
-					score.alpha = 0;
+					// score.alpha = 0;
 					homeZoneGroup.hudScore = score;
 				},
 				addHud = function (hudOnly) {

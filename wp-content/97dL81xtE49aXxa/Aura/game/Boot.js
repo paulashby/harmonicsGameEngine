@@ -21,7 +21,7 @@ f = {
 	NUM_COUNTDOWN_ELMTS: 3,
 	FINAL_RESULTS_DUR: 2000,	
 	REGISTERED_DUR: 8000,
-	MAX_INERTIA: 5,
+	MAX_MOMENTUM: 5,
 	HOMEZONE_ALPHA: 0.5,
 	HOMEZONE_DEFENCE_ZONE: 250,
 	HOMEZONE_DEFENCE_DELAY: 1000,
@@ -304,12 +304,8 @@ f = {
 		this.countdownTimer = Aura.game.time.create(false);
 		this.pulseNum = 0;
 		f.timers.push(this.countdownTimer);
-
-
 		f.endLevelSignal.add(this.endLevel, this);	
 		f.levelCountDownSignal.add(this.endLevelCountdown, this);
-
-
 		f.newLevelSignal.add(this.newLevel, this);
 	};
 	f.HomeZonePanel.prototype = Object.create(Phaser.Sprite.prototype);
@@ -527,7 +523,6 @@ f = {
 		this.unregisterPlayer();
 	};
 	f.Disc.prototype.registerPlayer = function (zone) {
-		// console.log('registerPlayer');
 		this.player = zone.player;
 		if(!this.registrationZone){
 			this.halo.frame = f.freePlay ? zone.parent.hzfg.frame : this.player.team;			
@@ -548,7 +543,6 @@ f = {
 		}
 	};
 	f.Disc.prototype.onHomeZoneHit = function (zone, onTarget) {
-		// HERE added conditional
 		if(! this.dropped) {
 			if(this.fired) {
 				this.target = onTarget ? zone : null;
@@ -832,99 +826,39 @@ f = {
 			}
 			return getFreePosition(that);
 		},
-		updateInertia = function (that) {
-			// that.inertia = that.inertia > 0 ? that.interia - 2 : 0;
-
-
-			if(that.inertia > 0) {
-				that.inertia -= 0.02;
-
-			} else {
-				that.inertia = 0;
-				// that.dropped = false;
-			}
-		},
 		getDraggedPosition = function (that) {		
 			// console.log('getDraggedPosition')	
-			return {x: that.x + (that.pointer.x - that.x)/that.inertia, y: that.y + (that.pointer.y - that.y)/that.inertia};
+			return {x: that.x + (that.pointer.x - that.x)/that.momentum, y: that.y + (that.pointer.y - that.y)/that.momentum};
 		},
 		getDroppedPosition = function (that) {
 			// Disc has left drag zone and is no longer draggable - bring to stand still
-			// console.log('getDroppedPosition');
-
-
-				// Circle
-				// var gfx = Aura.game.add.graphics(0, 0);
-				// gfx.beginFill(0xffffff);
-				// gfx.drawCircle(that.previousPosition.x, that.previousPosition.y, 10);
-				// gfx.endFill();
-
-				// // var gfx = Aura.game.add.graphics(0, 0);
-				// gfx.beginFill(0xff00ff);
-				// gfx.drawCircle(that.position.x, that.position.y, 10);
-				// gfx.endFill();
-				
-				// var line = new Phaser.Line().fromAngle(that.previousPosition.x, that.previousPosition.y, that.previousPosition.angle(that.position), that.previousPosition.distance(that.position));
-
-				// gfx.beginFill(0xffff00);
-				// gfx.drawCircle(line.end.x, line.end.y, 10);
-				// gfx.endFill();
-				// console.log('dist: ' + that.previousPosition.distance(that.position));
-
-				// var retVal = new Phaser.Line().fromAngle(that.previousPosition.x, that.previousPosition.y, that.previousPosition.angle(that.position), that.previousPosition.distance(that.position)).end
-				// console.log('x: ' + retVal.x + ', y: ' + retVal.y);
-
-				// HERE This is wrong - deltaX is negative if object has moved to left, positive if right - so a left-moving object will be speeded up rather than slowed down
-				// Once we reach zero inertia, we need to set that.dropped to false;
-				// Math.sign returns -1 0 1
-				/*
-
-					if delta is negative, we want to add inertia (reduce the distance each iteration)
-					if delta is positive, we want to subtract the inertia
-
-				*/
-				console.log('inertia: ' + that.inertia);
-				var xSign = Math.sign(that.deltaX), 
-					ySign = Math.sign(that.deltaY),
-					retVal = new Phaser.Point(that.x + (that.deltaX * (that.inertia * xSign)), that.y + (that.deltaY * (that.inertia * ySign)));
-
-					// console.log('x adding ' + (that.inertia * xSign));
-					// console.log('y adding ' + (that.inertia * ySign));
-				// console.log('x: ' + retVal.x + '; y: ' + retVal.y);
-				return retVal;
-			// return new Phaser.Line().fromAngle(that.previousPosition.x, that.previousPosition.y, that.previousPosition.angle(that.position), that.previousPosition.distance(that.position)).end; 
+			if(that.leavingDragZone) {
+				// Slow right down when first leaving dragZone
+				that.leavingDragZone = false;
+				return new Phaser.Point(that.x + (0.1 *  that.deltaX), that.y + (0.1 * that.deltaY));
+			}
+			return new Phaser.Point(that.x + (that.momentum * that.deltaX), that.y + (that.momentum * that.deltaY)); 
 		},
 		getLoosePosition = function (that, dragged) {
 			var pos,
-				inertiaTemp;
-			if(!that.inertia){
-				that.inertia = f.MAX_INERTIA;
+				momentumTemp;
+			if(!that.momentum){
+				that.momentum = f.MAX_MOMENTUM;
 			}				
-			// pos = dragged ? getDraggedPosition(that) : getDroppedPosition(that);
-			// updateInertia(that);
 			if(dragged) {
 				pos = getDraggedPosition(that);
-				that.inertia = that.inertia > 0 ? that.interia - 0.1 : 0;				
+				that.momentum = that.momentum > 0 ? that.interia - 0.1 : 0;				
 			} else {
 								
 				pos = getDroppedPosition(that);
 
-				inertiaTemp = that.inertia;
-				inertiaTemp = inertiaTemp > 0 ? inertiaTemp - 0.001 : 0;
-				// toFixed() to avoid floating point precision error
-				that.inertia = inertiaTemp.toFixed(3);
-				
-
-
-				// HERE - this should continue till inertia is zero
-				// or disc is released at which point it is fired
-				
-				 
+				momentumTemp = that.momentum;
+				momentumTemp = momentumTemp > 0 ? momentumTemp - 0.05 : 0;
+				that.momentum = momentumTemp;				 
 			}
 			return pos;	
 		},
 		updatePosition = function (that, fired, dropped) {
-			// console.log('updatePosition');
 			var pos;	
 			if(fired){
 				pos = getFiredPosition(that);				
@@ -944,53 +878,42 @@ f = {
 			return that.world.distance(that.player.homeZone.parent.dragZone.world) + that.width/2 <  that.player.homeZone.parent.dragZone.width/2;
 		};
 		return function () {
-			// console.log('update');
 			if(f.gameStarted && !this.inWorld) {
 				// Out of play
-				// console.log('out of play');
 				this.onBoundsTimeout();
 			}
 			if(this.fired){
 				// Disc has been released or fired
-				// console.log('fired');
 				updatePosition(this, true);
 			} else if(this.pointer){
 				// disc has been touched/is being dragged
-				// console.log('pointer');
 				if( ! this.player){
-					// console.log('Not player');
 					if(this.dropped) {
-						console.log('dropped');
 						// Disc should come to halt due to exiting dragZone
 						updatePosition(this, false, true);	
 					} else {
-						// console.log('not dropped');
 						updatePosition(this,false);
 					}						
 				} else {					
 					if(! withinDragZone(this)){						
-						console.log('not within drag zone');
 						this.player.homeZone.parent.dragZone.pulse();
 						this.unregisterPlayer();	
-						this.inertia = 1;
+						this.momentum = 1;
 						this.dropped = true;
+						this.leavingDragZone = true;
 						updatePosition(this, false, true);													
 					} else {
-						console.log('within drag zone');
 						updatePosition(this,false); 
 					}
 				} 				
 			} else {
-				// console.log('start position');
 				// Disc is untouched at its start position
 				this.hitArea = new Phaser.Circle(0, 0, this.defaultHitArea, this.defaultHitArea);
 			}
 			if(this.scoring){
-				// console.log('scoring');
 				// Disc is transferring score to registered zone
 				this.onScore();
 			}
-			console.log('update');
 		};
 	}());
 
