@@ -652,12 +652,16 @@
 	f.Prism.prototype.oscillate = function () {
 		var oscillatedPosition;			
 
-		this.oscillation.distance += (this.oscillation.energy * this.oscillation.direction);	
+		if(this.oscillation.distance < f.MAX_OSCILLATION_DIST) {
+			this.oscillation.distance += (this.oscillation.energy * this.oscillation.direction);	
+		}
+			
 		this.oscillation.rotation += this.oscillation.vr * f.oscillationFactor;
 		oscillatedPosition = new Phaser.Line().fromAngle(this.oscillation.pivot.x, this.oscillation.pivot.y, this.oscillation.rotation, this.oscillation.distance).end;
 		this.x = oscillatedPosition.x;
 		this.y = oscillatedPosition.y;		
 		this.rotation += (this.oscillation.vr/10) * this.oscillation.rotDirection * f.oscillationFactor;
+		// console.log(this.oscillation.distance);
 	};
 	f.Prism.prototype.init = function (prismPosition, prismAngle, prismNum) {
 		this.exists = true;
@@ -782,17 +786,6 @@
 					// Init new Prism
 					this.init();
 				}
-				/*
-				if( f.refracting === 0 && (f.collecting || f.fabCount === f.NUM_PRISMS[f.level]) ){
-					// Make collectable
-					f.collecting = true;
-					this.beDragulous();
-					f.ambientLoop.stop();
-					if(!f.collectLoop.isPlaying){
-						f.collectLoop.play(); 
-					}
-				}
-				*/
 				if(this.isDragulous){
 					// Drag glow with Prism
 					this.updateOuterGlow();					
@@ -1427,6 +1420,24 @@
 					check against all existing in prismGroup
 					if OK, return position, else try again
 				*/
+							// add grid so's I can see it
+				// if(! f.gridAdded) {
+				// 	f.gridAdded = true;
+				// 	var gfx = Prisma.game.add.graphics(0, 0);
+
+				// 	for(var i = 0; i < f.NUM_COLS; i++){
+				// 		for(var j = 0; j < f.NUM_ROWS; j++) {
+							
+				// 				var coordsX = (i * f.PRISM_SPACE) + f.BORDER_WIDTH + f.HALF_PRISM_SPACE;
+				// 				var coordsY = (j * f.PRISM_SPACE) + f.BORDER_HEIGHT + f.HALF_PRISM_SPACE;
+							
+
+				// 				gfx.beginFill(0xffffff);
+				// 				gfx.drawCircle(coordsX, coordsY, 2);
+				// 				gfx.endFill();
+				// 		}
+				// 	}
+				// }
 				var gridLoc = getGridLocation(prismNum),
 				posToCheck = {
 					x: (offsetPos(gridLoc.col * f.PRISM_SPACE) + f.BORDER_WIDTH + f.HALF_PRISM_SPACE),
