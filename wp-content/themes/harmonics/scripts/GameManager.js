@@ -6,7 +6,6 @@ var GameManager = (function () {
 	var
 	
 	NEXT_GAME_TIMEOUT = 15000,
-
 	pauseEvent = new Event('pause'),	
 	exitEvent = new Event('exit'),
 	reteam = false,
@@ -110,11 +109,19 @@ var GameManager = (function () {
 		}			
 	},
 	updateState = function (newState) {
-		var currPlayer, updatedPlayer, 
-		currTeam,
-		teamRanking,
-		firstResults = teamState.length === 0,
-		i, len = newState.length;
+		var currPlayer, 
+			updatedPlayer, 
+			currTeam,
+			teamRanking,
+			firstResults,
+			i,
+			len = newState.length;
+
+		// Kill previous team state as we're no longer aggregating
+		teamState = [];
+		// firstResults = teamState.length === 0;
+		firstResults = true;
+
 		if(newState.length !== sessionState.length) {
 			throw new GameManagerException('updateState', 'state array wrong length');	
 		}
@@ -191,7 +198,6 @@ var GameManager = (function () {
 		// TODO: Can we use onError to handle 404 in case an incorrect name is added on backend?
 		var menu = document.getElementById('menuContainer');
 		if(reteam) {
-			// _changePlayers();
 			clearTeams();
 		} else {
 			showResults = true;	
@@ -394,8 +400,6 @@ var GameManager = (function () {
 						
 				// If response includes an error message, an email notification will have been dispatched
 				// so the problem can be investigated by the administrator.
-
-				// TODO: when the first game is loaded make a timer set to about 6 mins(?) - if there's no user input, return to the start page
 			}			
 		}, function (error) {
 			console.error("Error: ", error);

@@ -1040,7 +1040,7 @@
 	    },
 
 	    update: function () {
-			if(f.endLevelPending && !f.reassignmentRunning){
+	    	if(f.endLevelPending && !f.reassignmentRunning){
 				f.endLevel();
 			}
 	    }
