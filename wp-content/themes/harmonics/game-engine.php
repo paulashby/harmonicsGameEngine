@@ -119,7 +119,9 @@
 				}
 			
 			echo "</div>
-			<iframe id='ifrm' data-servicesurl='" . $logOutURL . "' class='hideMenu' src='about:blank'></iframe>";
+			<div id='iframeContainer'>
+				<iframe id='ifrm' data-servicesurl='" . $logOutURL . "' class='hideMenu' src='about:blank'></iframe>
+			</div>";
 		
 			// AdSet for current user
 			function getAds($adSet) {
@@ -194,8 +196,8 @@
 			}
 			
 		?>
-		<div class='cornerBttn hide' id='bottomBttn' data-category='toggleMenu'></div>
-		<div class='cornerBttn hide' id='topBttn' data-category='toggleMenu'></div>
+		<div class='cornerBttn ' id='bottomBttn' data-category='toggleMenu'></div>
+		<div class='cornerBttn ' id='topBttn' data-category='toggleMenu'></div>
 	</body>
 </html>
 		
