@@ -12,6 +12,7 @@ var GameManager = (function () {
 	dburl,
 	gamesURL,
 	homeURL,
+	iframeHTML,
 	inactivityTimeout,
 	startPageUrl,
 	gameList = [],
@@ -158,7 +159,7 @@ var GameManager = (function () {
 		}	
 		teamRankings.sort(function (a, b) {
 			return a.average - b.average;
-		});		
+		});	
 		return {success: true};
 	},
 	clearTeams = function () {
@@ -196,30 +197,32 @@ var GameManager = (function () {
 	},
 	_onGameOver = function (exit) {
 		// TODO: Can we use onError to handle 404 in case an incorrect name is added on backend?
-		var menu = document.getElementById('menuContainer');
+		var menu = document.getElementById('menuContainer'),
+		container;
 		if(reteam) {
 			clearTeams();
 		} else {
 			showResults = true;	
 		}
 		showDraw = !exit;
+		container = document.getElementById('iframeContainer');
+		container.innerHTML = iframeHTML;
 		document.getElementById('ifrm').src = gamesURL;
 		clearTimeout(nextGameTimeout);
 
 		// Toggle game-related menu item visibility
 		menu.classList.toggle('showGameButtons'); 
 
-		if(! exit) {
-			// Toggle menu button visibility
-			document.getElementById('topBttn').classList.toggle('hide');
-			document.getElementById('bottomBttn').classList.toggle('hide');
-		}
 		return {success: true, data: 'Loading main menu on assumption that game memory has been freed'};
 	},
 	_onGameTimeout = function () {
+		var container;
+
 		currGame = undefined;
 		showResults = false;
 		_changePlayers();
+
+		container.innerHTML = iframeHTML;
 		document.getElementById('ifrm').src = startPageUrl;
 		clearTimeout(nextGameTimeout);
 		return {success: true, data: 'Loading start page'};
@@ -238,7 +241,8 @@ var GameManager = (function () {
 	},
 	_startSession = function (state, gameUrl, gameID, showInstructions) {
 
-		var replaying = instructionsShown.indexOf(gameID) >= 0;	 
+		var replaying = instructionsShown.indexOf(gameID) >= 0,
+			container;	 
 
 		if((! sessionState || sessionState.length === 0) && state) {
 			// Players have just regsitered, save this state in case they play again
@@ -270,26 +274,22 @@ var GameManager = (function () {
 		// Toggle game-related menu item visibility
 		document.getElementById('menuContainer').classList.toggle('showGameButtons');
 
-		// Toggle menu button visibility
-		document.getElementById('topBttn').classList.toggle('hide');
-		document.getElementById('bottomBttn').classList.toggle('hide');
-
+		container = document.getElementById('iframeContainer');
+		container.innerHTML = iframeHTML;
 		document.getElementById('ifrm').src = gameUrl;
 	},
 	_startGame = function () {
-		var menu = document.getElementById('menuContainer');
+		var menu = document.getElementById('menuContainer'),
+			container;
+
 		// Instructions have just been shown
+		container = document.getElementById('iframeContainer');
+		container.innerHTML = iframeHTML;
 		document.getElementById('ifrm').src = currGameUrl;
 
 		if( ! menu.classList.contains('showGameButtons')) {
 			menu.classList.toggle('showGameButtons');	
 		}
-		document.getElementById('topBttn').classList.toggle('hide');
-		document.getElementById('bottomBttn').classList.toggle('hide');
-	},
-	_onIframeLoad = function (e) {
-		document.getElementById('topBttn').classList.toggle('hide');
-		document.getElementById('bottomBttn').classList.toggle('hide');
 	},
 	_onMenuClick = function (e) {
 		var ifrm = document.getElementById('ifrm'),
@@ -314,8 +314,6 @@ var GameManager = (function () {
 			if(document.getElementById('menuContainer').classList.contains('showGameButtons')){				
 				window.dispatchEvent(exitEvent);
 				hideMenu();
-				document.getElementById('topBttn').classList.toggle('hide');
-				document.getElementById('bottomBttn').classList.toggle('hide');
 			}			
 		} else if(e.target.dataset.category === 'teamchange') {
 			e.preventDefault();			
@@ -323,8 +321,6 @@ var GameManager = (function () {
 				reteam = true;
 				window.dispatchEvent(exitEvent);
 				hideMenu();
-				document.getElementById('topBttn').classList.toggle('hide');
-				document.getElementById('bottomBttn').classList.toggle('hide');
 			}			
 		} else if(e.target.dataset.category === 'toggleMenu') {
 			hideMenu();
@@ -368,8 +364,10 @@ var GameManager = (function () {
 		var parsedData,
 		logoutLinks = document.getElementsByClassName('logout'),
 		templateDirURL = document.body.dataset.templateurl,
+		container,
 		i, len = logoutLinks.length;
 
+		iframeHTML = document.getElementById('ifrm').outerHTML;
 		gamesURL = document.body.dataset.starturl;		
 		homeURL = document.getElementById('ifrm').dataset.servicesurl;
 		inactivityTimeout = document.body.dataset.timeoutduration * 1000;
@@ -390,13 +388,14 @@ var GameManager = (function () {
 				gameList = parsedData.games;				
 
 				// The gameList is ready, safe to load the start page
+				container = document.getElementById('iframeContainer');
+				container.innerHTML = iframeHTML;
 				document.getElementById('ifrm').src = gamesURL;
 
 				// Add menu event listeners
 				document.getElementById('topBttn').addEventListener('click', GameManager.onMenuClick);
 				document.getElementById('bottomBttn').addEventListener('click', GameManager.onMenuClick);
-				document.getElementById('menuContainer').addEventListener('click', GameManager.onMenuClick);				
-				document.getElementById("ifrm").addEventListener('load', GameManager.onIframeLoad);
+				document.getElementById('menuContainer').addEventListener('click', GameManager.onMenuClick);
 						
 				// If response includes an error message, an email notification will have been dispatched
 				// so the problem can be investigated by the administrator.
@@ -462,9 +461,6 @@ var GameManager = (function () {
 		},
 		onGameTimeout: function () {
 			return _onGameTimeout();
-		},
-		onIframeLoad: function (e) {
-			return _onIframeLoad(e);
 		},
 		onMenuClick: function (e) {
 			return _onMenuClick(e);
