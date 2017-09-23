@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>game/Game.js</string>
+	<string>game/index.html</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -46,7 +46,9 @@
 					<key>filename</key>
 					<string>game/index.html</string>
 					<key>lastUsed</key>
-					<date>2015-12-27T18:49:22Z</date>
+					<date>2017-09-16T12:31:06Z</date>
+					<key>selected</key>
+					<true/>
 				</dict>
 				<dict>
 					<key>filename</key>
@@ -64,9 +66,7 @@
 					<key>filename</key>
 					<string>game/Game.js</string>
 					<key>lastUsed</key>
-					<date>2016-01-09T17:22:38Z</date>
-					<key>selected</key>
-					<true/>
+					<date>2017-09-16T12:31:06Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
@@ -338,9 +338,7 @@
 		<string>game/Game.js</string>
 		<string>game/Preloader.js</string>
 		<string>instructions/Boot.js</string>
-		<string>notes.txt</string>
 		<string>game/unusedCode.js</string>
-		<string>../../Documents/Development/Game Development Info/Phaser/usefulCode.js</string>
 		<string>instructions/index.html</string>
 		<string>instructions/Preloader.js</string>
 		<string>instructions/Game.js</string>
