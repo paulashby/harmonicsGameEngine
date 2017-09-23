@@ -247,6 +247,7 @@ var VTAPI = (function (GameManager) {
         currRanking = insertedPlayer.ranking;                 
         currPlayer.ranking = currRanking + prevRanking;                                
       }
+
       if(testing) {        
         return {success: true};
       }
