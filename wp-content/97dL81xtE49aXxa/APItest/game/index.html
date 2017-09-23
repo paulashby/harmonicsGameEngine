@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />	
+		<script src="../../../../moduleTest/vt-api-1.5.js"></script>	
+		<title>Parent test - does parent exist in uncontained page?</title>
+		<style type = 'text/css'>
+
+					body {
+					   margin-left: 30px;
+					   overflow: hidden;
+					   background-color: ivory;
+					   width: 1920px;
+					   height:1080px;
+					}
+					iframe {
+					    position:absolute;
+					    left: 0px;
+					    width: 1920px;
+					    top: 0px;
+					    height: 1080px;
+					    border: 0;
+					    background-color: lime;
+					}
+					form {
+						margin-bottom: 50px;
+					}
+					#obState {
+						word-wrap: break-word;
+						width: 1500px;
+						height: 1200px;
+						background-color: Cornsilk;
+						padding 10px;
+						margin-top: 30px;
+					}
+					#teamInfo {
+						position: absolute;
+						top: 0;
+						right: 0;
+						width: 500px;
+						height: 200px;
+						background-color: PapayaWhip;
+					}
+					#bttn {
+						position: absolute;
+						top: 10px;
+					}
+					#bttn1 {
+						position: absolute;
+						top: 50px;
+					}
+
+		</style>
+	</head>
+	<body>
+		<h1>Test page</h1>
+		 <form onSubmit="JavaScript:setNumPlayers()">
+		  setNumPlayers: <input id='numPlayers' type="number" name="numPlayers"><br>		  
+		</form> 
+		<form onSubmit="JavaScript:setNumTeams()">
+		  setNumTeams: <input id='numTeams' type="number" name="numPlayers"><br>		  
+		</form> 
+		<button onclick="JavaScript:getPlayersInformation()">getPlayersInformation</button>
+		 <button onclick="JavaScript:spoofScores()">spoofScores</button>
+		 <button onclick="JavaScript:insertScores()">insertScores</button>
+		 <button onclick="JavaScript:getTeamsInfo()">getTeamsInfo</button>
+		 <button onclick="JavaScript:resetPlayersInfo()">resetPlayersInfo</button>
+		 <button onclick="JavaScript:mangleState()">mangleState</button>
+		 <button onclick="JavaScript:onGameOver()">Game Over</button>
+		 <div id='playerButtons'>
+		 </div>
+		<div id='players'>
+		 </div>
+		 <div id='obState'>
+		 </div>
+		 <div id='teamInfo'>
+		 </div>
+		<script type="text/javascript">
+			var ob = (function (){
+				var state;
+				return {
+					getState: function () {
+						return state;
+					},
+					setState: function (newState) {
+						state = newState;
+					}
+				}
+			}()),
+			setNumPlayers = function () {
+				var val = parseInt(document.getElementById('numPlayers').value, 10);
+				ob.setState(VTAPI.setNumPlayers(val));
+				updateDiv('setNumPlayers: ');
+				event.preventDefault();
+			},
+			setNumTeams = function () {
+				var val = parseInt(document.getElementById('numTeams').value, 10);
+				ob.setState(VTAPI.setNumTeams(val));
+				updateDiv('setNumTeams: ');
+				event.preventDefault();
+			},
+			spoofScores = function () {
+				ob.setState(VTAPI.spoofScores());
+				updateDiv('spoofScores: ');
+			},
+			getPlayersInformation = function () {
+				ob.setState(VTAPI.getPlayersInformation());
+				updateDiv('getPlayersInformation: ');
+			},
+			insertScores = function () {
+				// ob.setState(VTAPI.insertScores(ob.getState()));
+				var returnArray = [],
+				i, len = f.players.length,
+				currScore,
+				rankingScore,
+				currRanking = 1;
+
+				for (i = 0; i < len; i++) {
+					if(f.players[i] !== null) {
+						returnArray.push(f.players[i]);
+					}
+				}
+				returnArray.sort(function(a, b) {
+					return b.score[0] - a.score[0];
+				});
+
+				len = returnArray.length;
+				// for(i = 0; i < len; i++) {
+				// 	if(i > 0 && returnArray[i].score[0] === returnArray[i - 1].score[0]) {
+				// 		returnArray[i].ranking = returnArray[i - 1].ranking;
+				// 	} else {
+				// 		returnArray[i].ranking = len - i;
+				// 	}					
+				// }
+
+				for(i = 0; i < len; i++) {
+					currScore = returnArray[i].score[0];
+					if(i === 0) {
+						rankingScore = currScore;
+					}
+					if(currScore !== rankingScore) {
+						currRanking++;	
+						rankingScore = currScore					
+					}
+					returnArray[i].ranking = currRanking;
+				}
+				// ob.setState('!!! inserting scores from f.players rather than ob !!!');
+				ob.setState(returnArray);
+				
+				updateDiv('insertScores: ' + JSON.stringify(VTAPI.insertScores(returnArray)));
+			},
+			getTeamsInfo = function () {
+				var el = document.getElementById('teamInfo'),
+				prev = el.innerHTML;
+				el.innerHTML = prev + '<br><br>' + JSON.stringify(VTAPI.getTeamsInformation());
+			},
+			resetPlayersInfo = function () {
+				ob.setState(VTAPI.resetPlayersInformation());
+				updateDiv('resetPlayersInfo: ');
+			},
+			updateDiv = function (prefix) {
+				var el = document.getElementById('obState'),
+				prev = el.innerHTML;
+				el.innerHTML = prev + '<br><br>' + prefix + '<br>' + JSON.stringify(ob.getState());
+			},
+			mangleState = function () {
+				ob.setState([{mangledOb: true}]);
+			},
+			onGameOver = function () {
+				VTAPI.onGameOver();
+			}
+		</script>
+		
+	<script>
+		window.onload = function (){
+			
+			//  We can see parent
+			// parent.API.onGameLoaded('Hello from game');
+			var player = {
+				updateScore: function () {
+					this.score[f.level] += f.SCORE_VAL * (f.level + 1);
+					if(!f.freePlay){
+						f.teams[this.team].score[f.level] += f.SCORE_VAL * (f.level + 1);
+					}
+				}
+			},
+			mapPlaces = (function () {
+				// API numbers places differently to system used in game
+				// returns place mapping function
+				var gameToAPI = {0: 3, 1: 2, 2: 1, 3: 4, 4: 6, 5: 7, 6: 8, 7: 5}, 
+				apiToGame = {}, 
+				i;
+				for(i=0; i < maxPlayers; i++) {
+					apiToGame[gameToAPI[i]] = i;
+				}
+				return function (placeNum, APItoGame) {
+					// returns placeNum's corresponding number in mapping determined by APItoGame boolean
+					var mapOb = APItoGame ? apiToGame : gameToAPI;
+					if(mapOb.hasOwnProperty(placeNum)) {
+						return mapOb[placeNum];
+					}
+					console.error('mapPlaces: place with given number does not exist');
+				};
+			}()),
+			insertPlayer = function (i) {
+				var rawDataIndex = f.findWithAttr(apiRawData, 'place', mapPlaces(i)),
+				apiPlayer,
+				currPlayer,
+				fTeam,
+				currPlayerTeam;
+
+				if(typeof rawDataIndex === 'number') {			
+					apiPlayer = apiRawData[rawDataIndex];
+					currPlayer = Object.create(player);
+					currPlayer.name = 'player ' + apiPlayer.player;
+					currPlayer.playerNum = apiPlayer.player;
+					currPlayer.place = apiPlayer.place;
+					currPlayer.score = [0,0,0];
+					currPlayerTeam = apiPlayer.team;
+					f.numPlayers++;
+
+					if(currPlayerTeam !== undefined) {
+						currPlayerTeam --; // zero indexed
+						currPlayer.team = currPlayerTeam;
+						f.teams = f.teams || [];
+						fTeam = f.teams[currPlayerTeam];
+						if(!fTeam) {
+							fTeam = {members: [], score: [0, 0, 0]};
+							f.teams[currPlayer.team] = fTeam;
+						}
+						fTeam.members.push(apiPlayer.player);				
+					}
+				} else {
+					currPlayer  = null;
+				}
+				return currPlayer;
+			},
+			apiRawData = VTAPI.getPlayersInformation(),
+			maxPlayers = 8,
+			playersDiv = document.getElementById("players"),
+			playerButtonsDiv = document.getElementById("playerButtons"),
+			currPlayerDiv,
+			currPlayerInfo,
+			currPlayerBttn,
+			playerBttnLabel,
+			i,
+			len,
+			updateView = function () {
+				var nodeList = playersDiv.childNodes;
+				i = 0;
+				len = f.players.length;
+				for(i = 0; i < len; i++){
+					nodeList[i + 1].innerHTML = JSON.stringify(f.players[i]);
+				}
+			},
+			addBttnListener = function(playerBttn, playerNum) {
+				playerBttn.addEventListener("click", function(){
+					var player;
+				   	f.players[f.findWithAttr(f.players, 'playerNum', playerNum)].score[0]++;
+				}, false);
+			},
+			updateLoop;
+			
+			f = {
+				findWithAttr: function (array, attr, value) {
+				
+					"use strict";	
+				
+					var i,
+					len = array.length;
+					for(i = 0; i < len; i += 1) {
+						if(array[i] && array[i][attr] === value) {
+							return i;
+						}
+					}
+				},
+				players: []
+			};
+
+			for (i = 0; i < maxPlayers; i++) {
+				f.players[i] = insertPlayer(i);
+				currPlayerDiv = document.createElement("div"); 
+				currPlayerInfo = document.createTextNode(JSON.stringify(f.players[i]));
+				currPlayerDiv.appendChild(currPlayerInfo); 
+				playersDiv.appendChild(currPlayerDiv);
+				
+				currPlayerBttn = document.createElement("BUTTON");
+				playerBttnLabel = document.createTextNode("Increase Player " + (i + 1) + " score");
+				currPlayerBttn.appendChild(playerBttnLabel);
+				playerButtonsDiv.appendChild(currPlayerBttn);
+				var myF = function(bttn, num) {
+					addBttnListener(bttn, num);
+				}(currPlayerBttn, i + 1);
+
+			}
+			updateLoop = window.setInterval(updateView, 200);
+		}
+	</script>	
+	</body>
+</html>
