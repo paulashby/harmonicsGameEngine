@@ -312,7 +312,8 @@
 					f.gameSelectionMenu.fadeInTween.start();
 				}				
 				f.gameChanging = false;
-			}, f);			
+			}, f);	
+			StartPage.game.sound.mute = true;		
 	    },
 	    update: function () { 
 	    }
