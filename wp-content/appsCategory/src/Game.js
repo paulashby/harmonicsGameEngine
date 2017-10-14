@@ -33,7 +33,8 @@
 
 			f.activeLoop = addSound('activeLoop', true, true);
 			f.bump = addSound('bump');
-			f.bump.volume = 0.6;	
+			f.bump.volume = 0.6;
+			AppsCategory.game.sound.mute = true;	
 	    },
 	    update: function () {
 	    	if(f.gameOver) {
