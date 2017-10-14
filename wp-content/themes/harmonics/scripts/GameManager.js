@@ -39,9 +39,6 @@ var GameManager = (function () {
 	initialState,
 	showResults = false,
 	showDraw = false,
-	getRandomInt = function (min, max) {
-	    return Math.floor(Math.random() * (max - min + 1)) + min;
-	},
 	startNextGameTimeout = function () {
 		nextGameTimeout = setTimeout(_onGameOver, NEXT_GAME_TIMEOUT);
 	},
@@ -276,6 +273,8 @@ var GameManager = (function () {
 
 		container = document.getElementById('iframeContainer');
 		container.innerHTML = iframeHTML;
+		// document.getElementById('ifrm').onload = function() { document.getElementById('ifrm').focus();
+		// console.log('iframe focus'); };
 		document.getElementById('ifrm').src = gameUrl;
 	},
 	_startGame = function () {
@@ -396,20 +395,20 @@ var GameManager = (function () {
 				document.getElementById('topBttn').addEventListener('click', GameManager.onMenuClick);
 				document.getElementById('bottomBttn').addEventListener('click', GameManager.onMenuClick);
 				document.getElementById('menuContainer').addEventListener('click', GameManager.onMenuClick);
-						
+
 				// If response includes an error message, an email notification will have been dispatched
 				// so the problem can be investigated by the administrator.
 			}			
 		}, function (error) {
 			console.error("Error: ", error);
-		});		
+		});	
 	};
 	window.addEventListener('VTAPIinputError', onInputError, false);
 	window.onload = function () {
 		init();
 		if(AdManager){
 			AdManager.init();			
-		}
+		}		
 	};
 
 	return {
