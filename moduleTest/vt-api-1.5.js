@@ -203,7 +203,7 @@ var VTAPI = (function (GameManager) {
       }
       if(rankingArray.length !== currState.length) {
         inputErrors.push('insertScores: wrong number of players');
-        alert('GameManager expected ' + currState.length + ' players. Game returned ' + rankingArray.length + ' players');
+        console.error('GameManager expected ' + currState.length + ' players. Game returned ' + rankingArray.length + ' players');
       } 
       if(propertyErrors){
         inputErrors.push(propertyErrors);
@@ -298,11 +298,10 @@ var VTAPI = (function (GameManager) {
     };
     if(checkPermission('allowTeamChange')) {
       if(typeof n !== 'number') {
-        alert('VTAPI.setNumPlayers: expected number, saw ' + typeof n);
+        console.error('VTAPI.setNumPlayers: expected number, saw ' + typeof n);
       } else {
         if(removingTeams) {
           if(typeof removingTeams === 'string') {
-            alert(removingTeams);
             return _cloneState(testState);
           } 
           teamNumbersArray = teamSetUps[0].slice();                    
@@ -343,12 +342,12 @@ var VTAPI = (function (GameManager) {
 
     if(checkPermission('allowPlayerChange')){
       if(typeof n !== 'number') {
-        alert('VTAPI.setNumPlayers: expected number, saw ' + typeof n);
+        console.error('VTAPI.setNumPlayers: expected number, saw ' + typeof n);
       }
       if(n > 1 && n <= MAX_PLAYERS) {
         updateTestState(); 
       } else {
-        alert('VTAPI.setNumPlayers: number of players must be between 2 and ' + MAX_PLAYERS + '. Returning player info unchanged');
+        console.error('VTAPI.setNumPlayers: number of players must be between 2 and ' + MAX_PLAYERS + '. Returning player info unchanged');
       } 
       // Match number of teams to previous configuration as closely as possible and return new state         
       return numTeams > 0 ? _setNumTeams(numTeams) : testState;
