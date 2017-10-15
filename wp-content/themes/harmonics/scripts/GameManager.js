@@ -49,7 +49,7 @@ var GameManager = (function () {
 		apiCall(dburl + '?t=' + Math.random() + '&reqType=suspendGame&gameID=' + currGame + '&err=' + escape(err.detail.errors)).then(function (response) {
 			if(response.indexOf('Error') == -1) {
 				// TODO: 2017 – we need to do something more here – the game menu is emptied
-				gameList = JSON.parse(response);
+				gameList = JSON.parse(response).games;
 				// If response includes an error message, the game will remain in the list. 
 				// An email notification has been dispatched so the game can be disabled by the administrator.				
 			}		
