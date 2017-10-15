@@ -85,6 +85,7 @@
 
 	            $postID = get_the_ID();
 	            $gameName = get_the_title();
+	            
 	            array_push($possibleGames, $gameName);
 	        }
 	    }
@@ -118,7 +119,7 @@
 		        $loading_options = get_field("loading-options", $postID);
 		        if(gettype($loading_options) == "array") {
 		        	foreach ($loading_options as $optn) {
-		        		
+
 		        		if($optn["value"] == "instructions") {
 		        			$instructions_url = esc_url( content_url() . "/97dL81xtE49aXxa/" . $gameName . "/instructions/" );
 		        		} else if($optn["value"] == "suspended") {
@@ -186,12 +187,20 @@
 	            // Check game set should be loaded
 				if( in_array($gameSet, $gameSets) ) {
 
-	            	// Get array of selected checkbox choices(FruitFlux etc)
-	            	$valueArray = get_sub_field('game-set-game-checkbox'); 	
+					// Get array of selected checkbox choices(FruitFlux etc)
+	            	$valueArray = get_sub_field('game-set-game-checkbox'); 		            	
 	            	
 	            	// Populate $gameIDs array
-	            	foreach ($valueArray as $va => $value) {
+	            	foreach ($valueArray as $value) {
 	            		// array_push($requiredGames, $value['label']);
+
+	            		/*
+							This triggers PHP Warning:  Invalid argument supplied for foreach()
+							it's an Advanced Cutsom Fields bug and can be ignored 
+							https://support.advancedcustomfields.com/forums/topic/getting-error-in-admin-warning-invalid-argument-supplied-for-foreach/
+	            		*/
+
+						// eg: $label = 'FruitFlux', $value = 14
 	            		$gameIDs[$value['label']] = $value['value'];
 	            	}
 
@@ -208,7 +217,7 @@
 	};
 
 	switch ($reqType) {
-		case "initGameManager":	
+		case "initGameManager":
 		$dbFiles = getFromDB();
 		if( ! is_array($dbFiles) || array_key_exists ( "E_" , $dbFiles )){
 			$data["E_"] = $dbFiles["E_"];
@@ -220,15 +229,44 @@
 
 		case "suspendGame":
 		$gameID = $_GET["gameID"];
-		query_posts( "page_id=" . $gameID );
-		while ( have_posts() ){
-			the_post();
-			update_post_meta(get_the_ID(), "under-review", "true");
-		}
-		$suspErrs = $_GET["err"];
-		wp_reset_query();
+		$gameID = (int)$gameID;
+		$args = array(
+	        "page_id" => $gameID,
+	        "post_type" => "post"
+	    );
 
-		logError( 'VTAPI Game suspension: ' . '\'' . $pages->get($gameID)->title . '\' has been suspended due to the following errors - ' . $suspErrs );
+		// Set the this game to suspended in its loading_options field
+
+		$query = new WP_Query( $args );
+
+	    if ( $query->have_posts() ) {
+	        
+			while ( $query->have_posts() ){
+
+				$query->the_post();
+
+				$loading_options = get_field("loading-options");
+
+				$instructionsRequired = false;
+
+				foreach ($loading_options as $optn) {
+					if(in_array("instructions", $optn)) {
+						$instructionsRequired = true;						
+					}
+				}
+
+				$newVal = $instructionsRequired ? ["instructions", "suspended"] : ["suspended"];
+
+				update_field( "loading-options", $newVal, get_the_ID() );
+
+				$gameTitle = get_the_title();
+			}
+			$suspErrs = $_GET["err"];				
+	    }
+
+	    wp_reset_query();
+
+		logError( 'VTAPI Game suspension: ' . '\'' . $gameTitle . '\' has been suspended due to the following errors - ' . $suspErrs );
 		$games = getFromDB("set-1");
 		echo json_encode( $games );
 		break;
