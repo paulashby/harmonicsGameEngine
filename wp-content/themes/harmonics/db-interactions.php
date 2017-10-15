@@ -216,26 +216,36 @@
 	   	return getGameData($gamesToLoad);
 	};
 
-	switch ($reqType) {
-		case "initGameManager":
+	function makeGameList() {
+
 		$dbFiles = getFromDB();
 		if( ! is_array($dbFiles) || array_key_exists ( "E_" , $dbFiles )){
 			$data["E_"] = $dbFiles["E_"];
 		} else {
 			$data["games"] = $dbFiles["games"];
 		}		
-		echo json_encode( $data );
+		return json_encode( $data );
+	}
+
+	switch ($reqType) {
+		case "initGameManager":
+
+		echo makeGameList();
+
 		break;
 
 		case "suspendGame":
+
 		$gameID = $_GET["gameID"];
+
 		$gameID = (int)$gameID;
+		
 		$args = array(
 	        "page_id" => $gameID,
 	        "post_type" => "post"
 	    );
 
-		// Set the this game to suspended in its loading_options field
+		// Set this game to suspended via the post loading_options field
 
 		$query = new WP_Query( $args );
 
@@ -267,8 +277,9 @@
 	    wp_reset_query();
 
 		logError( 'VTAPI Game suspension: ' . '\'' . $gameTitle . '\' has been suspended due to the following errors - ' . $suspErrs );
-		$games = getFromDB("set-1");
-		echo json_encode( $games );
+
+		echo makeGameList();
+
 		break;
 
 		case "errMssg":	
