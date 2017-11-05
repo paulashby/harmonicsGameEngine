@@ -55,6 +55,13 @@ function enqueue_by_template() {
         wp_register_script('AdManager', esc_url( get_template_directory_uri() . '/scripts/AdManager.js' ) );
         wp_enqueue_script( 'AdManager');
 
+    } else if ( is_page_template( 'basic-page.php' ) ) {
+        wp_enqueue_style( 'game-engine.css', esc_url( get_template_directory_uri() . '/css/game-engine.css' ) );
+        wp_register_script('BasicPageBehaviour', esc_url( get_template_directory_uri() . '/scripts/BasicPageBehaviour.js' ) );
+        wp_enqueue_script( 'BasicPageBehaviour');
+        wp_register_script('AdManager', esc_url( get_template_directory_uri() . '/scripts/AdManager.js' ) );
+        wp_enqueue_script( 'AdManager');
+
     } else if ( is_page_template( 'apps-category.php' ) ) {
 
         wp_register_script('Phaser', esc_url( content_url() . '/appsCategory/src/phaser.js' ) );
@@ -106,9 +113,109 @@ if( function_exists('acf_add_options_page') ) {
         'menu_slug'     => 'game-engine-settings',
         'capability'    => 'edit_posts',
         'redirect'      => false
-    ));
-    
+    ));    
 }
+
+// Populate Menu Items menu with Media Library items tagged as 'cardgames'
+function acf_load_menu_item_choices( $field ) {
+
+    // reset choices
+    $field['choices'] = array();
+
+    // Need to sort this query
+    $taggedPages = get_attachments_by_media_tags(array('media_tags'=>'cardgames,services,shopping,whiteboard'));
+
+    foreach ($taggedPages as $pg) {
+        $value = $pg->ID;
+        $label = $pg->post_name;   
+
+        $field['choices'][ $value ] = $label;
+    }
+    return $field;    
+}
+add_filter('acf/load_field/name=default-page', 'acf_load_menu_item_choices');
+
+// Populate Card Games Page menu with Media Library items tagged as 'cardgames'
+function acf_load_cardgame_choices( $field ) {
+
+    // reset choices
+    $field['choices'] = array();
+
+    $taggedPages = get_attachments_by_media_tags(array('media_tags'=>'cardgames'));
+
+    $field['choices'][ 'none' ] = 'none';
+
+    foreach ($taggedPages as $pg) {
+        $value = $pg->ID;
+        $label = $pg->post_name;   
+
+        $field['choices'][ $value ] = $label;
+    }
+    return $field;    
+}
+add_filter('acf/load_field/name=cardgames-page-select', 'acf_load_cardgame_choices');
+
+// Populate Services Page menu with Media Library items tagged as 'services'
+function acf_load_service_choices( $field ) {
+
+    // reset choices
+    $field['choices'] = array();
+
+    $taggedPages = get_attachments_by_media_tags(array('media_tags'=>'services'));
+
+    $field['choices'][ 'none' ] = 'none';
+
+    foreach ($taggedPages as $pg) {
+        $value = $pg->ID;
+        $label = $pg->post_name;   
+
+        $field['choices'][ $value ] = $label;
+    }
+    return $field;    
+}
+add_filter('acf/load_field/name=services-page-select', 'acf_load_service_choices');
+
+// Populate Shopping Page menu with Media Library items tagged as 'shopping'
+function acf_load_shopping_choices( $field ) {
+
+    // reset choices
+    $field['choices'] = array();
+
+    $taggedPages = get_attachments_by_media_tags(array('media_tags'=>'shopping'));
+
+    $field['choices'][ 'none' ] = 'none';
+
+    foreach ($taggedPages as $pg) {
+        $value = $pg->ID;
+        $label = $pg->post_name;
+
+        $field['choices'][ $value ] = $label;
+    }
+    return $field;    
+
+}
+add_filter('acf/load_field/name=shopping-page-select', 'acf_load_shopping_choices');
+
+// Populate Whiteboard Page menu with Media Library items tagged as 'whiteboard'
+function acf_load_whiteboard_choices( $field ) {
+
+    // reset choices
+    $field['choices'] = array();
+
+    $taggedPages = get_attachments_by_media_tags(array('media_tags'=>'whiteboard'));
+
+    $field['choices'][ 'none' ] = 'none';
+
+    foreach ($taggedPages as $pg) {
+        $value = $pg->ID;
+        $label = $pg->post_name;   
+
+        $field['choices'][ $value ] = $label;
+    }
+    return $field;    
+}
+add_filter('acf/load_field/name=whiteboard-page-select', 'acf_load_whiteboard_choices');
+
 
 // Populate Game Set checkbox menu with available games
 function acf_load_game_choices( $field ) {
@@ -167,8 +274,7 @@ function acf_load_set_choices( $field ) {
 add_filter('acf/load_field/name=member-group-set-checkbox', 'acf_load_set_choices');
 
 // Populate Membership Group select menu with Member Groups
-function acf_load_member_choices( $field ) {
-    
+function acf_load_member_choices( $field ) {    
     
     // reset choices
     $field['choices'] = array();
