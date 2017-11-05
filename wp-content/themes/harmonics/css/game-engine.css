@@ -26,6 +26,10 @@ body {
 	display: none;	
 }
 
+.bp #menuContainer .gamesBttn {
+	display: inline-block;
+}
+
 #menuContainer.showGameButtons .exitBttn,
 #menuContainer.showGameButtons .teamBttn,
 #menuContainer.showGameButtons .gamesBttn
