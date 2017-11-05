@@ -23,54 +23,18 @@
 
     	$currUser = 'user_' . get_current_user_id();
     	$linkURL = '';
-        
-        while( have_rows('menu-items', 'option') ) {
+
+		while( have_rows('menu-items', 'option') ) {
 
             the_row();
             
             $include = get_sub_field('include');
-            $title = get_sub_field('title');            
-            $url = get_sub_field('page-name');
+            $title = get_sub_field('title');
 
+            // Exclude shopping as it only appears in slide-out menu - not as cog on apps category page
     		if($title !== 'shopping') {
     			if( $include ) {
-
-					switch ( $title ) {
-		        		case "services":
-		        		// Check for user override 
-		        		$linkPageName = get_field('services-page-name', $currUser);
-		        			
-		        		if( strlen( $linkPageName ) == 0 ) {
-		        			// If override unavailable, use Game Engine settings
-		        			$linkURL = esc_url( content_url(). '/servicesPages/' . get_sub_field("page-name") );
-		        		} else {
-		        			$linkURL = esc_url( content_url(). '/servicesPages/' . $linkPageName );
-		        		}				        		
-						break;
-
-						case "cardgames":
-		        		// Check for user override 
-						$linkPageName = get_field('card-games-page-name', $currUser);
-		        		
-		        		if( strlen( $linkPageName ) == 0 ) {
-		        			// If override unavailable, use Game Engine settings
-		        			$linkURL = esc_url( content_url(). '/appsCategoryPages/' . get_sub_field("page-name") );
-		        		} else {
-		        			$linkURL = esc_url( content_url(). '/appsCategoryPages/' . $linkPageName );
-		        		}
-						break;
-
-						default:
-		        		// Check for user override 
-						$linkPageName = get_field('whiteboard-page-name', $currUser);	        						
-		        		
-		        		if( strlen( $linkPageName ) == 0 ) {
-		        			// If override unavailable, use Game Engine settings
-		        			$linkURL = esc_url( content_url(). '/appsCategoryPages/' . get_sub_field("page-name") );
-		        		} else {
-		        			$linkURL = esc_url( content_url(). '/appsCategoryPages/' . $linkPageName );	
-		        		}
-		        	}					        	
+    				$linkURL = get_permalink( get_page_by_path( $title ) );
 		        	$categoryArray[$title] = $linkURL;
 	            	$numCategories++;
 				} else {
@@ -114,7 +78,6 @@
 window.onload = function() {
 	
 	AppsCategory.game = new Phaser.Game(f.GAME_WIDTH, f.GAME_HEIGHT, Phaser.AUTO, 'gameContainer', null, true);
-
 	AppsCategory.game.state.add('Boot', AppsCategory.Boot);
 	AppsCategory.game.state.add('Preloader', AppsCategory.Preloader);
 	AppsCategory.game.state.add('Game', AppsCategory.Game);
