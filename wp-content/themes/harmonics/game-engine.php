@@ -54,56 +54,7 @@
 				        	$title = get_sub_field("title");
 
 				        	if(get_sub_field("include")){
-					        	switch ( $title ) {
-					        		case "services":
-					        		// Check for user override					        		
-					        		$linkPageName = get_field('services-page-name', $currUser);
-					        			
-					        		if( strlen( $linkPageName ) == 0 ) {
-					        			// If override unavailable, use Game Engine settings
-					        			$linkURL = esc_url( content_url(). '/servicesPages/' . get_sub_field("page-name") );					        			
-					        		} else {
-					        			$linkURL = esc_url( content_url(). '/servicesPages/' . $linkPageName );
-					        		}
-					        		// Set this URL for log out redirect too 
-					        		$logOutURL = $linkURL;			        		
-	        						break;
-
-	        						case "cardgames":
-					        		// Check for user override
-	        						$linkPageName = get_field('card-games-page-name', $currUser);
-					        		
-					        		if( strlen( $linkPageName ) == 0 ) {
-					        			// If override unavailable, use Game Engine settings
-					        			$linkURL = esc_url( content_url(). '/appsCategoryPages/' . get_sub_field("page-name") );
-					        		} else {
-					        			$linkURL = esc_url( content_url(). '/appsCategoryPages/' . $linkPageName );
-					        		}
-	        						break;
-
-	        						case "shopping":
-					        		// Check for user override 
-	        						$linkPageName = get_field('shopping-page-name', $currUser);
-					        		
-					        		if( strlen( $linkPageName ) == 0 ) {
-					        			// If override unavailable, use Game Engine settings
-					        			$linkURL = esc_url( content_url(). '/appsCategoryPages/' . get_sub_field("page-name") );
-					        		} else {
-					        			$linkURL = esc_url( content_url(). '/appsCategoryPages/' . $linkPageName );
-					        		}
-	        						break;
-
-	        						default:
-					        		// Check for user override 
-	        						$linkPageName = get_field('whiteboard-page-name', $currUser);	        						
-					        		
-					        		if( strlen( $linkPageName ) == 0 ) {
-					        			// If override unavailable, use Game Engine settings
-					        			$linkURL = esc_url( content_url(). '/appsCategoryPages/' . get_sub_field("page-name") );
-					        		} else {
-					        			$linkURL = esc_url( content_url(). '/appsCategoryPages/' . $linkPageName );	
-					        		}
-					        	}					        	
+					        	$linkURL = get_permalink( get_page_by_path( $title ) );					        	
 					        	$out .= "<li class='" . $title . "'><a href='" . $linkURL . "'><img src='" . esc_url( get_template_directory_uri() . "/css/img/menu_" . $title . '.png' ) . "' alt='" . $title . "' data-category='" . $title . "'></a></li>";	
 				        	
 					        }
