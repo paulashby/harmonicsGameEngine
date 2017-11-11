@@ -8,6 +8,8 @@ var GameManager = (function () {
 	NEXT_GAME_TIMEOUT = 15000,
 	pauseEvent = new Event('pause'),	
 	exitEvent = new Event('exit'),
+	volumeChangeEvent = new Event('volume-change'),
+	volume = 10,			
 	reteam = false,
 	dburl,
 	gamesURL,
@@ -274,8 +276,7 @@ var GameManager = (function () {
 
 		container = document.getElementById('iframeContainer');
 		container.innerHTML = iframeHTML;
-		// document.getElementById('ifrm').onload = function() { document.getElementById('ifrm').focus();
-		// console.log('iframe focus'); };
+		
 		document.getElementById('ifrm').src = gameUrl;
 	},
 	_startGame = function () {
@@ -297,11 +298,17 @@ var GameManager = (function () {
 		adDiv = document.getElementById('ads'),
 		hideMenu = function () {
 			if(ifrm.classList.contains('showMenu')) {
-				// We're hiding the menu, so focus ifrm
+				// We're hiding the menu, so focus iframe
 				ifrm.focus();
+				
+				// TODO: the problem with this is that there's no sound playing while volume is adjusted - so we need to add a beep to indicate current volume.
+				// update volume in case it was adjusted while iframe was minimised
+				volumeChangeEvent.detail = volume;
+				window.dispatchEvent(volumeChangeEvent);
+
 				// update the ads
 				AdManager.cycleAds();
-			}
+			} 
 			ifrm.classList.toggle('hideMenu');
 			ifrm.classList.toggle('showMenu');
 			menu.classList.toggle('hideMenu');
@@ -360,12 +367,17 @@ var GameManager = (function () {
 			req.send();
 		});
 	},
+	_onVolumeChange = function (val) {
+		// console.log('volumeChangeEventDispatched with value of ' + val);
+		volume = val;
+		console.log('GameManager volume set to ' + volume);
+	},
 	init = function () {
 		var parsedData,
 		logoutLinks = document.getElementsByClassName('logout'),
 		templateDirURL = document.body.dataset.templateurl,
 		container,
-		i, len = logoutLinks.length;
+		$ = jQuery, i, len = logoutLinks.length;
 
 		iframeHTML = document.getElementById('ifrm').outerHTML;
 		gamesURL = document.body.dataset.starturl;		
@@ -470,6 +482,9 @@ var GameManager = (function () {
 		},
 		getInactivityTimeout: function () {
 			return _getInactvityTimeout();
+		},
+		onVolumeChange: function (val) {
+			return _onVolumeChange(val);
 		}
 	};
 }());

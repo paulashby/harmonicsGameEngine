@@ -1,6 +1,6 @@
-<?php /* Template Name: Basic Page */ 
+<?php /* Template Name: Basic Page */ 	
 	$page_class = strtolower(str_replace(' ', '', wp_title('', false)));
-?>
+	?>
 <!DOCTYPE html>
 <html lang='en'>
 	<head>
@@ -14,7 +14,7 @@
 	    $page_url_link = get_permalink($page_url_id);
 	    return esc_url( $page_url_link );
 	};
-
+	
 
 
 	// $taggedPages = get_attachments_by_media_tags(array('media_tags'=>'shopping'));
@@ -99,8 +99,7 @@
 		        }
 		    }
 		}	
-		$linkURL = wp_get_attachment_url( $attachment_id );	
-
+		$linkURL = wp_get_attachment_url( $attachment_id );
 			echo "<body  data-db='" . esc_url( site_url() . '/?page_id=6' ) . "' data-starturl='" . esc_url( $linkURL ) . "' data-templateurl='" . get_template_directory_uri() . "' data-timeoutduration='" . get_field('inactivity-timeout-duration', 'option') . "'id='bodyElmt' class='bp " . $page_class . "'>
 <div id='menuContainer' class='hideMenu'>";	
 			
@@ -150,9 +149,7 @@
 						
 			    	*/    					        	 
 
-		        	$out = "</li>
-	        		<li class='exitBttn exitGame'><a href=''><img src='" . esc_url( get_template_directory_uri() )  . "/css/img/menu_exitgame.png' alt='exit game' data-category='exit'></a></li>
-		        	<li class='teamBttn changeTeams'><a href=''><img src='" . esc_url( get_template_directory_uri() ) . "/css/img/menu_changeteams.png' alt='change teams' data-category='teamchange'></a></li>
+		        	$out = "</li>	        		
 		        	<li class='gamesBttn games'><a href='" . $gamesPageURL . "'><img src='" . esc_url( get_template_directory_uri() ) . "/css/img/menu_games.png' alt='games'></a></li>";
 
 			        while( have_rows("menu-items", "option") ) {
@@ -162,9 +159,20 @@
 
 			        	if(get_sub_field("include")){
 				        	$linkURL = get_permalink( get_page_by_path( $title ) );					        	
-				        	$out .= "<li class='" . $title . "'><a href='" . $linkURL . "'><img src='" . esc_url( get_template_directory_uri() . "/css/img/menu_" . $title . '.png' ) . "' alt='" . $title . "' data-category='" . $title . "'></a></li>";			        	
-				        }
+				        	$out .= "<li class='" . $title . "'><a href='" . $linkURL . "'><img src='" . esc_url( get_template_directory_uri() . "/css/img/menu_" . $title . '.png' ) . "' alt='" . $title . "' data-category='" . $title . "'></a></li>";	
+				        	if("services" == $title) {
+								$logOutURL = $linkURL;						        		
+				        	}		        	
+				        } else if("services" == $title){
+							// Services is disabled, so set the timeout to go to the login page
+							$logOutURL = esc_url( get_site_url() . '/wp-login.php' );
+						}
 			        }
+			        // Volume slider
+			        $out .= "<li class='slider-wrapper'>
+					  <input class='volumeSlider' type='range' min='0' max='10' value='7' step='1' onchange='GameManager.onVolumeChange(this.value)'>
+					</li>";
+
 		        	$redirectURL = esc_url( $logOutURL );
 					$redirectString = '[logout redirect="' . $redirectURL . '"]';
 					
@@ -174,7 +182,6 @@
 			        </div>";
 			    }
 			}
-			
 			echo "</div>
 			<div id='iframeContainer'>
 				<iframe id='ifrm' data-servicesurl='" . $logOutURL . "' class='hideMenu' src='about:blank'></iframe>

@@ -302,8 +302,8 @@
 			} else {
 				// We're waiting for players to join
 				f.showInterface.dispatch();		
-			}			
-
+			}
+						
 			f.playersReady.add(function () {
 				// Add game selection menu
 				if(! f.gameSelectionMenu) {
@@ -313,9 +313,9 @@
 				}				
 				f.gameChanging = false;
 			}, f);	
-			StartPage.game.sound.mute = true;		
+			// StartPage.game.sound.mute = true;
 	    },
-	    update: function () { 
+	    update: function () {
 	    }
 	};
 }());

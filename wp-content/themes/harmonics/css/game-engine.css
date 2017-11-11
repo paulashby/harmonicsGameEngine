@@ -10,6 +10,18 @@ body {
 	margin: auto;
 	overflow: hidden;
 }
+#overlap {
+	position: absolute;
+	/*background-color:transparent;*/
+	background-color: blue;
+/*	pointer-events: none;
+*/	top: 0px;
+	left: 0px;
+	margin: 10px 10px 10px 10px;
+	padding: 0px 0px 0px 0px;
+	width: 110px;
+	height:63px;
+}
 #iframeContainer {
 	width: 100%;
 	height: 100%;
@@ -21,7 +33,12 @@ body {
 
 #menuContainer .exitBttn,
 #menuContainer .teamBttn,
-#menuContainer .gamesBttn
+#menuContainer .gamesBttn,
+.bp.cardgames #menuContainer .cardgames,
+.bp.games #menuContainer .games,
+.bp.services #menuContainer .services,
+.bp.shopping #menuContainer .shopping,
+.bp.whiteboard #menuContainer .whiteboard
 {
 	display: none;	
 }

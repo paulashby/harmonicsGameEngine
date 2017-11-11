@@ -52,13 +52,24 @@
 				        	
 				        	the_row();
 				        	$title = get_sub_field("title");
+				        	write_log('title: ' . $title);
 
 				        	if(get_sub_field("include")){
 					        	$linkURL = get_permalink( get_page_by_path( $title ) );					        	
-					        	$out .= "<li class='" . $title . "'><a href='" . $linkURL . "'><img src='" . esc_url( get_template_directory_uri() . "/css/img/menu_" . $title . '.png' ) . "' alt='" . $title . "' data-category='" . $title . "'></a></li>";	
-				        	
-					        }
+					        	$out .= "<li class='" . $title . "'><a href='" . $linkURL . "'><img src='" . esc_url( get_template_directory_uri() . "/css/img/menu_" . $title . '.png' ) . "' alt='" . $title . "' data-category='" . $title . "'></a></li>";
+						        	if("services" == $title) {
+										$logOutURL = $linkURL;						        		
+						        	}	
+							} else if("services" == $title){
+								// Services is disabled, so set the timeout to go to the login page
+								$logOutURL = esc_url( get_site_url() . '/wp-login.php' );
+							}
+
 				        }
+					    // Volume slider
+				        $out .= "<li class='slider-wrapper'>
+						  <input class='volumeSlider' type='range' min='0' max='10' value='7' step='1' onchange='GameManager.onVolumeChange(this.value)''>
+						</li>";
 			        	$redirectURL = esc_url( $logOutURL );
 						$redirectString = '[logout redirect="' . $redirectURL . '"]';
 						

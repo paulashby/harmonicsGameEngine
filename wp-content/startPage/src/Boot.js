@@ -7,7 +7,10 @@ f = f || {}; // our members and functions in here
 (function () {
 	
 	"use strict";
-	var removeTween = function(tween) {
+	var volumeChangeHandler = function (event) {
+		StartPage.game.sound.volume = parseInt(event.detail, 10)/10;
+	},
+	removeTween = function(tween) {
 			if (tween) {
 				tween.onComplete.removeAll();
 				tween.stop();
@@ -81,11 +84,15 @@ f = f || {}; // our members and functions in here
 			if(f.gameSelectionMenu) {
 				f.gameSelectionMenu.destroy(true, false);
 			}
-			destroyOb(f);
+			destroyOb(f);			
+			top.window.removeEventListener('volume-change', volumeChangeHandler, false);
 
 			// state will be falsey if not passed to cleanUp
 			top.GameManager.startSession(state, gameURL, gameID, showInstructions);
-	};
+		};
+
+		top.window.addEventListener('volume-change', volumeChangeHandler, false);
+
 
 	f.GAME_WIDTH = 1920;
 	f.GAME_HEIGHT = 1080;
@@ -826,6 +833,7 @@ f = f || {}; // our members and functions in here
 		}
 	};	
 	f.GameSelectionMenu.prototype.update = function () {
+
 		Phaser.Group.prototype.update.call(this);
 
 		var direction = f.swipe.check();
@@ -1203,7 +1211,7 @@ f = f || {}; // our members and functions in here
 				this.game.input.addPointer();
 			}
 	        this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;			
-			this.game.stage.backgroundColor = 0x000000;
+			this.game.stage.backgroundColor = 0x000000;			
 	    },
 
 	    create: function () {
