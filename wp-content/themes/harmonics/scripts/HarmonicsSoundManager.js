@@ -2,10 +2,12 @@
 var HarmonicsSoundManager = (function () {
 
 	'use strict';
+
+	// TODO: we need to save the volume value in local storage, then query it when loading bvbhpages
 	
 	var volumeChangeEvent = new Event('volume-change'),
 		volume = 10,
-		newVolume = 10,
+		newVolume = localStorage.getItem('volume')|| 10,
 		pausedAudioElements,
 		i,		 
 		len,
@@ -39,37 +41,53 @@ var HarmonicsSoundManager = (function () {
 		playAudio = function () {
 
 			// restart all paused audio we earlier paused
-			len = pausedAudioElements.length;
+			if(pausedAudioElements) {
+				len = pausedAudioElements.length;
  
+				for(i = 0; i < len; i++) {
+					pausedAudioElements[i].play();
+				}
+			}			
+		},
+		_syncVolume = function () {
+			var audioElements = getAudioElements();
+
+			// Set volume of all audio elements to new volume value
+			volume = newVolume;	
+			localStorage.setItem('volume', volume);			
+			
 			for(i = 0; i < len; i++) {
-				pausedAudioElements[i].play();
-			}
+				audioElements[i].volume = volume/10;
+			}				
+			// Dispatch volume change event for games
+			volumeChangeEvent.detail = volume;
+			window.dispatchEvent(volumeChangeEvent);
 		},
 		_updateVolume = function () {
-			var audioElements; 
-
 			// update volume if it was adjusted while iframe was minimised
 			if(volume !== newVolume) {
-				// TODO: the problem with this is that there's no sound playing while volume is adjusted - so we need to add a beep to indicate current volume.			
-				
-				audioElements = getAudioElements();
-
-				// Set volume of all audio elements to new volume value
-				volume = newVolume;				
-				
-				for(i = 0; i < len; i++) {
-					audioElements[i].volume = volume/10;
-				}				
-				// Dispatch volume change event for games
-				volumeChangeEvent.detail = volume;
-				window.dispatchEvent(volumeChangeEvent);	
+				// TODO: the problem with this is that there's no sound playing while volume is adjusted - so we need to add a beep to indicate current volume.	
+				_syncVolume();	
 			}
 			playAudio();			
 		},
+		_setVolumeSliders = function (val) {
+			var	sliders = document.getElementsByClassName('volumeSlider'),
+				i, 
+				len = sliders.length;
+
+			for(i = 0; i < len; i++) {
+				sliders[i].value = val;
+			}
+		},
 		_changeVolume = function (val) {
-			// Store new volume so we can apply when menu is closed
+			_setVolumeSliders(val);
+			// Store new volume so we can apply when menu is closed			
 			newVolume = parseInt(val, 10);		
 		};
+	jQuery('#ifrm').ready(function(){
+	     _syncVolume();
+	});
 
 	return {
 		changeVolume: function (val) {
@@ -80,6 +98,15 @@ var HarmonicsSoundManager = (function () {
 		},
 		pauseAudio: function () {
 			return _pauseAudio();
+		},
+		syncVolume: function () {
+			return _syncVolume();
+		},
+		setVolumeSliders: function (val) {
+			return _setVolumeSliders(val);
+		},
+		getVolume: function () {
+			return volume;
 		}
 	};
 }());
