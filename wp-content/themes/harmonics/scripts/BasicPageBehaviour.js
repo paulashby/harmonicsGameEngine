@@ -2,6 +2,8 @@
 var GameManager = (function () {
 
 	'use strict';
+
+	// TODO: Rename both this document and its function as ContentManager?
 	
 	var
 	inactivity_period,
@@ -21,8 +23,13 @@ var GameManager = (function () {
 			if(ifrm.classList.contains('showMenu')) {
 				// We're hiding the menu, so focus ifrm
 				ifrm.focus();
+
+				HarmonicsSoundManager.updateVolume();
+
 				// update the ads
 				AdManager.cycleAds();
+			} else {
+				HarmonicsSoundManager.pauseAudio();
 			}
 			ifrm.classList.toggle('hideMenu');
 			ifrm.classList.toggle('showMenu');
@@ -53,7 +60,10 @@ var GameManager = (function () {
 		var logoutLinks = document.getElementsByClassName('logout'),
 		templateDirURL = document.body.dataset.templateurl,
 		container,
-		$, i, len = logoutLinks.length;
+		volume = HarmonicsSoundManager.getVolume(),
+		$, i, len;
+
+		HarmonicsSoundManager.setVolumeSliders(volume);
 
 		iframeHTML = document.getElementById('ifrm').outerHTML;
 
@@ -77,6 +87,7 @@ var GameManager = (function () {
 		localStorage.setItem('homeURL', homeURL);
 		localStorage.setItem('inactivityTimeout', inactivityTimeout);			
 
+		len = logoutLinks.length;
 		for(i = 0; i < len; i++) {
 			logoutLinks[i].innerHTML = "<img src='" + templateDirURL + "/css/img/menu_logout.png' alt='logout' data-category='logout'>";
 		}		
@@ -87,7 +98,7 @@ var GameManager = (function () {
 		// Add menu event listeners
 		document.getElementById('topBttn').addEventListener('click', onMenuClick);
 		document.getElementById('bottomBttn').addEventListener('click', onMenuClick);
-		document.getElementById('menuContainer').addEventListener('click', onMenuClick);
+		document.getElementById('menuContainer').addEventListener('click', onMenuClick);		
 
 		$ = jQuery;
 		// Listen for clicks within iframe to reset inactivity timeout
@@ -104,11 +115,11 @@ var GameManager = (function () {
 		     	console.log('iframe click detected by BasicPageBehaviour - reset timeout'); 
 		     });
 		 });
-	};
+	};	
 	window.onload = function () {
-		init();
+		init();		
 		if(AdManager){
 			AdManager.init();			
-		}					
+		}		
 	};
 }());

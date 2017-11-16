@@ -1,4 +1,4 @@
-/*global window, array, testConfig, VTAPI, clearTimeout */
+/*global AdManager, apiCall, array, clearTimeout, document, Event, jQuery, HarmonicsSoundManager, localStorage, setTimeout, testConfig, VTAPI, window */
 var GameManager = (function () {
 
 	'use strict';
@@ -7,9 +7,7 @@ var GameManager = (function () {
 	
 	NEXT_GAME_TIMEOUT = 15000,
 	pauseEvent = new Event('pause'),	
-	exitEvent = new Event('exit'),
-	volumeChangeEvent = new Event('volume-change'),
-	volume = 10,			
+	exitEvent = new Event('exit'),			
 	reteam = false,
 	dburl,
 	gamesURL,
@@ -297,18 +295,20 @@ var GameManager = (function () {
 		menu = document.getElementById('menuContainer'),
 		adDiv = document.getElementById('ads'),
 		hideMenu = function () {
+			var audioElements,
+				len, 
+				ifrmDoc,
+				i;
+
 			if(ifrm.classList.contains('showMenu')) {
 				// We're hiding the menu, so focus iframe
-				ifrm.focus();
-				
-				// TODO: the problem with this is that there's no sound playing while volume is adjusted - so we need to add a beep to indicate current volume.
-				// update volume in case it was adjusted while iframe was minimised
-				volumeChangeEvent.detail = volume;
-				window.dispatchEvent(volumeChangeEvent);
-
+				ifrm.focus();				 
+				HarmonicsSoundManager.updateVolume();
 				// update the ads
 				AdManager.cycleAds();
-			} 
+			} else {
+				HarmonicsSoundManager.pauseAudio();
+			}
 			ifrm.classList.toggle('hideMenu');
 			ifrm.classList.toggle('showMenu');
 			menu.classList.toggle('hideMenu');
@@ -367,18 +367,16 @@ var GameManager = (function () {
 			req.send();
 		});
 	},
-	_onVolumeChange = function (val) {
-		// console.log('volumeChangeEventDispatched with value of ' + val);
-		volume = val;
-		console.log('GameManager volume set to ' + volume);
-	},
 	init = function () {
 		var parsedData,
 		logoutLinks = document.getElementsByClassName('logout'),
 		templateDirURL = document.body.dataset.templateurl,
 		container,
-		$ = jQuery, i, len = logoutLinks.length;
+		volume = HarmonicsSoundManager.getVolume(),
+		i, len;
 
+		HarmonicsSoundManager.setVolumeSliders(volume);
+		 
 		iframeHTML = document.getElementById('ifrm').outerHTML;
 		gamesURL = document.body.dataset.starturl;		
 		homeURL = document.getElementById('ifrm').dataset.servicesurl;
@@ -389,6 +387,7 @@ var GameManager = (function () {
 		localStorage.setItem('homeURL', homeURL);
 		localStorage.setItem('inactivityTimeout', inactivityTimeout);			
 
+		len = logoutLinks.length;
 		for(i = 0; i < len; i++) {
 			logoutLinks[i].innerHTML = "<img src='" + templateDirURL + "/css/img/menu_logout.png' alt='logout' data-category='logout'>";
 		}
@@ -482,9 +481,6 @@ var GameManager = (function () {
 		},
 		getInactivityTimeout: function () {
 			return _getInactvityTimeout();
-		},
-		onVolumeChange: function (val) {
-			return _onVolumeChange(val);
 		}
 	};
 }());
