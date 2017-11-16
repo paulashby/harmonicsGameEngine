@@ -84,7 +84,8 @@ f = f || {}; // our members and functions in here
 			if(f.gameSelectionMenu) {
 				f.gameSelectionMenu.destroy(true, false);
 			}
-			destroyOb(f);			
+			destroyOb(f);
+			//TODO: update VTAPI to include this event listener 
 			top.window.removeEventListener('volume-change', volumeChangeHandler, false);
 
 			// state will be falsey if not passed to cleanUp
@@ -1211,7 +1212,10 @@ f = f || {}; // our members and functions in here
 				this.game.input.addPointer();
 			}
 	        this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;			
-			this.game.stage.backgroundColor = 0x000000;			
+			this.game.stage.backgroundColor = 0x000000;				
+
+			// Seems we're missing the initial volume-change event - so we're going to get volume from HarmonicsSoundManager
+			volumeChangeHandler({detail: top.HarmonicsSoundManager.getVolume()});		
 	    },
 
 	    create: function () {
