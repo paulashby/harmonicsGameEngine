@@ -375,9 +375,11 @@ var GameManager = (function () {
 		logoutLinks = document.getElementsByClassName('logout'),
 		templateDirURL = document.body.dataset.templateurl,
 		container,
-		volume = HarmonicsSoundManager.getVolume(),
+		volume,
 		i, len;
 
+		HarmonicsSoundManager.init(document.getElementById('volfeedback'));
+		volume = HarmonicsSoundManager.getVolume();
 		HarmonicsSoundManager.setVolumeSliders(volume);
 		 
 		iframeHTML = document.getElementById('ifrm').outerHTML;

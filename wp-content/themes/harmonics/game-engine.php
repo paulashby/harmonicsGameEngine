@@ -12,8 +12,10 @@
 	    $page_url_link = get_permalink($page_url_id);
 	    return esc_url( $page_url_link );
 	};
+	$volfbURL = esc_url( get_template_directory_uri() . "/audio/VolFeedback.mp3" );
 	echo "<body  data-db='" . esc_url( site_url() . '/?page_id=6' ) . "' data-starturl='" . esc_url( content_url() . '/startPage/src/index.html' ) . "' data-templateurl='" . get_template_directory_uri() . "' data-timeoutduration='" . get_field('inactivity-timeout-duration', 'option') . "'id='bodyElmt'>
-	<div id='menuContainer' class='hideMenu'>";
+	<div id='menuContainer' class='hideMenu'>
+		<audio id='volfeedback' src='" . $volfbURL . "' preload='auto'></audio>";
 
 				$logOutURL;
 				for($i = 0; $i < 4; $i++) {
@@ -72,8 +74,9 @@
 							}
 
 				        }
-					    // Volume slider
-					    $out .= "<li class='slider-wrapper'>
+				        // Volume slider
+					    $out .= "
+					    <li class='slider-wrapper'>
 				        <input class='volumeSlider' type='range' min='0' max='10' value='10' step='1'  onchange='HarmonicsSoundManager.changeVolume(this.value)'>
 						</li>";
 			        	$redirectURL = esc_url( $logOutURL );

@@ -11,6 +11,10 @@ var HarmonicsSoundManager = (function () {
 		pausedAudioElements,
 		i,		 
 		len,
+		sliderBeep,
+		_init = function (feedbackAudio) {
+			sliderBeep = feedbackAudio;
+		},		
 		getAudioElements = function () {
 			// Get all instances of audio and video in iframe page
 			var ifrmDoc = document.getElementById('ifrm').contentDocument,
@@ -80,16 +84,29 @@ var HarmonicsSoundManager = (function () {
 				sliders[i].value = val;
 			}
 		},
+		playFeedback = function () {
+			if(sliderBeep) {				
+				sliderBeep.volume = newVolume/10;			
+				sliderBeep.currentTime = 0;
+				sliderBeep.play();
+			}
+		},
 		_changeVolume = function (val) {
 			_setVolumeSliders(val);
+
 			// Store new volume so we can apply when menu is closed			
-			newVolume = parseInt(val, 10);		
+			newVolume = parseInt(val, 10);	
+
+			playFeedback();	
 		};
 	jQuery('#ifrm').ready(function(){
 	     _syncVolume();
 	});
 
 	return {
+		init: function (feedbackAudio) {
+			return _init(feedbackAudio);
+		},
 		changeVolume: function (val) {
 			return _changeVolume(val);
 		},
