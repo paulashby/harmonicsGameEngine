@@ -57,11 +57,18 @@
 					        	$linkURL = get_permalink( get_page_by_path( $title ) );					        	
 					        	$out .= "<li class='" . $title . "'><a href='" . $linkURL . "'><img src='" . esc_url( get_template_directory_uri() . "/css/img/menu_" . $title . '.png' ) . "' alt='" . $title . "' data-category='" . $title . "'></a></li>";
 						        	if("services" == $title) {
-										$logOutURL = $linkURL;						        		
+										$logOutURL = $linkURL;
+
+										// Set generic services page for timeout of login page
+										$loginTimeoutURL = content_url() . '/logInTimeoutPage/';					        		
 						        	}	
 							} else if("services" == $title){
 								// Services is disabled, so set the timeout to go to the login page
-								$logOutURL = esc_url( get_site_url() . '/wp-login.php' );
+								$logOutURL = esc_url( get_site_url() . '/wp-login.php' );								
+
+								// TODO: Is there a better page to redirect to when login page times out and services is disabled?
+								// Set timeout of login page to return to... itself - not really anywhere it can go
+								$loginTimeoutURL = $logOutURL;
 							}
 
 				        }
@@ -81,7 +88,7 @@
 			
 			echo "</div>
 			<div id='iframeContainer'>
-				<iframe id='ifrm' data-servicesurl='" . $logOutURL . "' class='hideMenu' src='about:blank'></iframe>
+				<iframe id='ifrm' data-servicesurl='" . $logOutURL . "' data-logintimeouturl='" . $loginTimeoutURL . "' class='hideMenu' src='about:blank'></iframe>
 			</div>";
 		
 			// AdSet for current user
