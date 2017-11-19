@@ -19,7 +19,7 @@ var GameManager = (function () {
 	gameList = [],
 	prevGameUrl,
 	teamRankings = [],
-	currGame, // current game's index in gameList
+	currGame, // current game's id
 	currGameUrl,
 	nextGameTimeout,
 	fallbackState = [
@@ -44,15 +44,17 @@ var GameManager = (function () {
 		nextGameTimeout = setTimeout(_onGameOver, NEXT_GAME_TIMEOUT);
 	},
 	suspendGame = function (err) {
+		var problemGameIndex;
 		// Disable game and repopulate the gameList
 
 		// we also want to log the problem here, so let's pass in err parameter which can be logged by php
 		apiCall(dburl + '?t=' + Math.random() + '&reqType=suspendGame&gameID=' + currGame + '&err=' + escape(err.detail.errors)).then(function (response) {
 			if(response.indexOf('Error') == -1) {
-				// TODO: 2017 – we need to do something more here – the game menu is emptied
-				gameList = JSON.parse(response).games;
-				// If response includes an error message, the game will remain in the list. 
-				// An email notification has been dispatched so the game can be disabled by the administrator.				
+				gameList = JSON.parse(response).games;				
+			} else {
+				// Error – response may not include a useable game list. Stick with current list, but remove the suspended game
+				problemGameIndex = gameList.findIndex(function(obj) { return obj['id'] === currGame; });
+				gameList.splice(problemGameIndex, 1);
 			}		
 		}, function (error) {
 			console.error("Error: ", error);
@@ -214,18 +216,6 @@ var GameManager = (function () {
 
 		return {success: true, data: 'Loading main menu on assumption that game memory has been freed'};
 	},
-	_onGameTimeout = function () {
-		var container;
-
-		currGame = undefined;
-		showResults = false;
-		_changePlayers();
-
-		container.innerHTML = iframeHTML;
-		document.getElementById('ifrm').src = startPageUrl;
-		clearTimeout(nextGameTimeout);
-		return {success: true, data: 'Loading start page'};
-	},
 	_getState = function () {
 		var iframeElmt = document.getElementById('ifrm'),
 		iframeEmpty = iframeElmt && iframeElmt.contentWindow === undefined,
@@ -296,8 +286,7 @@ var GameManager = (function () {
 		menu = document.getElementById('menuContainer'),
 		adDiv = document.getElementById('ads'),
 		hideMenu = function () {
-			var audioElements,
-				len, 
+			var len, 
 				ifrmDoc,
 				i;
 
@@ -432,25 +421,21 @@ var GameManager = (function () {
 	};
 
 	return {
+
+		// Start Page functions
+		onMenuClick: function (e) {
+			return _onMenuClick(e);
+		},
 		getGameList: function () {
 			return _getGameList();
-		},
-		getState: function () {
-			return _getState();
-		},
+		},		
 		getTeamRankings: function () {
 			return teamRankings;
-		},
-		insertScores: function (newState) {
-			return _insertScores(newState);
-		},
+		},		
 		startSession: function (state, gameURL, gameID, showInstructions) {
 			return _startSession(state, gameURL, gameID, showInstructions);
-		},
-		startGame: function () {
-			return _startGame();
-		},
-		getResults: function () {			
+		},		
+		getResults: function () {		
 			return showResults ? _getState() : showResults;
 		},
 		getDrawVisibility: function () {
@@ -475,15 +460,20 @@ var GameManager = (function () {
 		changePlayers: function () {
 			return _changePlayers();
 		},
+
+		// VTAPI functions
+		getState: function () {
+			return _getState();
+		},
+		insertScores: function (newState) {
+			return _insertScores(newState);
+		},
+		startGame: function () {
+			return _startGame();
+		},
 		onGameOver: function (exit) {
 			return _onGameOver(exit);
-		},
-		onGameTimeout: function () {
-			return _onGameTimeout();
-		},
-		onMenuClick: function (e) {
-			return _onMenuClick(e);
-		},
+		},		
 		getHomeURL: function () {
 			return _getHomeURL();
 		},
