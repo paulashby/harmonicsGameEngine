@@ -8,7 +8,7 @@ var AdManager = (function () {
 	   this.name = funcName;
 	   this.message = message;	   
 	},
-	numAds,
+	numAds = 0,
 	adURLs,
 	cycleOffset = 1,
 	adState = (function () {
@@ -45,57 +45,60 @@ var AdManager = (function () {
 		}
 	})(),
 	_init = function () {		
-		var adData = JSON.parse(document.getElementById('ads').dataset.adstate),
-		adDiv = document.getElementById('ads'),		
+		var adData,
+		adDiv,		
 		currImg,
 		currURLindex,
 		currURL,
 		i;
 
-		if(adData) {
-			numAds = adData.numAds;		
-			adURLs = adData.adURLs;
-			adState.setCycleMode(adData.cycle);	
-		} else {
-			numAds = 0;
-			return;
-		}
+		adDiv = document.getElementById('ads');
 
-		// Replace transparent placeholder images in #ads div with live ad images
-		// Have deferred this till now so start page can load without ads competing for bandwidth
-		
-		if(numAds === 1) {
-			// Load one version of ad for each side of the table
-			for(i = 0; i < 4; i++) {
-				currImg = adDiv.children[i];
-				currURLindex = i % numAds;
-				currURL = adURLs[currURLindex];
-				if(currImg && currURL) {
-					currImg.src = currURL;
-					// create entry in adState
-					adState.addEntry(currImg, currURLindex);
+		if(adDiv) {
+			adData = JSON.parse(adDiv.dataset.adstate);
+
+			if(adData) {
+				numAds = adData.numAds;		
+				adURLs = adData.adURLs;
+				adState.setCycleMode(adData.cycle);	
+
+				// Replace transparent placeholder images in #ads div with live ad images
+				// Have deferred this till now so start page can load without ads competing for bandwidth
+				
+				if(numAds === 1) {
+					// Load one version of ad for each side of the table
+					for(i = 0; i < 4; i++) {
+						currImg = adDiv.children[i];
+						currURLindex = i % numAds;
+						currURL = adURLs[currURLindex];
+						if(currImg && currURL) {
+							currImg.src = currURL;
+							// create entry in adState
+							adState.addEntry(currImg, currURLindex);
+						} else {
+							throw new AdManagerException('init', 'unexpected number of images or URLs');
+						}
+					}
 				} else {
-					throw new AdManagerException('init', 'unexpected number of images or URLs');
-				}
-			}
-		} else {
-			// Two ads on each side of the table - 
-			cycleOffset = 2; // show the next two when we cycle
-			for(i = 0; i < 8; i++) {
-				currImg = adDiv.children[i];				
-				if(i < 4) {
-					currURLindex = i % 2;
-					currURL = adURLs[currURLindex];	
-				} else {
-					currURLindex = (i-1) % 2;
-					currURL = adURLs[currURLindex];
-				}				
-				if(currImg && currURL){
-					currImg.src = currURL;
-					// create entry in adState
-					adState.addEntry(currImg, currURLindex);
-				} else {
-					throw new AdManagerException('init', 'unexpected number of images or URLs');
+					// Two ads on each side of the table - 
+					cycleOffset = 2; // show the next two when we cycle
+					for(i = 0; i < 8; i++) {
+						currImg = adDiv.children[i];				
+						if(i < 4) {
+							currURLindex = i % 2;
+							currURL = adURLs[currURLindex];	
+						} else {
+							currURLindex = (i-1) % 2;
+							currURL = adURLs[currURLindex];
+						}				
+						if(currImg && currURL){
+							currImg.src = currURL;
+							// create entry in adState
+							adState.addEntry(currImg, currURLindex);
+						} else {
+							throw new AdManagerException('init', 'unexpected number of images or URLs');
+						}
+					}
 				}
 			}
 		}
