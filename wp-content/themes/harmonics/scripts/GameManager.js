@@ -376,7 +376,8 @@ var GameManager = (function () {
 		templateDirURL = document.body.dataset.templateurl,
 		container,
 		volume,
-		i, len;
+		i,
+		len;
 
 		HarmonicsSoundManager.init(document.getElementById('volfeedback'));
 		volume = HarmonicsSoundManager.getVolume();

@@ -3,8 +3,6 @@ var HarmonicsSoundManager = (function () {
 
 	'use strict';
 
-	// TODO: we need to save the volume value in local storage, then query it when loading bvbhpages
-	
 	var volumeChangeEvent = new Event('volume-change'),
 		volume = 10,
 		newVolume = localStorage.getItem('volume')|| 10,

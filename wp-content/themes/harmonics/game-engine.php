@@ -68,7 +68,6 @@
 								// Services is disabled, so set the timeout to go to the login page
 								$logOutURL = esc_url( get_site_url() . '/wp-login.php' );								
 
-								// TODO: Is there a better page to redirect to when login page times out and services is disabled?
 								// Set timeout of login page to return to... itself - not really anywhere it can go
 								$loginTimeoutURL = $logOutURL;
 							}
