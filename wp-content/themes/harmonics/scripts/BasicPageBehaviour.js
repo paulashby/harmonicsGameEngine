@@ -14,6 +14,7 @@ var GameManager = (function () {
 	exitEvent = new Event('exit'),	
 	startUrl,
 	homeURL,
+	loginTimeoutURL,
 	iframeHTML,
 	onMenuClick = function (e) {
 		var ifrm = document.getElementById('ifrm'),
@@ -34,8 +35,10 @@ var GameManager = (function () {
 			ifrm.classList.toggle('hideMenu');
 			ifrm.classList.toggle('showMenu');
 			menu.classList.toggle('hideMenu');
-			adDiv.classList.toggle('showAds');
-			adDiv.classList.toggle('hideAds');
+			if(adDiv){
+				adDiv.classList.toggle('showAds');
+				adDiv.classList.toggle('hideAds');
+			}
 		};
 		document.getElementById('bodyElmt').focus();
 		if(e.target.dataset.category === 'exit') {
@@ -69,6 +72,7 @@ var GameManager = (function () {
 
 		startUrl = document.body.dataset.starturl;		
 		homeURL = document.getElementById('ifrm').dataset.servicesurl;
+		loginTimeoutURL = document.getElementById('ifrm').dataset.logintimeouturl;
 		inactivity_period = document.body.dataset.timeoutduration * 1000;
 
 		onTimeout = function () {
@@ -84,8 +88,9 @@ var GameManager = (function () {
 		resetTimer();
 		// Store homeURL and inactivityTimeout in local storage so we can query it for login page timeout (when user won't be logged in)
 		// This will be available from first time machine loads games page until the browser cache is cleared
-		localStorage.setItem('homeURL', homeURL);
-		localStorage.setItem('inactivityTimeout', inactivityTimeout);			
+		localStorage.setItem('homeURL', homeURL);		
+		localStorage.setItem('loginTimeoutURL', loginTimeoutURL);
+		localStorage.setItem('inactivityTimeout', inactivity_period);		
 
 		len = logoutLinks.length;
 		for(i = 0; i < len; i++) {
@@ -118,7 +123,7 @@ var GameManager = (function () {
 	};	
 	window.onload = function () {
 		init();		
-		if(AdManager){
+		if(window.AdManager){
 			AdManager.init();			
 		}		
 	};

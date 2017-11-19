@@ -12,6 +12,7 @@ var GameManager = (function () {
 	dburl,
 	gamesURL,
 	homeURL,
+	loginTimeoutURL,
 	iframeHTML,
 	inactivityTimeout,
 	startPageUrl,
@@ -312,8 +313,10 @@ var GameManager = (function () {
 			ifrm.classList.toggle('hideMenu');
 			ifrm.classList.toggle('showMenu');
 			menu.classList.toggle('hideMenu');
-			adDiv.classList.toggle('showAds');
-			adDiv.classList.toggle('hideAds');
+			if(adDiv){
+				adDiv.classList.toggle('showAds');
+				adDiv.classList.toggle('hideAds');
+			}
 		};
 		document.getElementById('bodyElmt').focus();
 		if(e.target.dataset.category === 'exit') {
@@ -379,12 +382,14 @@ var GameManager = (function () {
 		 
 		iframeHTML = document.getElementById('ifrm').outerHTML;
 		gamesURL = document.body.dataset.starturl;		
-		homeURL = document.getElementById('ifrm').dataset.servicesurl;
+		homeURL = document.getElementById('ifrm').dataset.servicesurl;		
+		loginTimeoutURL = document.getElementById('ifrm').dataset.logintimeouturl;
 		inactivityTimeout = document.body.dataset.timeoutduration * 1000;
 
 		// Store homeURL and inactivityTimeout in local storage so we can query it for login page timeout (when user won't be logged in)
 		// This will be available from first time machine loads games page until the browser cache is cleared
 		localStorage.setItem('homeURL', homeURL);
+		localStorage.setItem('loginTimeoutURL', loginTimeoutURL);		
 		localStorage.setItem('inactivityTimeout', inactivityTimeout);			
 
 		len = logoutLinks.length;
@@ -418,7 +423,7 @@ var GameManager = (function () {
 	window.addEventListener('VTAPIinputError', onInputError, false);
 	window.onload = function () {
 		init();
-		if(AdManager){
+		if(window.AdManager){
 			AdManager.init();			
 		}		
 	};
