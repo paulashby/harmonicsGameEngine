@@ -10,7 +10,6 @@
  */
 
 // login timeout on per user basis
-add_filter('auth_cookie_expiration', 'expiration_per_user', 99, 3);
 function expiration_per_user($seconds, $user_id, $remember){
 
     $defaultTimeout = 14 * 24 * 60 * 60;
@@ -27,9 +26,10 @@ function expiration_per_user($seconds, $user_id, $remember){
         //Fix to a little bit earlier!
         $expiration =  PHP_INT_MAX - time() - 5;
     }
-
-    return $expiration;
+    // return $expiration;
+    return 14 * 24 * 60 * 60;
 }
+add_filter('auth_cookie_expiration', 'expiration_per_user', 99, 3);
 
 // Add message to login page
 function custom_login_message() {
@@ -52,13 +52,17 @@ function enqueue_by_template() {
         wp_enqueue_style( 'game-engine.css', esc_url( get_template_directory_uri() . '/css/game-engine.css' ) );
         wp_register_script('GameManager', esc_url( get_template_directory_uri() . '/scripts/GameManager.js' ) );
         wp_enqueue_script( 'GameManager');
+        wp_register_script('HarmonicsSoundManager', esc_url( get_template_directory_uri() . '/scripts/HarmonicsSoundManager.js' ) );
+        wp_enqueue_script( 'HarmonicsSoundManager');
         wp_register_script('AdManager', esc_url( get_template_directory_uri() . '/scripts/AdManager.js' ) );
         wp_enqueue_script( 'AdManager');
 
     } else if ( is_page_template( 'basic-page.php' ) ) {
         wp_enqueue_style( 'game-engine.css', esc_url( get_template_directory_uri() . '/css/game-engine.css' ) );
         wp_register_script('BasicPageBehaviour', esc_url( get_template_directory_uri() . '/scripts/BasicPageBehaviour.js' ) );
-        wp_enqueue_script( 'BasicPageBehaviour');
+        wp_enqueue_script( 'BasicPageBehaviour');        
+        wp_register_script('HarmonicsSoundManager', esc_url( get_template_directory_uri() . '/scripts/HarmonicsSoundManager.js' ) );
+        wp_enqueue_script( 'HarmonicsSoundManager');
         wp_register_script('AdManager', esc_url( get_template_directory_uri() . '/scripts/AdManager.js' ) );
         wp_enqueue_script( 'AdManager');
 
