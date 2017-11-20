@@ -39,6 +39,7 @@ var GameManager = (function () {
 	initialState,
 	showResults = false,
 	showDraw = false,
+	logPrefix = 'date_',
 	startNextGameTimeout = function () {
 		nextGameTimeout = setTimeout(_onGameOver, NEXT_GAME_TIMEOUT);
 	},
@@ -54,9 +55,11 @@ var GameManager = (function () {
 				// Error – response may not include a useable game list. Stick with current list, but remove the suspended game
 				problemGameIndex = gameList.findIndex(function(obj) { return obj['id'] === currGame; });
 				gameList.splice(problemGameIndex, 1);
+				onInputError({detail: 'suspendGame: api call returned an error'});
 			}		
 		}, function (error) {
 			console.error("Error: ", error);
+			onInputError({detail: error});
 		});	
 		startNextGameTimeout();
 	},
@@ -91,20 +94,102 @@ var GameManager = (function () {
 	    }
 	  }
 	},
+	saveLog = function (logData) {
+		// This is wrong - logData is an object!
+		var logKeys = getLogKeys(logData),
+			len,
+			i,
+			shortLog;
+		if(logKeys.length === 0) {
+			// We've stripped everything possible and still couldn't update
+			// TODO: We could look at shortening the only entry when length is 1
+			console.error('unable to save log to localStorage');
+		} else {
+			try {
+			    // Replace localStorage log property with our new version
+			  	localStorage.setItem('hlog', JSON.stringify(logData));
+			  	console.log(JSON.parse(localStorage.getItem('hlog')));
+			} catch (e) {
+				// not enough space - remove oldest record 				
+				len = logKeys.length;	
+				if(len > 1) {
+					shortLog = {};    
+				    for(i = 1; i < len; i++) {
+				    	logKey = logPrefix + logKeys[i];
+				    	shortLog[logKey] = logData[logKey];   	
+				    }
+				} 
+				saveLog(shortLog);   
+			}
+		}		
+	},
+	getLogKeys = function (log) {
+		return Object.keys(log).map(function(entryKey){return parseInt(entryKey.replace(logPrefix, ''), 10)}).sort(function(a, b){return a - b;});
+	},
 	onInputError = function (err) {
-		// Called when data passed to VTAPI.insertScores() fails VTAPI's tests
-		// We need to act on this - if, for eg, we have too many players passed to us
-		// an error will be thrown - need to catch it and SORT IT OUT!
-		// startPage tries to access players that don't exist... so what do we want to happen here?
-		// We've got two options - 
-		// 1: ignore the scores for this game (probably best and least noticeable)
-		// 2: treat it like a time out and clear state/players etc.
-		// I think option 2 is a last ditch recovery - it will seem like a crash.
 
-		// Scores malformed - suspend game...
-		// we're going to need something to use in place of results
+		// TODO: We're checking for today's entries not by day, but by millisecond, so when we test to see if there's an entry for today, we're actually checking if there's an entry for this millisecond. Need to refactor all the date refs
 
-		// In this situation, we won't be getting scores. We may get an onGameOver event
+		// err is string or array of strings
+		var harmonicsLog = JSON.parse(localStorage.getItem('hlog')),
+			logKeys = getLogKeys(harmonicsLog),
+			oneWeek = 7*24*60*60*1000, // Days*hours*minutes*seconds*milliseconds
+			oneDay = 24*60*60*1000,
+			daysLogged = 7,
+			// newDay = false,
+			isToday = function (date) {
+				return Math.round(date/oneDay) === Math.round(Date.now());
+			},
+			expired = function (entryKey) {
+				var entryAge = Date.now() - entryKey;				
+				return entryAge > oneWeek;
+			},
+			addRecord = function (logKey, err) {
+
+				if (err && typeof err.detail === 'string') {
+					// Convert to array
+					err.detail = [err.detail];
+				}				
+
+				if(harmonicsLog[logKey]){
+					// If err arg is provided, we're adding a new error
+		    		logUpdate[logKey] = err ? harmonicsLog[logKey].concat(err.detail) : harmonicsLog[logKey];	
+		    	} else {
+		    		// If our logKey doesn't exist, this is today's first error - so start a new record
+		    		logUpdate[logKey] = err.detail;
+		    	}
+			},
+			i,
+			len,
+			logKey,
+			// Create a new log - we'll populate this then use it replace the old one
+			logUpdate = {};
+		
+		// If earliest log is over a week old, remove it - we only want seven day's worth	    
+	    if(logKeys.length >= daysLogged && expired(logKeys[0])) {
+	    	logKeys.splice(0, 1);
+	    }
+
+	    len = logKeys.length;
+	    // Go through exisiting keys 
+	    for(i = 0; i < len; i++) {
+	    	logKey = logPrefix + logKeys[i];
+
+	    	// Today's date is a special case
+	    	// if(i === len - 1 && isToday(logKeys[i])) {
+	    	// 	newDay = true;
+	    	// 	addRecord(logKey);	
+	    	// }
+	    	// else {
+	    		addRecord(logKey);
+	    	// }	    	
+	    }
+	    // Add the new error
+	    addRecord(logPrefix + Date.now(), err);
+
+		saveLog(logUpdate);
+		
+		// Error logged in localStorage. Suspend problem game!
 		if(currGame) {
 			suspendGame(err);
 		}			
@@ -120,17 +205,18 @@ var GameManager = (function () {
 
 		// Kill previous team state as we're no longer aggregating
 		teamState = [];
-		// firstResults = teamState.length === 0;
 		firstResults = true;
 
 		if(newState.length !== sessionState.length) {
-			throw new GameManagerException('updateState', 'state array wrong length');	
+			// throw new GameManagerException('updateState', 'state array wrong length');
+			onInputError({detail: 'updateState: state array wrong length'});	
 		}
 		for (i = 0; i < len; i++) {
 			updatedPlayer = newState[i];
 			currPlayer = sessionState[findWithAttr(sessionState, 'place', updatedPlayer.place)];
 			if(!currPlayer) {
-				throw new GameManagerException('updateState', 'no player at given place');
+				// throw new GameManagerException('updateState', 'no player at given place');
+				onInputError({detail: 'updateState: no player at given place'});
 			} else {
 				currPlayer.ranking += updatedPlayer.ranking;
 				if(currPlayer.team) {		
@@ -184,6 +270,7 @@ var GameManager = (function () {
 			// Error is passed back to the game via VTAPI	
 			if(currGame) {
 				suspendGame(e.name + ': ' + e.message);
+				onInputError({detail: e.name + ': ' + e.message});
 			}			
 			return {success: false, error: e.name + ': ' + e.message};
 		}
@@ -405,10 +492,24 @@ var GameManager = (function () {
 			}			
 		}, function (error) {
 			console.error("Error: ", error);
+			onInputError({detail: error});
 		});	
 	};
 	window.addEventListener('VTAPIinputError', onInputError, false);
 	window.onload = function () {
+		// Need to reset the logo to check - also, add only 7 entries, with the first over a week old
+		// var myLog = {
+		// 	'date_1510612315385': ['error 1'],
+		// 	'date_1510785311685': ['error 2', 'error 3'],
+		// 	'date_1510785311684': ['error 4', 'error 5'],
+		// 	'date_1510785311683': ['error 6', 'error 7'],
+		// 	'date_1510785311682': ['error 8', 'error 9'],
+		// 	'date_1510785311681': ['error 10', 'error 11'],
+		// 	'date_1510785311680': ['error 12', 'error 13','error 14', 'error 15']
+		// };
+		// localStorage.setItem('hlog', JSON.stringify(myLog));
+		// console.log(JSON.parse(localStorage.getItem('hlog')));
+		onInputError({detail: 'My error'});
 		init();
 		if(window.AdManager){
 			AdManager.init();			
