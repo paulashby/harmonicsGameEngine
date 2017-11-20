@@ -1,4 +1,4 @@
-/*global Phaser, AppsCategory, f, PIXI, parent */
+/*global AppsCategory, f*/
 
 (function () {
 	
@@ -28,7 +28,6 @@
 				}
 				return newSound;
 			},
-			// gears = AppsCategory.game.add.group(),
 			gears = new f.GearGroup(AppsCategory.game);
 
 			f.activeLoop = addSound('activeLoop', true, true);
