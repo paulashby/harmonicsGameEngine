@@ -54,7 +54,7 @@ var HarmonicsSoundManager = (function () {
 		_syncVolume = function () {
 			var audioElements = getAudioElements();
 
-			// Set volume of all audio elements to new volume value
+			// Set volume of all audio elements to new value
 			volume = newVolume;	
 			localStorage.setItem('volume', volume);			
 			
@@ -68,7 +68,6 @@ var HarmonicsSoundManager = (function () {
 		_updateVolume = function () {
 			// update volume if it was adjusted while iframe was minimised
 			if(volume !== newVolume) {
-				// TODO: the problem with this is that there's no sound playing while volume is adjusted - so we need to add a beep to indicate current volume.	
 				_syncVolume();	
 			}
 			playAudio();			
