@@ -1,4 +1,4 @@
-/*global AdManager, apiCall, array, clearTimeout, document, Event, jQuery, HarmonicsSoundManager, localStorage, setTimeout, testConfig, VTAPI, window */
+/*global AdManager, apiCall, array, clearTimeout, document, escape, Event, jQuery, HarmonicsSoundManager, localStorage, Promise, setTimeout, testConfig, VTAPI, window, XMLHttpRequest */
 var GameManager = (function () {
 
 	'use strict';
@@ -15,7 +15,6 @@ var GameManager = (function () {
 	loginTimeoutURL,
 	iframeHTML,
 	inactivityTimeout,
-	startPageUrl,
 	gameList = [],
 	prevGameUrl,
 	teamRankings = [],
@@ -286,10 +285,6 @@ var GameManager = (function () {
 		menu = document.getElementById('menuContainer'),
 		adDiv = document.getElementById('ads'),
 		hideMenu = function () {
-			var len, 
-				ifrmDoc,
-				i;
-
 			if(ifrm.classList.contains('showMenu')) {
 				// We're hiding the menu, so focus iframe
 				ifrm.focus();				 
