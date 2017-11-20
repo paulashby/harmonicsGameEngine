@@ -14,12 +14,8 @@
 		}
 		write_log( date('[Y-m-d H:i e] '). $errStr );
 	};	
-
 	function noGamesError() {
-		// TODO: Limit number of emails sent per error
-		// TODO: Test mail sending once on remote server - won't work from localhost
-		// wp_mail( $adminEmail, "VTAPI GameManager issue", "The server was unable to return any games to the GameManager.", $emailHeaders );
-		logError( "VTAPI GameManager issue: " . "The server was unable to return any games to the GameManager.");
+		logError( "Game Engine settings issue: " . "The server was unable to return any games to the GameManager.");
 		return ["E_"=>"no games found"];
 	};
 

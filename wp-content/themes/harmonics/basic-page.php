@@ -36,7 +36,6 @@
 		            $title = get_sub_field('title');		            
 
 		            if( $title === $post_slug) {
-		            	write_log('title: ' . $title);
 		            	$attachment_id = get_sub_field_object('default-page')['value'];	
 		            }	            
 		        }
@@ -91,8 +90,7 @@
 								$logOutURL = $linkURL;
 
 								// Set generic services page for timeout of login page
-								$loginTimeoutURL = content_url() . '/logInTimeoutPage/';	
-								write_log('login-timeout-destination: ' . $loginTimeoutDestination)	;			        		
+								$loginTimeoutURL = content_url() . '/logInTimeoutPage/';			        		
 				        	}		        	
 				        } else if("services" == $title){
 							// Services is disabled, so set the timeout to go to the login page

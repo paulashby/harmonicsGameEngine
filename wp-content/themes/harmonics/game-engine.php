@@ -53,7 +53,6 @@
 				        	
 				        	the_row();
 				        	$title = get_sub_field("title");
-				        	write_log('title: ' . $title);
 
 				        	if(get_sub_field("include")){
 					        	$linkURL = get_permalink( get_page_by_path( $title ) );					        	
