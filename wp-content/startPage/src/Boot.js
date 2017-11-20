@@ -1036,11 +1036,6 @@ f = f || {}; // our members and functions in here
 		}
 		return winners;
 	};
-	f.ResultsGroup.prototype.getWinners = function () {
-		// For team play, we're averaging ranking by number of team members,
-		// so team with highest game score isn't necessarily highest ranking team
-		return f.results[0].team ? this.getWinningTeams() : this.getWinningPlayers();		
-	};
 	f.ResultsGroup.prototype.getLosingTeams = function () {
 		// Include single losing team, or multiple for tied last place
 		var teamRankings = parent.GameManager.getTeamRankings(),
@@ -1071,9 +1066,6 @@ f = f || {}; // our members and functions in here
 		}
 		return losers;
 	};
-	f.ResultsGroup.prototype.getLosers = function () {
-		return f.results[0].team ? this.getLosingTeams() : this.getLosingPlayers();	
-	};	
 	f.ResultsGroup.prototype.getStartPos = function (len) {
 		// Determines left-most player panel 
 		return 4 - Math.ceil(len/2);
@@ -1096,7 +1088,7 @@ f = f || {}; // our members and functions in here
 		memberType = teamPlay ? 'team' : 'player';
 
 		if(numLosers) {
-			// These are winners socres - we use numLosers to determine the delay required to show winners after losers
+			// These are winners scores - we use numLosers to determine the delay required to show winners after losers
 			panelStr = 'winnerPanel';
 			initialDelay = f.UI_TWEEN_DUR * numLosers + basicDelay * 1.2;
 		} else {
@@ -1214,7 +1206,7 @@ f = f || {}; // our members and functions in here
 	        this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;			
 			this.game.stage.backgroundColor = 0x000000;				
 
-			// Seems we're missing the initial volume-change event - so we're going to get volume from HarmonicsSoundManager
+			// In case we miss the initial volume-change event, we're going to get volume from HarmonicsSoundManager
 			volumeChangeHandler({detail: top.HarmonicsSoundManager.getVolume()});		
 	    },
 
