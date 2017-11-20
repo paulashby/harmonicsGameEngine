@@ -17,7 +17,6 @@ var VTAPI = (function (GameManager) {
     top.location.href = testing ? '.' : GameManager.getHomeURL();
   },
   resetTimer = function (e) {
-    console.log('GameManager INACTIVITY_PERIOD: ' + INACTIVITY_PERIOD);
     if(e) {
       e.preventDefault();
     }

@@ -18,9 +18,10 @@
 			StartPage.game.load.onLoadComplete.add(function () { StartPage.gameIconsLoaded = true; }, this);
 			StartPage.game.load.start();	
 		} else {
-			// TODO: Rather than generating an error here, we could display a message so users aren't confronted by a black screen
-			// The error is already reported via the db-interactions file
-			console.error('Error: StartPage.onGameIconLoad expected at least one game')
+			// TODO: Is this loggable? 
+			alert('No Games currently available');
+			console.error('Error: StartPage.onGameIconLoad expected at least one game');
+			top.location.href = top.GameManager.getHomeURL();
 		}		
 	};	
 	StartPage.Preloader = function () {
