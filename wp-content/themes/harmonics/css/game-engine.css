@@ -12,10 +12,8 @@ body {
 }
 #overlap {
 	position: absolute;
-	/*background-color:transparent;*/
 	background-color: blue;
-/*	pointer-events: none;
-*/	top: 0px;
+	top: 0px;
 	left: 0px;
 	margin: 10px 10px 10px 10px;
 	padding: 0px 0px 0px 0px;
@@ -294,21 +292,22 @@ iframe.hideMenu {
 .slider-wrapper {
 	background-image: url("img/menu_volume.png");
 	background-color: none;
-	background-position: -7px 11px;
+	background-position: -34px 11px;
 	height: 70px;
 	position: relative;
 	top: -70px;
 	padding-top: 40px;
 }
 input[type=range]{
-	-webkit-appearance: none;	
+	-webkit-appearance: none;
+	width: 70px;	
 }
 input[type=range]::-webkit-slider-thumb { 
 	background: #ffffff; 
 	border: 1px solid #000000;
 	border-radius: 3px;  
 	cursor: pointer;
-	margin-top: -6px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+	margin-top: -6px;
 }
 input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
