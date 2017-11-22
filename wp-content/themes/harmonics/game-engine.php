@@ -13,7 +13,16 @@
 	    return esc_url( $page_url_link );
 	};
 	$volfbURL = esc_url( get_template_directory_uri() . "/audio/VolFeedback.mp3" );
-	echo "<body  data-db='" . esc_url( site_url() . '/?page_id=6' ) . "' data-starturl='" . esc_url( content_url() . '/startPage/src/index.html' ) . "' data-templateurl='" . get_template_directory_uri() . "' data-timeoutduration='" . get_field('inactivity-timeout-duration', 'option') . "'id='bodyElmt'>
+	$currUsrID = get_current_user_id();
+	// When adding logupdated, set to some value if it's not set yet
+	$errorLogUpdated = get_field('logupdated', $currUsrID);	
+
+	if( ! $errorLogUpdated ) {
+		// Log has never been written to user error_log field – force update
+		$oneDay = 24*60*60*1000;
+	    $errorLogUpdated = $oneDay + 100;   
+	}
+	echo "<body  data-db='" . esc_url( site_url() . '/?page_id=6' ) . "' data-starturl='" . esc_url( content_url() . '/startPage/src/index.html' ) . "' data-templateurl='" . get_template_directory_uri() . "' data-timeoutduration='" . get_field('inactivity-timeout-duration', 'option') . "' data-logupdated='" . $errorLogUpdated . "'' id='bodyElmt'>
 	<div id='menuContainer' class='hideMenu'>
 		<audio id='volfeedback' src='" . $volfbURL . "' preload='auto'></audio>";
 

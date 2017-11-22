@@ -51,10 +51,12 @@ f = f || {}; // our members and functions in here
 	    cleanUp = function (state) {
 	    	var gameURL,
 		    	gameID,
+		    	gameName,
 	    		showInstructions;
 	    	if(f.activeIcon) {
 	    		gameURL = f.activeIcon.gameURL;
 	    		gameID = f.activeIcon.gameID;
+	    		gameName = f.activeIcon.gameName;
 	    		showInstructions = f.activeIcon.instructions;
 	    	}
 
@@ -89,7 +91,7 @@ f = f || {}; // our members and functions in here
 			top.window.removeEventListener('volume-change', volumeChangeHandler, false);
 
 			// state will be falsey if not passed to cleanUp
-			top.GameManager.startSession(state, gameURL, gameID, showInstructions);
+			top.GameManager.startSession(state, gameURL, gameID, gameName, showInstructions);
 		};
 
 		top.window.addEventListener('volume-change', volumeChangeHandler, false);

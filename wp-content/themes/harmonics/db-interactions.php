@@ -90,6 +90,8 @@
 
 	function getGameData($gamesToLoad) {
 
+		write_log('getGameData');
+
 		$args = array(
 		   "post__in" => $gamesToLoad,
 		);
@@ -267,12 +269,26 @@
 
 				$gameTitle = get_the_title();
 			}
-			$suspErrs = $_GET["err"];				
-	    }
+				
+			if (!empty($_GET['logupdate'])) {
+				$logUpdate = $_GET["logupdate"];
+				// Daily error log backup - transfer data to user entry in Db
+				write_log('DB UPDATE');
+				$currUsrID = get_current_user_id();	
+				$currTime = time() * 1000; // We want milliseconds			
+				update_field("logupdated", time(), "user_" . $currUsrID);
+				update_field("error_log", $logUpdate, "user_" . $currUsrID);
+			}  
+		}
+
+		$suspErrs = $_GET["err"];
 
 	    wp_reset_query();
 
-		logError( 'VTAPI Game suspension: ' . '\'' . $gameTitle . '\' has been suspended due to the following errors - ' . $suspErrs );
+	    if (!empty($suspErrs)) {
+	    	write_log("suspErrs is " . gettype($suspErrs));
+			logError( 'VTAPI Game suspension: ' . '\'' . $gameTitle . '\' has been suspended due to the following errors - ' . implode( ", ", $suspErrs) );
+	    }    
 
 		echo makeGameList();
 

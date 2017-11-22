@@ -20,6 +20,7 @@ var GameManager = (function () {
 	teamRankings = [],
 	currGame, // current game's id
 	currGameUrl,
+	currGameName,
 	nextGameTimeout,
 	fallbackState = [
 		{place: 1, player: 8, ranking: 0},  
@@ -39,23 +40,33 @@ var GameManager = (function () {
 	initialState,
 	showResults = false,
 	showDraw = false,
+	// Track updates of error log transferred from localStorage so we can update once a day
+	lastDbErrorUpdate,
 	logPrefix = 'date_',
 	startNextGameTimeout = function () {
 		nextGameTimeout = setTimeout(_onGameOver, NEXT_GAME_TIMEOUT);
 	},
-	suspendGame = function (err) {
-		var problemGameIndex;
-		// Disable game and repopulate the gameList
+	suspendGame = function (suspArgs) {
+		var problemGameIndex,
+			// Build request. For a start, we're suspending the game
+			reqStr = dburl + '?t=' + Math.random() + '&reqType=suspendGame&gameID=' + currGame;
 
-		// we also want to log the problem here, so let's pass in err parameter which can be logged by php
-		apiCall(dburl + '?t=' + Math.random() + '&reqType=suspendGame&gameID=' + currGame + '&err=' + escape(err.detail.errors)).then(function (response) {
+		// Add any new errors to request
+		if(suspArgs.additionalErrors.length > 0) {
+			reqStr += '&err=' + escape(suspArgs.additionalErrors);
+		}
+		// Add log if due to write to user
+		if(suspArgs.logUpdate){
+			reqStr += '&logupdate=' + JSON.stringify(suspArgs.logUpdate);
+		}
+		apiCall(reqStr).then(function (response) {
 			if(response.indexOf('Error') == -1) {
 				gameList = JSON.parse(response).games;				
 			} else {
 				// Error – response may not include a useable game list. Stick with current list, but remove the suspended game
 				problemGameIndex = gameList.findIndex(function(obj) { return obj['id'] === currGame; });
 				gameList.splice(problemGameIndex, 1);
-				onInputError({detail: 'suspendGame: api call returned an error'});
+				onInputError({detail: 'GameManager.suspendGame: api call returned an error'});
 			}		
 		}, function (error) {
 			console.error("Error: ", error);
@@ -69,10 +80,6 @@ var GameManager = (function () {
 		}
 		return false;
 	},  
-	GameManagerException = function (funcName, message) {
-	   this.name = funcName;
-	   this.message = message;	   
-	},
 	cloneState = function (cloneSrc) {
 		// zeroScores arg is provided when we're resetting players information
 	    // so we want all scores set to zero
@@ -103,12 +110,11 @@ var GameManager = (function () {
 		if(logKeys.length === 0) {
 			// We've stripped everything possible and still couldn't update
 			// TODO: We could look at shortening the only entry when length is 1
-			console.error('unable to save log to localStorage');
+			console.error('GameManager.saveLog: unable to save log to localStorage');
 		} else {
 			try {
 			    // Replace localStorage log property with our new version
 			  	localStorage.setItem('hlog', JSON.stringify(logData));
-			  	console.log(JSON.parse(localStorage.getItem('hlog')));
 			} catch (e) {
 				// not enough space - remove oldest record 				
 				len = logKeys.length;	
@@ -128,36 +134,75 @@ var GameManager = (function () {
 	},
 	onInputError = function (err) {
 
-		// TODO: We're checking for today's entries not by day, but by millisecond, so when we test to see if there's an entry for today, we're actually checking if there's an entry for this millisecond. Need to refactor all the date refs
-
 		// err is string or array of strings
 		var harmonicsLog = JSON.parse(localStorage.getItem('hlog')),
-			logKeys = getLogKeys(harmonicsLog),
-			oneWeek = 7*24*60*60*1000, // Days*hours*minutes*seconds*milliseconds
-			oneDay = 24*60*60*1000,
+			logKeys = harmonicsLog ? getLogKeys(harmonicsLog) : [],
 			daysLogged = 7,
-			// newDay = false,
-			isToday = function (date) {
-				return Math.round(date/oneDay) === Math.round(Date.now());
-			},
-			expired = function (entryKey) {
-				var entryAge = Date.now() - entryKey;				
-				return entryAge > oneWeek;
-			},
-			addRecord = function (logKey, err) {
+			oneDay = 24*60*60*1000,			
+			currTime = Date.now(),
+			today = Math.floor(currTime/oneDay),	
+			// TODO: Convert timestamp to date like this on errors page
+			// occured = new Date(timestamp),
+			timestamp = Date.now(),
+			prevErrors = [],
+			additionalErrors = [],	
+			writeToUser,	
+			onNewError = function (newErr) {
+				// Handle new error thrown
+				additionalErrors.push(newErr);
+				console.error(newErr);
+			},		
+			addRecord = function (logKey, err, series) {
 
-				if (err && typeof err.detail === 'string') {
-					// Convert to array
-					err.detail = [err.detail];
-				}				
+				// For new entries, set timestamp in outer func so all errors in a batch will have a common date 
+				var logKey = logKey || logPrefix + today,	
+					currGameName = GameManager.getCurrGameName(),
+					errDetail,		
+					i,
+					len;
 
-				if(harmonicsLog[logKey]){
-					// If err arg is provided, we're adding a new error
-		    		logUpdate[logKey] = err ? harmonicsLog[logKey].concat(err.detail) : harmonicsLog[logKey];	
-		    	} else {
-		    		// If our logKey doesn't exist, this is today's first error - so start a new record
-		    		logUpdate[logKey] = err.detail;
-		    	}
+				if (err) {
+					if(err.detail) {
+						// CustomEvent.detail is read only
+						errDetail = err.detail;
+						if(typeof errDetail === 'string') {
+							errDetail = [timestamp + ': ' + currGameName + ': ' + errDetail];
+						} else if(Array.isArray(errDetail)) {
+							len = errDetail.length;
+							for(i = 0; i < len; i++) {
+								// recursive call to add all array members
+								addRecord(null,{detail: errDetail[i]}, i < len - 1);
+							}
+							return;
+						} else {
+							onNewError('GameManager.onIputError: expected error detail to be String or Array, saw ' + typeof errDetail);
+						}
+						if(harmonicsLog && harmonicsLog[logKey]){						
+							if(series) { 
+								// More errors follow - store these in prevErrors array to be included when all have been processed
+								prevErrors.push(errDetail[0]);
+							} else {
+								// concat with prevErrors if populated								
+								logUpdate[logKey] = prevErrors ? harmonicsLog[logKey].concat(prevErrors, errDetail) : harmonicsLog[logKey].concat(errDetail);
+							}
+								
+				    	} else {
+				    		// If our logKey doesn't exist, this is today's first error - so start a new record
+				    		if(series) {
+				    			prevErrors.push(errDetail[0]);
+				    		} else {
+				    			logUpdate[logKey] = prevErrors ? prevErrors.concat(errDetail) : errDetail;
+				    			// logUpdate[logKey] = errDetail;
+				    		}			    		
+				    	}
+					} else {
+						onNewError('GameManager.onIputError: unknown error');						
+					}
+				} else if(harmonicsLog && harmonicsLog[logKey]){
+					logUpdate[logKey] = harmonicsLog[logKey];
+				}
+				// TODO: in order to break errors into discrete chunks, it might be necessary to use a char other than ':' between func names and error strings
+				// (As the timestamp contains colons)				
 			},
 			i,
 			len,
@@ -165,8 +210,8 @@ var GameManager = (function () {
 			// Create a new log - we'll populate this then use it replace the old one
 			logUpdate = {};
 		
-		// If earliest log is over a week old, remove it - we only want seven day's worth	    
-	    if(logKeys.length >= daysLogged && expired(logKeys[0])) {
+		// We want a max of daysLogged entries 
+	    if(logKeys.length >= daysLogged) {
 	    	logKeys.splice(0, 1);
 	    }
 
@@ -174,24 +219,19 @@ var GameManager = (function () {
 	    // Go through exisiting keys 
 	    for(i = 0; i < len; i++) {
 	    	logKey = logPrefix + logKeys[i];
-
-	    	// Today's date is a special case
-	    	// if(i === len - 1 && isToday(logKeys[i])) {
-	    	// 	newDay = true;
-	    	// 	addRecord(logKey);	
-	    	// }
-	    	// else {
-	    		addRecord(logKey);
-	    	// }	    	
+	    	addRecord(logKey);	    	
 	    }
 	    // Add the new error
-	    addRecord(logPrefix + Date.now(), err);
+	    addRecord(null, err);
 
 		saveLog(logUpdate);
 		
 		// Error logged in localStorage. Suspend problem game!
 		if(currGame) {
-			suspendGame(err);
+			// Write log record to server once a day
+			// TODO: We're not writing to DB here - I believe the field access in the php is correct so I think it's something to do with the lastDbErrorUpdate
+			writeToUser = lastDbErrorUpdate? (parseInt(lastDbErrorUpdate, 10)/oneDay) - oneDay > 0 : true;	
+			suspendGame({additionalErrors: additionalErrors, logUpdate: writeToUser ? logUpdate : null});		
 		}			
 	},
 	updateState = function (newState) {
@@ -209,14 +249,14 @@ var GameManager = (function () {
 
 		if(newState.length !== sessionState.length) {
 			// throw new GameManagerException('updateState', 'state array wrong length');
-			onInputError({detail: 'updateState: state array wrong length'});	
+			onInputError({detail: 'GameManager.updateState: state array wrong length'});	
 		}
 		for (i = 0; i < len; i++) {
 			updatedPlayer = newState[i];
 			currPlayer = sessionState[findWithAttr(sessionState, 'place', updatedPlayer.place)];
 			if(!currPlayer) {
 				// throw new GameManagerException('updateState', 'no player at given place');
-				onInputError({detail: 'updateState: no player at given place'});
+				onInputError({detail: 'GameManager.updateState: no player at given place'});
 			} else {
 				currPlayer.ranking += updatedPlayer.ranking;
 				if(currPlayer.team) {		
@@ -269,7 +309,8 @@ var GameManager = (function () {
 		} catch (e) {
 			// Error is passed back to the game via VTAPI	
 			if(currGame) {
-				suspendGame(e.name + ': ' + e.message);
+				// onInputError suspends game
+				// suspendGame(e.name + ': ' + e.message);
 				onInputError({detail: e.name + ': ' + e.message});
 			}			
 			return {success: false, error: e.name + ': ' + e.message};
@@ -314,7 +355,7 @@ var GameManager = (function () {
 		}
 		return sessionState ? cloneState(sessionState) : [];
 	},
-	_startSession = function (state, gameUrl, gameID, showInstructions) {
+	_startSession = function (state, gameUrl, gameID, gameName, showInstructions) {
 
 		var replaying = instructionsShown.indexOf(gameID) >= 0,
 			container;	 
@@ -340,6 +381,7 @@ var GameManager = (function () {
 		showDraw = false;
 		currGameUrl = gameUrl;
 		currGame = gameID;
+		currGameName = gameName;
 
 		if(showInstructions && ! replaying) {
 			gameUrl = showInstructions;
@@ -456,8 +498,9 @@ var GameManager = (function () {
 		 
 		iframeHTML = document.getElementById('ifrm').outerHTML;
 		gamesURL = document.body.dataset.starturl;		
+		lastDbErrorUpdate = document.body.dataset.logupdated;
 		homeURL = document.getElementById('ifrm').dataset.servicesurl;		
-		loginTimeoutURL = document.getElementById('ifrm').dataset.logintimeouturl;
+		loginTimeoutURL = document.getElementById('ifrm').dataset.logintimeouturl;		
 		inactivityTimeout = document.body.dataset.timeoutduration * 1000;
 
 		// Store homeURL and inactivityTimeout in local storage so we can query it for login page timeout (when user won't be logged in)
@@ -499,17 +542,18 @@ var GameManager = (function () {
 	window.onload = function () {
 		// Need to reset the logo to check - also, add only 7 entries, with the first over a week old
 		// var myLog = {
-		// 	'date_1510612315385': ['error 1'],
-		// 	'date_1510785311685': ['error 2', 'error 3'],
-		// 	'date_1510785311684': ['error 4', 'error 5'],
-		// 	'date_1510785311683': ['error 6', 'error 7'],
-		// 	'date_1510785311682': ['error 8', 'error 9'],
-		// 	'date_1510785311681': ['error 10', 'error 11'],
-		// 	'date_1510785311680': ['error 12', 'error 13','error 14', 'error 15']
+		// 	'date_17486': ['error 1'],
+		// 	'date_17487': ['error 2', 'error 3'],
+		// 	'date_17488': ['error 4', 'error 5'],
+		// 	'date_17489': ['error 6', 'error 7'],
+		// 	'date_17490': ['error 8', 'error 9'],
+		// 	'date_17491': ['error 10', 'error 11'],
+		// 	'date_17485': ['error 12', 'error 13','error 14', 'error 15']
 		// };
 		// localStorage.setItem('hlog', JSON.stringify(myLog));
+		// localStorage.removeItem('hlog');
 		// console.log(JSON.parse(localStorage.getItem('hlog')));
-		onInputError({detail: 'My error'});
+		// onInputError({});
 		init();
 		if(window.AdManager){
 			AdManager.init();			
@@ -528,8 +572,8 @@ var GameManager = (function () {
 		getTeamRankings: function () {
 			return teamRankings;
 		},		
-		startSession: function (state, gameURL, gameID, showInstructions) {
-			return _startSession(state, gameURL, gameID, showInstructions);
+		startSession: function (state, gameURL, gameID, gameName, showInstructions) {
+			return _startSession(state, gameURL, gameID, gameName, showInstructions);
 		},		
 		getResults: function () {		
 			return showResults ? _getState() : showResults;
@@ -575,6 +619,9 @@ var GameManager = (function () {
 		},
 		getInactivityTimeout: function () {
 			return _getInactvityTimeout();
+		},
+		getCurrGameName: function () {
+			return currGameName;
 		}
 	};
 }());

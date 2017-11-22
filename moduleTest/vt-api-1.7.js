@@ -26,10 +26,13 @@ var VTAPI = (function (GameManager) {
   dispatchInputError = function (errDetails) {
     // TODO: Need event listener to handle error events - either in GameManager or StartPage
     var inputErrorEvent = new CustomEvent("VTAPIinputError", {
-      detail: {
-        errors: errDetails
-      }
+      detail: errDetails
     });
+    // var inputErrorEvent = new CustomEvent("VTAPIinputError", {
+    //   detail: {
+    //     errors: errDetails
+    //   }
+    // });
     window.top.dispatchEvent(inputErrorEvent);
   },
   checkPermission = function (permissionName) {
@@ -215,8 +218,8 @@ var VTAPI = (function (GameManager) {
                     // All good - add to places array so subsequent player's places can be checked
                     places.push(currElData); 
                   } else {
-                    console.error('VTAPI.insertScores: invalid place - no player at given position');
-                    messages.push('insertScores:  invalid place - no player at given position');  
+                    console.error('VTAPI.insertScores: invalid place, no player at given position');
+                    messages.push('insertScores: invalid place, no player at given position');  
                   }                                    
                 } else {
                    console.error('VTAPI.insertScores: place taken by more than one player');
