@@ -38,6 +38,24 @@ return $message;
 }
 add_filter('login_message', 'custom_login_message');
 
+// Add harmonicsAdmin.css to HarmonicsErrorLog admin page
+function load_custom_wp_admin_style($hook) {
+        // Load only on ?page=mypluginname
+        if( 'toplevel_page_harmonics-error-log' != $hook ) {
+                return;
+        }
+        wp_enqueue_style( 'harmonics-admin.css', esc_url( get_template_directory_uri() . '/css/harmonics-admin.css' ) );
+}
+add_action( 'admin_enqueue_scripts', 'load_custom_wp_admin_style' );
+
+// Add LogManager.js to HarmonicsErrorLog admin page
+function enqueue_custom_admin_scripts($hook) {    
+    if ( 'toplevel_page_harmonics-error-log' != $hook ) {
+        return;
+    }
+    wp_enqueue_script( 'my_custom_script', get_template_directory_uri() . '/scripts/LogManager.js' );
+}
+add_action( 'admin_enqueue_scripts', 'enqueue_custom_admin_scripts' );
 
 // Add timeout to login page
 function enqueue_login_timeout( $page ) {

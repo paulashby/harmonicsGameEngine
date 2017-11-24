@@ -228,87 +228,104 @@
 	switch ($reqType) {
 		case "initGameManager":
 
-		echo makeGameList();
+			echo makeGameList();
 
-		break;
+			break;
+
+		case "initLogManager":
+
+			// get log data from user profile page
+
+			$currUsrID = get_current_user_id();	
+
+			$logData = get_field("error_log", "user_" . $currUsrID);
+
+			if($logData) {
+				echo get_field("error_log", "user_" . $currUsrID);	
+			} else {
+				$errMssg = array('Error' => 'db-interactions-initLogManager: No log data has been set');
+				echo json_encode($errMssg);
+			}			
+
+			break;
 
 		case "suspendGame":
 
-		$gameID = $_GET["gameID"];
+			$gameID = $_GET["gameID"];
 
-		$gameID = (int)$gameID;
-		
-		$args = array(
-	        "page_id" => $gameID,
-	        "post_type" => "post"
-	    );
+			$gameID = (int)$gameID;
+			
+			$args = array(
+		        "page_id" => $gameID,
+		        "post_type" => "post"
+		    );
 
-		// Set this game to suspended via the post loading_options field
+			// Set this game to suspended via the post loading_options field
 
-		$query = new WP_Query( $args );
+			$query = new WP_Query( $args );
 
-	    if ( $query->have_posts() ) {
-	        
-			while ( $query->have_posts() ){
+		    if ( $query->have_posts() ) {
+		        
+				while ( $query->have_posts() ){
 
-				$query->the_post();
+					$query->the_post();
 
-				$loading_options = get_field("loading-options");
+					$loading_options = get_field("loading-options");
 
-				$instructionsRequired = false;
+					$instructionsRequired = false;
 
-				foreach ($loading_options as $optn) {
-					if(in_array("instructions", $optn)) {
-						$instructionsRequired = true;						
+					foreach ($loading_options as $optn) {
+						if(in_array("instructions", $optn)) {
+							$instructionsRequired = true;						
+						}
 					}
+
+					$newVal = $instructionsRequired ? ["instructions", "suspended"] : ["suspended"];
+
+					update_field( "loading-options", $newVal, get_the_ID() );
+
+					$gameTitle = get_the_title();
 				}
+					
+				if (!empty($_GET['logupdate'])) {
 
-				$newVal = $instructionsRequired ? ["instructions", "suspended"] : ["suspended"];
+					// Error log has been provided, so daily backup is due
+					$logUpdate = $_GET["logupdate"];
 
-				update_field( "loading-options", $newVal, get_the_ID() );
+					$currUsrID = get_current_user_id();	
 
-				$gameTitle = get_the_title();
+					// Set time to nearest second in milliseconds
+					$currTime = time() * 1000; 
+
+					// Save currTime so we can schedule next save
+					update_field("log_updated", $currTime, "user_" . $currUsrID);
+
+					// Save daily error log to user profile page (working access is via localStorage - storing on user page in case localStorage is lost)				
+					update_field("error_log", $logUpdate, "user_" . $currUsrID);
+				}  
 			}
-				
-			if (!empty($_GET['logupdate'])) {
 
-				// Error log has been provided, so daily backup is due
-				$logUpdate = $_GET["logupdate"];
+			$suspErrs = $_GET["err"];
 
-				$currUsrID = get_current_user_id();	
+		    wp_reset_query();
 
-				// Set time to nearest second in milliseconds
-				$currTime = time() * 1000; 
+		    if (!empty($suspErrs)) {
+		    	write_log("suspErrs is " . gettype($suspErrs));
+				logError( 'VTAPI Game suspension: ' . '\'' . $gameTitle . '\' has been suspended due to the following errors - ' . implode( ", ", $suspErrs) );
+		    }    
 
-				// Save currTime so we can schedule next save
-				update_field("log_updated", $currTime, "user_" . $currUsrID);
+			echo makeGameList();
 
-				// Save daily error log to user profile page (working access is via localStorage - storing on user page in case localStorage is lost)				
-				update_field("error_log", $logUpdate, "user_" . $currUsrID);
-			}  
-		}
-
-		$suspErrs = $_GET["err"];
-
-	    wp_reset_query();
-
-	    if (!empty($suspErrs)) {
-	    	write_log("suspErrs is " . gettype($suspErrs));
-			logError( 'VTAPI Game suspension: ' . '\'' . $gameTitle . '\' has been suspended due to the following errors - ' . implode( ", ", $suspErrs) );
-	    }    
-
-		echo makeGameList();
-
-		break;
+			break;
 
 		case "errMssg":	
 
-		// GameManager encountered an error - notify administrator
-		// wp_mail( $adminEmail, "VTAPI GameManager issue", $_GET["messageText"], $emailHeaders );
-		logError("VTAPI GameManager issue: " . $_GET["messageText"]);
-		break;
+			// GameManager encountered an error - notify administrator
+			// wp_mail( $adminEmail, "VTAPI GameManager issue", $_GET["messageText"], $emailHeaders );
+			logError("VTAPI GameManager issue: " . $_GET["messageText"]);
+			break;
 
 		default:
-		//wp_mail( $adminEmail, "VTAPI GameManager issue", "db-interactions.php encountered an unknown reqType", $emailHeaders );
+			//wp_mail( $adminEmail, "VTAPI GameManager issue", "db-interactions.php encountered an unknown reqType", $emailHeaders );
 		
 	}

@@ -140,9 +140,7 @@ var GameManager = (function () {
 			daysLogged = 7,
 			oneDay = 24*60*60*1000,			
 			currTime = Date.now(),
-			today = Math.floor(currTime/oneDay),	
-			// TODO: Convert timestamp to date like this on errors page
-			// occured = new Date(timestamp),
+			today = Math.floor(currTime/oneDay),
 			timestamp = Date.now(),
 			prevErrors = [],
 			additionalErrors = [],	
@@ -184,8 +182,7 @@ var GameManager = (function () {
 							} else {
 								// concat with prevErrors if populated								
 								logUpdate[logKey] = prevErrors ? harmonicsLog[logKey].concat(prevErrors, errDetail) : harmonicsLog[logKey].concat(errDetail);
-							}
-								
+							}								
 				    	} else {
 				    		// If our logKey doesn't exist, this is today's first error - so start a new record
 				    		if(series) {
@@ -200,9 +197,7 @@ var GameManager = (function () {
 					}
 				} else if(harmonicsLog && harmonicsLog[logKey]){
 					logUpdate[logKey] = harmonicsLog[logKey];
-				}
-				// TODO: in order to break errors into discrete chunks, it might be necessary to use a char other than ':' between func names and error strings
-				// (As the timestamp contains colons)				
+				}			
 			},
 			i,
 			len,
