@@ -271,12 +271,19 @@
 			}
 				
 			if (!empty($_GET['logupdate'])) {
+
+				// Error log has been provided, so daily backup is due
 				$logUpdate = $_GET["logupdate"];
-				// Daily error log backup - transfer data to user entry in Db
-				write_log('DB UPDATE');
+
 				$currUsrID = get_current_user_id();	
-				$currTime = time() * 1000; // We want milliseconds			
-				update_field("logupdated", time(), "user_" . $currUsrID);
+
+				// Set time to nearest second in milliseconds
+				$currTime = time() * 1000; 
+
+				// Save currTime so we can schedule next save
+				update_field("log_updated", $currTime, "user_" . $currUsrID);
+
+				// Save daily error log to user profile page (working access is via localStorage - storing on user page in case localStorage is lost)				
 				update_field("error_log", $logUpdate, "user_" . $currUsrID);
 			}  
 		}

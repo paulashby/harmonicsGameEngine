@@ -228,9 +228,8 @@ var GameManager = (function () {
 		
 		// Error logged in localStorage. Suspend problem game!
 		if(currGame) {
-			// Write log record to server once a day
-			// TODO: We're not writing to DB here - I believe the field access in the php is correct so I think it's something to do with the lastDbErrorUpdate
-			writeToUser = lastDbErrorUpdate? (parseInt(lastDbErrorUpdate, 10)/oneDay) - oneDay > 0 : true;	
+			// Suspend game and provide error log if due to be written to user profile (this acts as a daily backup in case localStorage is compromised)
+			writeToUser = lastDbErrorUpdate ? currTime - parseInt(lastDbErrorUpdate, 10) > oneDay : true;	
 			suspendGame({additionalErrors: additionalErrors, logUpdate: writeToUser ? logUpdate : null});		
 		}			
 	},

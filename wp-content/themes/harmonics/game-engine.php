@@ -15,12 +15,12 @@
 	$volfbURL = esc_url( get_template_directory_uri() . "/audio/VolFeedback.mp3" );
 	$currUsrID = get_current_user_id();
 	// When adding logupdated, set to some value if it's not set yet
-	$errorLogUpdated = get_field('logupdated', $currUsrID);	
+	$errorLogUpdated = get_field( "log_updated", "user_" . $currUsrID );	
+	write_log('LAST UPDATED: ' .$errorLogUpdated);
 
 	if( ! $errorLogUpdated ) {
-		// Log has never been written to user error_log field – force update
-		$oneDay = 24*60*60*1000;
-	    $errorLogUpdated = $oneDay + 100;   
+		// Log has never been stored in user error_log field. Force update by setting log_updated value to 1st Jan 1970 - well overdue! 
+		 $errorLogUpdated = 0;  
 	}
 	echo "<body  data-db='" . esc_url( site_url() . '/?page_id=6' ) . "' data-starturl='" . esc_url( content_url() . '/startPage/src/index.html' ) . "' data-templateurl='" . get_template_directory_uri() . "' data-timeoutduration='" . get_field('inactivity-timeout-duration', 'option') . "' data-logupdated='" . $errorLogUpdated . "'' id='bodyElmt'>
 	<div id='menuContainer' class='hideMenu'>
