@@ -1,0 +1,40 @@
+#logView {
+	width: 95%;
+	border-collapse: collapse;
+}
+#logView th {
+	background-color: #333;
+	color: #fff;
+	height: 2em;   	
+	padding-left: 1em;
+    text-align: left; 
+}
+#logView td {		
+	min-height: 2.5em;
+	padding-left: 1em;
+    text-align: left; 
+}
+#logView .date {
+	width: 12%;
+}
+#logView .game {
+	width: 8%;
+}
+#logView .function {
+	width: 15%;
+}
+#logView .errDescription {
+	width: 60%;
+}
+#logView tr{	
+	background-color: #fff;/*#eef6f6;*/
+}
+#logView tr.oddDay {
+	background-color: #fff;/*#f3f7fc;*/
+}
+#logView tr.oddDay.odd {
+	background-color: #dcf1fd;
+}
+#logView tr.odd {
+    background-color: #d6f4f4;
+}

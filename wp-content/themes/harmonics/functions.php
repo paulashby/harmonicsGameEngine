@@ -68,21 +68,25 @@ function enqueue_by_template() {
     if ( is_page_template( 'game-engine.php' ) ) {
 
         wp_enqueue_style( 'game-engine.css', esc_url( get_template_directory_uri() . '/css/game-engine.css' ) );
-        wp_register_script('GameManager', esc_url( get_template_directory_uri() . '/scripts/GameManager.js' ) );
-        wp_enqueue_script( 'GameManager');
         wp_register_script('HarmonicsSoundManager', esc_url( get_template_directory_uri() . '/scripts/HarmonicsSoundManager.js' ) );
         wp_enqueue_script( 'HarmonicsSoundManager');
         wp_register_script('AdManager', esc_url( get_template_directory_uri() . '/scripts/AdManager.js' ) );
-        wp_enqueue_script( 'AdManager');
+        wp_enqueue_script( 'AdManager');                        
+        wp_register_script('ErrorManager', esc_url( get_template_directory_uri() . '/scripts/ErrorManager.js' ) );
+        wp_enqueue_script( 'ErrorManager');        
+        wp_register_script('GameManager', esc_url( get_template_directory_uri() . '/scripts/GameManager.js' ) );
+        wp_enqueue_script( 'GameManager');
 
     } else if ( is_page_template( 'basic-page.php' ) ) {
         wp_enqueue_style( 'game-engine.css', esc_url( get_template_directory_uri() . '/css/game-engine.css' ) );
-        wp_register_script('BasicPageBehaviour', esc_url( get_template_directory_uri() . '/scripts/BasicPageBehaviour.js' ) );
-        wp_enqueue_script( 'BasicPageBehaviour');        
         wp_register_script('HarmonicsSoundManager', esc_url( get_template_directory_uri() . '/scripts/HarmonicsSoundManager.js' ) );
         wp_enqueue_script( 'HarmonicsSoundManager');
         wp_register_script('AdManager', esc_url( get_template_directory_uri() . '/scripts/AdManager.js' ) );
-        wp_enqueue_script( 'AdManager');
+        wp_enqueue_script( 'AdManager');                       
+        wp_register_script('ErrorManager', esc_url( get_template_directory_uri() . '/scripts/ErrorManager.js' ) );
+        wp_enqueue_script( 'ErrorManager');        
+        wp_register_script('BasicPageBehaviour', esc_url( get_template_directory_uri() . '/scripts/BasicPageBehaviour.js' ) );
+        wp_enqueue_script( 'BasicPageBehaviour');        
 
     } else if ( is_page_template( 'apps-category.php' ) ) {
 
