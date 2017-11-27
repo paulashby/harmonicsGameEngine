@@ -68,6 +68,11 @@ function enqueue_by_template() {
     if ( is_page_template( 'game-engine.php' ) ) {
 
         wp_enqueue_style( 'game-engine.css', esc_url( get_template_directory_uri() . '/css/game-engine.css' ) );
+        
+        // Monitor memory
+        // wp_register_script('memoryMonitor', esc_url( get_template_directory_uri() . '/scripts/memoryMonitor.js' ) );
+        // wp_enqueue_script( 'memoryMonitor'); 
+                
         wp_register_script('HarmonicsSoundManager', esc_url( get_template_directory_uri() . '/scripts/HarmonicsSoundManager.js' ) );
         wp_enqueue_script( 'HarmonicsSoundManager');
         wp_register_script('AdManager', esc_url( get_template_directory_uri() . '/scripts/AdManager.js' ) );
@@ -79,6 +84,11 @@ function enqueue_by_template() {
 
     } else if ( is_page_template( 'basic-page.php' ) ) {
         wp_enqueue_style( 'game-engine.css', esc_url( get_template_directory_uri() . '/css/game-engine.css' ) );
+
+        // Monitor memory
+        // wp_register_script('memoryMonitor', esc_url( get_template_directory_uri() . '/scripts/memoryMonitor.js' ) );
+        // wp_enqueue_script( 'memoryMonitor'); 
+
         wp_register_script('HarmonicsSoundManager', esc_url( get_template_directory_uri() . '/scripts/HarmonicsSoundManager.js' ) );
         wp_enqueue_script( 'HarmonicsSoundManager');
         wp_register_script('AdManager', esc_url( get_template_directory_uri() . '/scripts/AdManager.js' ) );
@@ -90,6 +100,10 @@ function enqueue_by_template() {
 
     } else if ( is_page_template( 'apps-category.php' ) ) {
 
+        // Monitor memory
+        wp_register_script('memoryMonitor', esc_url( get_template_directory_uri() . '/scripts/memoryMonitor.js' ) );
+        wp_enqueue_script( 'memoryMonitor');   
+        
         wp_register_script('Phaser', esc_url( content_url() . '/appsCategory/src/phaser.js' ) );
         wp_enqueue_script( 'Phaser');
         wp_register_script('Boot', esc_url( content_url() . '/appsCategory/src/Boot.js' ) );
@@ -103,6 +117,10 @@ function enqueue_by_template() {
 
     } else {
         /** Call regular enqueue */
+        if(SHOW_MEMORY_USAGE) { // Set above
+            wp_register_script('memoryMonitor', esc_url( get_template_directory_uri() . '/scripts/memoryMonitor.js' ) );
+            wp_enqueue_script( 'memoryMonitor');   
+        }
   }
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_by_template' );
