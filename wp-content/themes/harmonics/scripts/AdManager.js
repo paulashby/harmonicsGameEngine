@@ -112,7 +112,6 @@ var AdManager = (function () {
 	return {
 		init: function () {
 			_init();
-			foo.bar = true;
 		},
 		cycleAds: function () {
 			_cycleAds();
