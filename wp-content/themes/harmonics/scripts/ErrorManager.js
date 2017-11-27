@@ -69,31 +69,38 @@ var ErrorManager = (function () {
 			var logKey = _logKey || logPrefix + today,	
 				errDetail,
 				gameName,
-				srcStr,		
+				srcStr,
+				stack = '',		
 				i,
 				len;
 
 			if (err) {
 				if(err.detail) {							
-					// CustomEvent.detail is read only
+					// CustomEvent.detail is read only so store in errDetail var
 					errDetail = err.detail;
+
 					if(Array.isArray(errDetail)) {
+						// This is an array of errors - process each one
 						len = errDetail.length;
 						for(i = 0; i < len; i++) {
-							// recursive call to add all array members
+							// recursive call to add all errors
 							addRecord(null,{detail: errDetail[i]}, i < len - 1);
 						}
 						return;
 					}
 					if(typeof errDetail === 'string') {
 						
+						// This is a single error string - format for use in log
 						if(err.src) {
 							srcStr = err.src;
 						} else {
 							// game errors don't include src property
 							srcStr = currGame || 'N/A';
+						}
+						if(err.stack) {
+							stack =  ': ' + err.stack;
 						}						
-						errDetail = [currTime + ': ' + srcStr + ': ' + errDetail];
+						errDetail = [currTime + ': ' + srcStr + ': ' + errDetail + stack];
 					} else {						
 						onNewError('ErrorManager.onIputError: expected error detail to be String or Array, saw ' + typeof errDetail);
 					}
@@ -195,16 +202,14 @@ var ErrorManager = (function () {
 			}			
 		},
 		_init = function (controller) {
+			// localStorage.removeItem('hlog');
 			Controller = controller;
 			lastDbErrorUpdate = document.body.dataset.logupdated;
 			dburl = dburl || document.body.dataset.db;
 		};
-		window.addEventListener('error', function (e) {
-			// TODO: Can we manage to pass the stack in?
-			// See https://www.sitepoint.com/proper-error-handling-javascript/
+		window.addEventListener('error', function (e) {			
 		  var error = e.error,
-		  	mssg = error.toString() + ' | ' + error.stack.replace(/\r?\n|\r/g,"");;
-		  	console.log(error.stack);
+		  	mssg = error.toString() + ' | ' + error.stack.replace(/\r?\n|\r/g,"~n~");
 		  	console.log('mssg: ' + mssg);
 		  _onInputError({detail : mssg, src: 'N/A'});
 		});
