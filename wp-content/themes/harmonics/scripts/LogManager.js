@@ -40,7 +40,13 @@ var LogManager = (function () {
 			// Use default record values when data unavailable
 			var record = [ 'Unknown date', 'Unknown game','Unknown function', 'Unknown error'],
 				i,
-				len = entry.length;
+				len = record.length,
+				stack;
+
+			if(entry.length > len) {
+				stack = entry.splice(4).join(' | ');
+				entry[len - 1] += ' | ' + stack;
+			}
 			
 			// Check date is a number
 			if(onlyDigits(entry[0])) {
@@ -69,6 +75,7 @@ var LogManager = (function () {
 
 			// Make table row for given entryData
 			entry = "<tr class='" + className + "'>";
+			entryData.e = entryData.e.replace(/~n~[\s]*/g, '<br>');
 
 			entry += '<td>'+ new Date(entryData.date).toLocaleString() + 
 			'</td><td>' + entryData.game + 
