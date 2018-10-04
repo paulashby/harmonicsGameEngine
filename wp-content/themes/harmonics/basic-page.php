@@ -1,10 +1,14 @@
-<?php /* Template Name: Basic Page */ 	
+<?php /* Template Name: Basic Page */ 
+
+	// Stateless page - remove session data so we have clean slate when we return to game engine
+	session_destroy ();
+	
 	$page_class = strtolower(str_replace(' ', '', wp_title('', false)));
 	?>
 <!DOCTYPE html>
 <html lang='en'>
 	<head>
-		<meta http-equiv='content-type' content='text/html; charset=utf-8' />
+		<meta http-equiv='content-type' content='text/html; charset=UTF-8' />
 		<title><?php the_title(); ?></title>					
 		<?php wp_head(); ?>				
 	</head>	
@@ -18,8 +22,9 @@
 		$post_slug=$post->post_name;
 		$page_field = $post_slug . '-page-select';
 
-		// / Check for user override		        		 
-		$attachment_id = get_field_object($page_field, $currUser)['value'];	        		
+		// / Check for user override
+		$fieldOb = get_field_object($page_field, $currUser);
+		$attachment_id = $fieldOb['value'];	        		
 		
 		if( $attachment_id == 'none' ) {		        			
 			// Override unavailable, use Game Engine settings
@@ -36,7 +41,8 @@
 		            $title = get_sub_field('title');		            
 
 		            if( $title === $post_slug) {
-		            	$attachment_id = get_sub_field_object('default-page')['value'];	
+						$subfieldOb = get_sub_field_object('default-page');
+		            	$attachment_id = $subfieldOb['value'];	
 		            }	            
 		        }
 		    }
@@ -122,7 +128,7 @@
 			// AdSet for current user
 			function getAds($adSet) {
 
-				$ads = [];
+				$ads = array();
 
 				if( have_rows('ad-set', 'option') ) {
 			        
@@ -147,7 +153,8 @@
 			    return $ads;
 			};
 			
-			$adSet = get_field_object('ad-set-select', $currUser)['value'];
+			$fieldOb = get_field_object('ad-set-select', $currUser);
+			$adSet = $fieldOb['value'];
 			$adsAvailable = $adSet != "Ad Free" && $adSet != "";
 			if($adsAvailable) {
 				$ads = getAds($adSet);
@@ -155,11 +162,11 @@
 				
 				$adClass = "";
 				$adImages = "";
-				$adState = [
+				$adState = array(
 					"numAds"=>$numAds,
-					"adURLs"=>[],
+					"adURLs"=>array(),
 					"cycle"=>false
-				];
+				);
 				function make_images($numImages, &$adImages, &$adState, &$ads, &$numAds) {
 
 					$blankImageString = "data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";

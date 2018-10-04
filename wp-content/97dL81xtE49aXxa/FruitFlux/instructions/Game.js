@@ -226,12 +226,9 @@
 				}
 				f.endLevel();			
 			},
-			pauseHandler = function () {
-				FruitFlux.game.paused = ! FruitFlux.game.paused;
-			},
-			exitHandler = function () {
-				gameOver(true);
-			},			
+			volumeChangeHandler = function (event) {
+				FruitFlux.game.sound.volume = parseInt(event.detail, 10)/10;
+			},		
 			gameOver = function (exit) {
 				var 
 				removeSound = function(_sound) {
@@ -344,8 +341,7 @@
 						delete f[currElmt];
 					}
 				}
-				top.window.removeEventListener('pause', pauseHandler, false);
-				top.window.removeEventListener('exit', exitHandler, false);
+				top.window.removeEventListener('volume-change', volumeChangeHandler, false);
 				if(exit) {
 					VTAPI.onGameOver(true);
 				} else {
@@ -819,8 +815,8 @@
 			f.instructionTimers.push(FruitFlux.game.time.events.add(5500, showTap, this));
 			f.instructionTimers.push(FruitFlux.game.time.events.add(8000, hideTap, this));
 
-			top.window.addEventListener('pause', pauseHandler, false);
-			top.window.addEventListener('exit', exitHandler, false);
+			top.window.addEventListener('volume-change', volumeChangeHandler, false);
+			volumeChangeHandler({detail: top.HarmonicsSoundManager.getVolume()});
 		}
 	};
 }());

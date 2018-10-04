@@ -10,13 +10,10 @@
 	f.elmtByZone = [];
 	f.removeInstructionTweens = function (instruction) {
 		f.removeTweens(instruction, ['scaleTween', 'pauseTween', 'scaleDownTween']);
+	};		
+	f.volumeChangeHandler = function (event) {
+		Aura.game.sound.volume = parseInt(event.detail, 10)/10;
 	};
-	f.pauseHandler = function () {
-		Aura.game.paused = ! Aura.game.paused;
-	};
-	f.exitHandler = function () {
-		f.gameOver(true);
-	};	
 	f.gameOver = function (exit) {
 		var 
 		removeSound = function(_sound) {
@@ -67,8 +64,7 @@
 		f.homeZones.destroy(true, true);
 		f.bg.exists = false;
 
-		top.window.removeEventListener('pause', f.pauseHandler, false);
-		top.window.removeEventListener('exit', f.exitHandler, false);
+		top.window.removeEventListener('volume-change', f.volumeChangeHandler, false);
 
 		// delete properties of f
 		for(currElmt in f){
@@ -82,9 +78,9 @@
 		} else {
 			VTAPI.startGame();	
 		}		
-    };    
-	top.window.addEventListener('pause', f.pauseHandler, false);
-	top.window.addEventListener('exit', f.exitHandler, false);
+    };  
+    top.window.addEventListener('volume-change', f.volumeChangeHandler, false); 
+    f.volumeChangeHandler({detail: top.HarmonicsSoundManager.getVolume()});
 
     f.startDemo = (function () {
 		var addTap = function (currZone, demoDiscNum) {

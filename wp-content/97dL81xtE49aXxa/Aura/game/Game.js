@@ -14,6 +14,9 @@
 
 			var
 			i, len,
+			volumeChangeHandler = function (event) {
+				Aura.game.sound.volume = parseInt(event.detail, 10)/10;
+			},
 			totalScore = function(entity){
 				var i,
 				len = entity.score.length,
@@ -272,8 +275,7 @@
 					}
 				}
 				Aura.game.paused = true;
-				top.window.removeEventListener('pause', pauseHandler, false);
-				top.window.removeEventListener('exit', exitHandler, false);				
+				top.window.removeEventListener('volume-change', volumeChangeHandler, false);			
 				if(exit) {
 					VTAPI.onGameOver(true);
 				} else {
@@ -334,7 +336,6 @@
 					return b.score - a.score;
 				}),
 				rankedPlayers = optimiseState(rankElements(playersByScore, 'score'), ['place', 'ranking']);
-				
 				VTAPI.insertScores(rankedPlayers);
 			},
 			startCountdown = function () {
@@ -547,8 +548,6 @@
 					score.scaleTween = Aura.game.add.tween(score.scale).to({x: 1, y: 1}, f.SCORE_TWEEN_DURATION, Phaser.Easing.Linear.InOut, false);
 					score.scaleDownTween = Aura.game.add.tween(score.scale).to({x: 0, y: 0}, f.SCORE_TWEEN_DURATION * 10, Phaser.Easing.Elastic.In, false);
 					homeZoneGroup.add(score);
-					// HERE
-					// score.alpha = 0;
 					homeZoneGroup.hudScore = score;
 				},
 				addHud = function (hudOnly) {
@@ -873,9 +872,8 @@
 			}			
 
 			f.gameStarted = true;
-			top.window.addEventListener('pause', pauseHandler, false);
-			top.window.addEventListener('exit', exitHandler, false);
-			// window.setTimeout(gameOver, 1000);
+			top.window.addEventListener('volume-change', volumeChangeHandler, false);
+			volumeChangeHandler({detail: top.HarmonicsSoundManager.getVolume()});
 	    },
 	    update: function () {
 	    	var i,

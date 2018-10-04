@@ -971,11 +971,8 @@
 				f.gameOver = true;
 				f.endLevel();			
 			},
-			pauseHandler = function () {
-				Prisma.game.paused = ! Prisma.game.paused;
-			},
-			exitHandler = function () {
-				gameOver(true);
+			volumeChangeHandler = function (event) {
+				StartPage.game.sound.volume = parseInt(event.detail, 10)/10;
 			},
 			gameOver = function (exit) {
 				var 
@@ -1072,8 +1069,7 @@
 						delete f[currElmt];
 					}
 				}
-				top.window.removeEventListener('pause', pauseHandler, false);
-				top.window.removeEventListener('exit', exitHandler, false);
+				top.window.removeEventListener('volume-change', volumeChangeHandler, false);
 				if(exit) {
 					VTAPI.onGameOver(true);
 				} else {
@@ -1520,8 +1516,8 @@
 			f.instructionTimers.push(Prisma.game.time.events.add(5500 + instructionDelay, showInstruction, this, 'instruction3'));	
 			f.instructionTimers.push(Prisma.game.time.events.add(5500 + (instructionDelay * 2), showInstruction, this, 'instruction4'));
 
-			top.window.addEventListener('pause', pauseHandler, false);
-			top.window.addEventListener('exit', exitHandler, false);		
+			top.window.addEventListener('volume-change', volumeChangeHandler, false);
+			volumeChangeHandler({detail: top.HarmonicsSoundManager.getVolume()});		
 		},
 	    update: function () {
 	    	var 

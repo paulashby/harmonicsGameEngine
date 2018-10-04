@@ -377,12 +377,9 @@
 			countdown = function () {
 				f.sound[12].play();
 				f.countdownTimer = FruitFlux.game.time.events.add(f.PANEL_DELAY, countdownPulse, this, 0);
-			},
-			pauseHandler = function () {
-				FruitFlux.game.paused = ! FruitFlux.game.paused;
-			},
-			exitHandler = function () {
-				gameOver(true);
+			},			
+			volumeChangeHandler = function (event) {
+				FruitFlux.game.sound.volume = parseInt(event.detail, 10)/10;
 			},
 			gameOver = function (exit) {
 				var removeSound = function(_sound) {
@@ -489,8 +486,7 @@
 						delete f[currElmt];
 					}
 				}
-				top.window.removeEventListener('pause', pauseHandler, false);
-				top.window.removeEventListener('exit', exitHandler, false);
+				top.window.removeEventListener('volume-change', volumeChangeHandler, false);
 				if(exit) {
 					VTAPI.onGameOver(true);
 				} else {
@@ -1035,8 +1031,8 @@
 			f.allFruit.timer.start();			
 			setLevelTimers();
 
-			top.window.addEventListener('pause', pauseHandler, false);
-			top.window.addEventListener('exit', exitHandler, false);			
+			top.window.addEventListener('volume-change', volumeChangeHandler, false);
+			volumeChangeHandler({detail: top.HarmonicsSoundManager.getVolume()});			
 	    },
 
 	    update: function () {
