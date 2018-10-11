@@ -1,9 +1,19 @@
-<?php /* Respond to communal button input */
+<?php /* Template Name: Communal-interactions */
 
-	header('Content-Type: text/event-stream');
-	header('Cache-Control: no-cache');
+	$reqType = $_GET["reqType"];
+	write_log( date('[Y-m-d H:i e] '). 'Communal interactions requesting ' . $reqType . ' animation' );
+	if($reqType) {
 
-	$time = date('r');
-	echo "data: The server time is: {$time}\n\n";
-	flush();
+		$currUser ="user_" . get_current_user_id();
+
+		switch($reqType) {
+			case "heart":		
+			$hearts = get_field('hearts', $currUser);
+			$newVal = $hearts + 1;
+			update_field('hearts', $newVal, $currUser);
+		}
+		
+	}
+
+
 ?>
