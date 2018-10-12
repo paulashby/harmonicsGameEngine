@@ -340,7 +340,7 @@ function acf_load_member_choices( $field ) {
 }
 add_filter('acf/load_field/name=membership-group-select', 'acf_load_member_choices');
 
-// Populate Communal Group select menu with User Groups
+// Populate Communal Group select menu with Communal Groups
 function acf_load_communal_choices( $field ) { 
 
     // reset choices
