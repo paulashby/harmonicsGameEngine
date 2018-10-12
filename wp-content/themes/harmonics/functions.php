@@ -340,6 +340,35 @@ function acf_load_member_choices( $field ) {
 }
 add_filter('acf/load_field/name=membership-group-select', 'acf_load_member_choices');
 
+// Populate Communal Group select menu with User Groups
+function acf_load_communal_choices( $field ) { 
+
+    // reset choices
+    $field['choices'] = array();   
+
+    $args = array(
+        "category_name" => 'communalgroup',
+    );
+
+    // Get all communal groups
+    $query = new WP_Query( $args );
+
+    if ( $query->have_posts() ) {
+        
+        while ( $query->have_posts() ) {
+     
+            $query->the_post();
+
+            $value = get_the_title();
+            $label = get_the_title();
+
+            $field['choices'][ $value ] = $label;
+        }
+    }
+    return $field;    
+}
+add_filter('acf/load_field/name=communal-group-select', 'acf_load_communal_choices');
+
 // Populate Ad Set select menu with Ad Sets
 function acf_load_ad_set_choices( $field ) {
     
