@@ -115,6 +115,15 @@ function enqueue_by_template() {
         wp_register_script('GameOver', esc_url( content_url() . '/appsCategory/src/GameOver.js' ) );
         wp_enqueue_script( 'GameOver');
 
+    } else if ( is_page_template( 'screen-display.php' ) ) {
+
+        wp_enqueue_style( 'screen-display.css', esc_url( get_template_directory_uri() . '/css/screen-display.css' ) );
+        
+        wp_register_script('Phaser', esc_url( get_template_directory_uri() . '/scripts/phaser3/phaser.js' ) );
+        wp_enqueue_script( 'Phaser');
+        wp_register_script('screenDisplay', esc_url( get_template_directory_uri() . '/scripts/screenDisplay.js' ) );
+        wp_enqueue_script( 'screenDisplay');
+
     } else {
         /** Call regular enqueue */
         if(SHOW_MEMORY_USAGE) { // Set above
