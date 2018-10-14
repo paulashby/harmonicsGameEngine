@@ -122,8 +122,6 @@ function enqueue_by_template() {
 
     } else if ( is_page_template( 'screen-display.php' ) ) {
 
-        write_log( date('[Y-m-d H:i e] '). '!!!!!!!!!!!!!! SCREEN DISPLAY TEMPLATE DETECTED !!!!!!!!!!!!!!!!!!!!!!' );
-
         wp_enqueue_style( 'screen-display.css', esc_url( get_template_directory_uri() . '/css/screen-display.css' ) );
         
         wp_register_script('Phaser', esc_url( get_template_directory_uri() . '/scripts/phaser3/phaser.js' ) );
@@ -131,7 +129,13 @@ function enqueue_by_template() {
         wp_register_script('screenDisplay', esc_url( get_template_directory_uri() . '/scripts/screenDisplay.js' ) );
         wp_enqueue_script( 'screenDisplay');
 
-    } else {
+    } else if ( is_page_template( 'screen-control.php' ) ) {
+
+        // write_log( date('[Y-m-d H:i e] '). '!!!!!!!!!!!!!! SCREEN DISPLAY TEMPLATE DETECTED !!!!!!!!!!!!!!!!!!!!!!' );
+        wp_enqueue_style( 'screen-control.css', esc_url( get_template_directory_uri() . '/css/screen-control.css' ) );
+
+    }
+    else {
         /** Call regular enqueue */
         if(SHOW_MEMORY_USAGE) { // Set above
             wp_register_script('memoryMonitor', esc_url( get_template_directory_uri() . '/scripts/memoryMonitor.js' ) );
