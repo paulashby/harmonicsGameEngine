@@ -65,6 +65,9 @@ add_action( 'login_enqueue_scripts', 'enqueue_login_timeout' );
 
 function enqueue_by_template() {
 
+    $tpl = get_page_template();
+    write_log( date('[Y-m-d H:i e] '). '!!!!!!!!!!!!!! TEMPLATE IS ' . $tpl . ' !!!!!!!!!!!!!!!!!!!!!!' );
+
     if ( is_page_template( 'game-engine.php' ) ) {
 
         wp_enqueue_style( 'game-engine.css', esc_url( get_template_directory_uri() . '/css/game-engine.css' ) );
@@ -100,6 +103,8 @@ function enqueue_by_template() {
 
     } else if ( is_page_template( 'apps-category.php' ) ) {
 
+        write_log( date('[Y-m-d H:i e] '). '!!!!!!!!!!!!!! APPS CATEGORY TEMPLATE DETECTED !!!!!!!!!!!!!!!!!!!!!!' );
+
         // Monitor memory
         wp_register_script('memoryMonitor', esc_url( get_template_directory_uri() . '/scripts/memoryMonitor.js' ) );
         wp_enqueue_script( 'memoryMonitor');   
@@ -116,6 +121,8 @@ function enqueue_by_template() {
         wp_enqueue_script( 'GameOver');
 
     } else if ( is_page_template( 'screen-display.php' ) ) {
+
+        write_log( date('[Y-m-d H:i e] '). '!!!!!!!!!!!!!! SCREEN DISPLAY TEMPLATE DETECTED !!!!!!!!!!!!!!!!!!!!!!' );
 
         wp_enqueue_style( 'screen-display.css', esc_url( get_template_directory_uri() . '/css/screen-display.css' ) );
         
