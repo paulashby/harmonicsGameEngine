@@ -5,8 +5,11 @@
 	echo "<!DOCTYPE html>
 	<html>
 	<head>
-		<title>Screen Control</title>
-	</head>
+		<title>Screen Control</title>";	 
+		
+		wp_head(); 
+		
+	echo "</head>
 	<body>
 		<h1>Screen Control</h1>
 		<button id='hearts' data-ciurl=" . $communalInteractions . ">Hearts</button>";	
