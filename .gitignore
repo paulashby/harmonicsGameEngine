@@ -23,19 +23,11 @@ wp-content/plugins/log-out-shortcode/readme.txt
 
 wp-content/plugins/log-out-shortcode/log-out-shortcode.php
 
-wp-content/plugins/.DS_Store
-
 wp-content/97dL81xtE49aXxa/FruitFlux/.DS_Store
-
-wp-content/.DS_Store
-
-wp-content/.DS_Store
 
 wp-content/debug.log
 
 wp-content/startPage/.DS_Store
-
-wp-content/themes/.DS_Store
 
 *.capx
 
@@ -116,8 +108,6 @@ wp-content/plugins/user-login-history/lib/class-ulh-list-table.php
 wp-content/97dL81xtE49aXxa/Prisma/phaser.min.js
 
 wp-content/97dL81xtE49aXxa/Prisma/notes.txt
-
-wp-content/themes/harmonics/.DS_Store
 
 wp-content/uploads/cardgames/cardgames1/src/lib/ScaleManager2.min.js
 
@@ -391,4 +381,4 @@ wp-content/uploads/cardgames/cardgames1/antygravity.html
 wp-content/97dL81xtE49aXxa/MemoryHog/
 wp-content/plugins/media-library-plus/
 wp-content/plugins/media-tags/
-wp-content/97dL81xtE49aXxa/.DS_Store
+**/.DS_Store
