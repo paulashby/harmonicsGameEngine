@@ -24,15 +24,9 @@ var VTAPI = (function (GameManager) {
     inactivityTimeout = setTimeout(onTimeout, INACTIVITY_PERIOD);
   },
   dispatchInputError = function (errDetails) {
-    // TODO: Need event listener to handle error events - either in GameManager or StartPage
     var inputErrorEvent = new CustomEvent("VTAPIinputError", {
       detail: errDetails
     });
-    // var inputErrorEvent = new CustomEvent("VTAPIinputError", {
-    //   detail: {
-    //     errors: errDetails
-    //   }
-    // });
     window.top.dispatchEvent(inputErrorEvent);
   },
   checkPermission = function (permissionName) {
