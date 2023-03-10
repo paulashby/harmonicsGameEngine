@@ -8,9 +8,9 @@
 
 ## Description
 
-Management app for multiplayer game tables.
+App to manage and deploy HTML5 games on multiplayer game tables.
 
-The app was created as a minimum viable product and has a WordPress backend that facilitates the delivery of games via a tiered subscription system.
+Created as a minimum viable product with a WordPress backend that facilitates the delivery of games via a tiered subscription system.
 
 A requirement was that the app should run games created in both the [Phaser HTML5 game framework](https://phaser.io/) and [Construct game engine](https://www.construct.net/en). Further, game developers should be able to test locally that their games would interact correctly with the system. This led to the development of [VTAPI](https://github.com/paulashby/harmonicsGameEngine/blob/main/moduleTest/vt-api-1.7.js) to act as a bridge between the game environment and the Harmonics [Game Manager](https://github.com/paulashby/harmonicsGameEngine/blob/main/wp-content/themes/harmonics/scripts/GameManager.js). The incorporation of VTAPI into a [plugin](https://github.com/paulashby/harmonicsGameEngine/tree/main/Construct_2_plugin_1_5/vtapi) allows Construct developers to mock player set ups for testing and to receive appropriate responses in their local environments. No plugin is required for Phaser games, where VTAPI offers the same functionality directly.
 
